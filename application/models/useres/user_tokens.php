@@ -68,10 +68,8 @@ class User_tokens extends CI_Model {
 			$token = $token."$chars[0]$nums[0]$chars[1]$nums[1]";
 
 			$this->char_max -= 1;
-			$this->char_min -= 1;
+			$this->char_min += 1;
 		}
-		
-		$this->char_max -= 10;
 		
 		return $token;
 	}
@@ -116,6 +114,50 @@ class User_tokens extends CI_Model {
 			$this->char_min -= 1;
 		}
 		return $result;
+	}
+	public function get_utoken($token,$table){
+		
+		
+	}
+	public function user_create($client_token,$username){
+		$this->load->database();
+
+		$is_create_new_client_token = FALSE;
+		$result_client_token = TRUE;
+		//保证client_token唯一
+		while ($result_client_token) {
+			
+			$result_client_token = $this->db->simple_query("select * from client_tokens where client_token='$client_token'");
+			if($result_client_token){
+				$client_token = $this->token_create();
+				$is_create_new_client_token = TRUE;
+			}else{
+				$insertResult = $this->db->query("insert into client_tokens values(null,'$client_token')");
+			}
+		}
+		//保证username唯一
+		$result_username = $this->db->simple_query("select * from user_list where username='$username'");
+		if($result_username){
+			return FALSE;
+		}else{
+			//保证user_token唯一
+			$result_user_token = TRUE;
+			$user_token = $this->token_create();
+
+			while ($result_user_token) {
+				$result_user_token = $this->db->simple_query("select * from user_list where user_token='$user_token'");
+				if($result_user_token){
+					$user_token = $this->token_create();
+				}
+			}
+			
+			$this->db->simple_query("insert into user_list values(null,'$client_token','$user_token','$username')");
+		}
+    	return array( 
+    			'clientToken' => $client_token,
+    			'userToken'   => $user_token,
+    			'username'    => $username
+			 	);
 	}
 }
 ?>
