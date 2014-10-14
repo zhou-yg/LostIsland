@@ -6,7 +6,7 @@ class useres_center extends CI_Controller {
 	{
 		$this->load->view('test.html');
 	}
-	public function user_token_create()
+	public function user_create()
 	{
 		$client_token = $this->input->post('clientToken');
 		$username = $this->input->post('username');
@@ -18,6 +18,14 @@ class useres_center extends CI_Controller {
 				->set_content_type('application/json')
 	    		->set_output(json_encode($result_array));
 		}
+	}
+	public function token_create(){
+		$token = $this->user_tokens->token_create();
+		$this->output
+			 ->set_content_type('application/json')
+			 ->set_output(json_encode(array(
+					'token'=>$token
+				 )));
 	}
 	public function user_token_check()
 	{
