@@ -4,12 +4,12 @@ class test extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('test.html');
+		$this->load->helper('url');
+		$this->load->view('test');
 	}
 	public function postTo(){
 		
 	}
 }
-
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */

@@ -130,9 +130,8 @@ class User_tokens extends CI_Model {
 		$isnt_new_client_token = TRUE;
 		$result_client_token_query = TRUE;
 		
-		$ii = 20;
 		//保证client_token唯一
-		while ($isnt_new_client_token && $ii--) {
+		while ($isnt_new_client_token) {
 
 			$check_client_sql = "select * from client_tokens where client_token='$client_token'";
 			$result_client_token_query = $this->db->query($check_client_sql);
@@ -160,9 +159,7 @@ class User_tokens extends CI_Model {
 			$isnt_new_user_token = TRUE;
 			$user_token = $this->token_create();
 			
-			$jj = 20;
-			
-			while($isnt_new_user_token && $jj--){
+			while($isnt_new_user_token){
 				
 				$check_user_token_sql = "select * from user_list where user_token='$user_token' ";
 				$result_user_token_query = $this->db->query($check_user_token_sql);
