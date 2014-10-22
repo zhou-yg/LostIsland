@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class useres_center extends CI_Controller {
+class Useres_center extends CI_Controller {
 	
 	public function index()
 	{
-		$this->load->view('test.html');
+		$this->load->view('test');
 	}
 	public function user_create()
 	{

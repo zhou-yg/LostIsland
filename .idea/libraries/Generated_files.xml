@@ -3,10 +3,16 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/Public/js/cards/cardObject.js" />
+        <item url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
+        <item url="file://$PROJECT_DIR$/Public/js/cards/cardFactory.js" />
+        <item url="file://$PROJECT_DIR$/Public/js/user/player.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/Public/js/cards/cardObject.js" />
+      <root url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
+      <root url="file://$PROJECT_DIR$/Public/js/cards/cardFactory.js" />
+      <root url="file://$PROJECT_DIR$/Public/js/user/player.js" />
     </CLASSES>
     <SOURCES />
   </library>

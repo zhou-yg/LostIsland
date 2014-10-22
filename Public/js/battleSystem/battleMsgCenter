@@ -1,0 +1,4 @@
+class BattleMsgCenter
+  constructor:(@players)->
+  msgInit:->
+    

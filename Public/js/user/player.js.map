@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "player.js",
+  "sourceRoot": "",
+  "sources": [
+    "player.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,MAAA;;AAAA,EAAM;AACQ,IAAA,gBAAE,QAAF,GAAA;AAAY,MAAX,IAAC,CAAA,WAAA,QAAU,CAAZ;IAAA,CAAZ;;kBAAA;;MADF,CAAA;AAAA"
+}

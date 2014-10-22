@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "cardFactory.js",
+  "sourceRoot": "",
+  "sources": [
+    "cardFactory.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,WAAA;;AAAA,EAAM;AACQ,IAAA,qBAAA,GAAA,CAAZ;;uBAAA;;MADF,CAAA;AAAA"
+}
