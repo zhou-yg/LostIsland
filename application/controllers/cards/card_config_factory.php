@@ -10,13 +10,25 @@ class Card_config_factory extends CI_Controller {
 			 		'index' => 'Card_config_factory'
 			 	)));
 	}
+	public function _remap($basic_type){
+		switch ($basic_type) {
+			case 'saber':
+				$this->getSaberList();
+				break;
+			default:
+				break;
+		}
+	}
 	public function getSaberList()
 	{
-		$saber_query_arr = $this->card_config->getSaberConfig();
-		
+		$js = $this->card_config->getSaberConfigJS();
+
+		echo $js;
+		/*
 		$this->output
 			 ->set_content_type('application/json')
       		 ->set_output(json_encode($saber_query_arr));
+		*/
 	}
 	public function get_archer_list()
 	{
