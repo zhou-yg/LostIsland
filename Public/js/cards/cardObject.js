@@ -24,7 +24,7 @@
 
   cardObject = (function() {
     function cardObject(_config) {
-      if (config) {
+      if (_config) {
         this.necessaryPropertiesObj = {
           name: 'name',
           avatar: {
@@ -34,6 +34,7 @@
           atk: 'atk',
           hp: 'hp'
         };
+        this.necessaryPropertiesArr = iterateObj(this.necessaryPropertiesObj);
         this.setConfig(_config);
       } else {
         throw 'no config argument';
@@ -42,7 +43,7 @@
 
     cardObject.prototype.setConfig = function(_config) {
       var isRealConfig, necessaryPropertiesArr, v, _i, _len;
-      necessaryPropertiesArr = iterateObj(this.necessaryPropertiesObj);
+      necessaryPropertiesArr = this.getConfigArr();
       isRealConfig = true;
       for (_i = 0, _len = necessaryPropertiesArr.length; _i < _len; _i++) {
         v = necessaryPropertiesArr[_i];

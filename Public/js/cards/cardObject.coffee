@@ -14,7 +14,7 @@ iterateObj = (_obj,_arr)->
 
 class cardObject
   constructor:(_config)->
-    if config
+    if _config
       @necessaryPropertiesObj =
         name:'name'
         avatar:
@@ -23,13 +23,14 @@ class cardObject
         atk:'atk'
         hp:'hp'
 
-      @setConfig _config
+      @necessaryPropertiesArr = iterateObj @necessaryPropertiesObj
 
+      @setConfig _config
     else
       throw 'no config argument'
 
   setConfig:(_config)->
-    necessaryPropertiesArr = iterateObj @necessaryPropertiesObj
+    necessaryPropertiesArr = do @getConfigArr
     isRealConfig = true
 
     for v in necessaryPropertiesArr
