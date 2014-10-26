@@ -1,12 +1,31 @@
 class CardFactory
-  constructor:->
+  constructor:(_configObjList)->
+    @indexPre = 'card'
     @cardMap = {}
 
-  createCarObjs:->
-
+    for k,v of cardConfigObjList
+      c = new CardObject(v)
+      @cardMap[k] = c
   getCardByName:(_cname)->
+    cardOne = null
+    for k,v of @cardMap
+      if v.name is _cname
+        cardOne = v
 
-  getCardById:(_cid)->
+    if cardOne
+      return _.clone cardOne
+    else
+      return null
 
+  getCardByCid:(_cid)->
+    cardOne = null
+    for k,v of @cardMap
+      if k is _cid or k is (@indexPre+_cid)
+        cardOne = v
 
-cf = new CardFactory()
+    if cardOne
+      return _.clone cardOne
+    else
+      return null
+
+window.cardFactory = new CardFactory(cardConfigObjList)

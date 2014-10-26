@@ -11,7 +11,7 @@ class Battle_grand extends CI_Controller {
 			 	)));
 	}
 	public function build(){
-		
-		
+		$this->load->helper('url');
+		$this->load->view('battle/battleGrand');
 	}
 }

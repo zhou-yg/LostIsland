@@ -3,15 +3,19 @@
   var BattleMsgCenter;
 
   BattleMsgCenter = (function() {
-    function BattleMsgCenter(players) {
-      this.players = players;
+    function BattleMsgCenter(_players) {
+      if (_.isObject(_players)) {
+        this.minePlayer = _players.mine;
+        this.enemyPlayer = _players.enemy;
+      } else {
+        throw 'BattleMsgCenter:illegal argument type';
+      }
     }
-
-    BattleMsgCenter.prototype.msgInit = function() {};
 
     return BattleMsgCenter;
 
   })();
+
 }).call(this);
 
 //# sourceMappingURL=battleMsgCenter.js.map

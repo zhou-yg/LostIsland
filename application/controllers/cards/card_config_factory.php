@@ -2,6 +2,9 @@
 
 class Card_config_factory extends CI_Controller {
 	
+	private $configObjPath = 'Public/js/cards/cardConfigObjList.js';
+	
+	
 	public function index()
 	{
 		$this->output
@@ -15,6 +18,9 @@ class Card_config_factory extends CI_Controller {
 			case 'saber':
 				$this->getSaberList();
 				break;
+			case 'archer':
+				$this->getArcherList();
+				break;
 			default:
 				break;
 		}
@@ -22,8 +28,21 @@ class Card_config_factory extends CI_Controller {
 	public function getSaberList()
 	{
 		$js = $this->card_config->getSaberConfigJS();
-
-		echo $js;
+		
+		$this->load->helper('file');
+		
+		
+		if( write_file($this->configObjPath,$js)){
+	 		 $this->output
+			 	  ->set_output(
+						'set cardConfigObjList : <span style="color:green">true</span>'
+					);
+		}else{
+	 		 $this->output
+			 	  ->set_output(
+						'set cardConfigObjList : <span style="color:red">false</span>'
+					);
+		}
 		/*
 		$this->output
 			 ->set_content_type('application/json')

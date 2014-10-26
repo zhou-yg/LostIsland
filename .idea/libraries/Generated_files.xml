@@ -6,6 +6,7 @@
         <item url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
         <item url="file://$PROJECT_DIR$/Public/js/cards/cardConfigList.js" />
         <item url="file://$PROJECT_DIR$/Public/js/cards/cardFactory.js" />
+        <item url="file://$PROJECT_DIR$/Public/js/user/player_test.js" />
         <item url="file://$PROJECT_DIR$/Public/js/user/player.js" />
         <item url="file://$PROJECT_DIR$/Public/js/user/playerFactory.js" />
       </sourceFilesUrls>
@@ -13,11 +14,13 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/Public/js/user/cardFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/js/user/cardFactory.js" />
+      <root url="file://$PROJECT_DIR$/Public/js/cards/cardConfigList.js" />
       <root url="file://$PROJECT_DIR$/Public/js/cards/cardObject.js" />
       <root url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
       <root url="file://$PROJECT_DIR$/Public/js/cards/cardConfigList.js" />
       <root url="file://$PROJECT_DIR$/Public/js/cards/cardFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/js/user/player.js" />
+      <root url="file://$PROJECT_DIR$/Public/js/user/player_test.js" />
       <root url="file://$PROJECT_DIR$/Public/js/user/playerFactory.js" />
     </CLASSES>
     <SOURCES />

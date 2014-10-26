@@ -12,28 +12,27 @@ iterateObj = (_obj,_arr)->
   else
     return 'NOT_OBJECT'
 
-class cardObject
+class CardObject
   constructor:(_config)->
     if _config
-      @necessaryPropertiesObj =
+      necessaryPropertiesObj =
         name:'name'
         avatar:
           normal: 'normalAvatar'
-          combat: 'combatAvatar'
+          combat: 'battleAvatar'
         atk:'atk'
         hp:'hp'
 
-      @necessaryPropertiesArr = iterateObj @necessaryPropertiesObj
+      @necessaryPropertiesArr = iterateObj necessaryPropertiesObj
 
       @setConfig _config
     else
       throw 'no config argument'
 
   setConfig:(_config)->
-    necessaryPropertiesArr = do @getConfigArr
     isRealConfig = true
 
-    for v in necessaryPropertiesArr
+    for v in @necessaryPropertiesArr
       if _config[v] is null or _config[v] is undefined
         isRealConfig = false
         break
@@ -41,9 +40,11 @@ class cardObject
         @[v] = _config[v];
 
     if !isRealConfig
-      return 'HAS_NOT_PROPERTY'
+      throw 'HAS_NOT_PROPERTY'
     else
-      return true
+      delete @necessaryPropertiesArr
 
   fight:->
   attack:(_cardObj)->
+
+window.CardObject = CardObject;
