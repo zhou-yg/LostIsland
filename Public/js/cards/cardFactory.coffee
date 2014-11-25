@@ -2,10 +2,13 @@ class CardFactory
   constructor:(_configObjList)->
     @indexPre = 'card'
     @cardMap = {}
+    @cardNum = 0;
 
     for k,v of cardConfigObjList
       c = new CardObject(v)
       @cardMap[k] = c
+      @cardNum++
+
   getCardByName:(_cname)->
     cardOne = null
     for k,v of @cardMap

@@ -44,6 +44,9 @@ class CardObject
     else
       delete @necessaryPropertiesArr
 
+  setStyle:->
+
+
   fight:->
   attack:(_cardObj)->
 

@@ -6,14 +6,13 @@ class Card_config extends CI_Model {
 	// /battleAvatar/0_184_184.jpg
 	private $table_pre = 'card_';	
 	private $saber     = 'saber';
-	private $archer    = 'archer';
 
     function __construct()
     {
         parent::__construct();
     }
 	
-	public function getSaberConfig($_type){
+	public function getCardConfig($_type){
 		$this->load->database();
 		$table_name = $this->table_pre.$this->saber;
 		
@@ -33,9 +32,11 @@ class Card_config extends CI_Model {
 			return null;
 		}
 	}
-	public function getSaberConfigJS(){
+	public function getCardConfigJS(){
 
-		$saber_query_arr = $this->getSaberConfig('arr');
+        $this->load->helper('url');
+
+		$saber_query_arr = $this->getCardConfig('arr');
 
 		$card_config_js_data = 'var cardConfigObjList={';
 		
@@ -54,7 +55,9 @@ class Card_config extends CI_Model {
 			$card_config_js_data .= '},';
 		}
 		$card_config_js_data .= '};';
-		
+
+		$card_config_js_data .= 'var cardAvatarPre = "'.base_url().'/Public/images/cards/";';
+
 		return $card_config_js_data;		
 	}
 }

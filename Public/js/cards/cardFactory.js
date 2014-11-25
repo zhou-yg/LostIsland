@@ -7,10 +7,12 @@
       var c, k, v;
       this.indexPre = 'card';
       this.cardMap = {};
+      this.cardNum = 0;
       for (k in cardConfigObjList) {
         v = cardConfigObjList[k];
         c = new CardObject(v);
         this.cardMap[k] = c;
+        this.cardNum++;
       }
     }
 

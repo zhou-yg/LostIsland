@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('useres/user_tokens','cards/card_config');
+$autoload['model'] = array('encry/sec_key');
 
 
 /* End of file autoload.php */

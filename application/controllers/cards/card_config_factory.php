@@ -13,24 +13,13 @@ class Card_config_factory extends CI_Controller {
 			 		'index' => 'Card_config_factory'
 			 	)));
 	}
-	public function _remap($basic_type){
-		switch ($basic_type) {
-			case 'saber':
-				$this->getSaberList();
-				break;
-			case 'archer':
-				$this->getArcherList();
-				break;
-			default:
-				break;
-		}
-	}
-	public function getSaberList()
+	public function getList()
 	{
-		$js = $this->card_config->getSaberConfigJS();
+		$this->load->model('cards/card_config');
+		
+		$js = $this->card_config->getCardConfigJS();
 		
 		$this->load->helper('file');
-		
 		
 		if( write_file($this->configObjPath,$js)){
 	 		 $this->output

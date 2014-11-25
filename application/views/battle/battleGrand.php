@@ -7,7 +7,7 @@
 <body>
 	<h1>battle grand</h1>
 </body>
-<script type="text/javascript" src="<?=base_url()?>/Public/jslib/underscore-min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/Public/jslib/utils.js"></script>
 
 <script type="text/javascript" src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
 

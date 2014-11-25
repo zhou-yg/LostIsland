@@ -62,6 +62,8 @@
       }
     };
 
+    CardObject.prototype.setStyle = function() {};
+
     CardObject.prototype.fight = function() {};
 
     CardObject.prototype.attack = function(_cardObj) {};
