@@ -33,4 +33,3 @@ _.on window,'load',->
           liDisplay deckLi,li
       #add animation effect
       _.on cardImg,type,(_e)->
-
