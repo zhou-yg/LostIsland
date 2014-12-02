@@ -11,6 +11,9 @@ class User_center extends CI_Controller {
 		$this->load->model('encry/sec_key');
 		
 		$token = $this->sec_key->create_token();
+		print_r(array(
+			'token'=>$token
+		));
 		$this->output
 			 ->set_content_type('application/json')
 			 ->set_output(json_encode(array(

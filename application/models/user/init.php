@@ -41,6 +41,12 @@ class Init extends CI_Model {
 		$insert_user_basic_sql = "insert into user_list values(NULL,'$_client_token','$user_token','$_username')";
 		$insert_user_basic_result = $this->db->simple_query($insert_user_basic_sql);
 		if($insert_user_basic_result){
+			
+			$select_last_id_sql = 'select last_insert_id()';
+			$last_id_query = $this->db->query($select_last_id_sql);
+			
+			print_r($last_id_query);			
+			
 		}else{
 			return array(
 				'result' => FALSE,

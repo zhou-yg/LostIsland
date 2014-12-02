@@ -364,6 +364,7 @@ class CI_Router {
 	{
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
+		var_dump($uri);
 
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
@@ -466,6 +467,7 @@ class CI_Router {
 	function set_directory($dir)
 	{
 		$this->directory = str_replace(array('/', '.'), '', $dir).'/';
+		//$this->directory = str_replace(array('.'), '', rtrim($dir, '/')).'/';
 	}
 
 	// --------------------------------------------------------------------
