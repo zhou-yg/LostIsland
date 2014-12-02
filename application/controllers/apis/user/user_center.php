@@ -5,6 +5,7 @@ class User_center extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('test');
+		$this->load->library('session');
 	}
 	public function get_token(){
 		$this->load->model('encry/sec_key');
@@ -60,11 +61,17 @@ class User_center extends CI_Controller {
 			$login_result = $this->login->check_login($client_token,$user_token);
 
 			if($login_result){
+				$this->load->model('encry/sec_key');
+				
+				$sessionToken = $this->sec_kty->create_token();
+				$this->session->set_userdata(array(
+					'sessionToken'=>$sessionToken
+				));
 				$this->output
 					 ->set_content_type('application/json')
 					 ->set_output(json_encode(array(
 					 	'result'=>$login_result,
-					 	'session'=>'this is sessionId'
+					 	'session'=>$sessionToken
 					 )));
 			}else{
 				$this->output

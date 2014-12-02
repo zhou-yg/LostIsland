@@ -16,6 +16,14 @@ class login extends CI_Model {
 		$check_sql_result = $this->db->query($check_sql);
 
 		if($check_sql_result->num_rows()>0){
+			/*
+			 * 此处应返回有用的用户信息 
+			 * array = (
+			 * my_deck
+			 * user_name
+			 * portrait
+			 * )
+			 */
 			return TRUE;
 		}else{
 			return FALSE;
