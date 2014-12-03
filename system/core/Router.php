@@ -225,7 +225,6 @@ class CI_Router {
 	function _set_request($segments = array())
 	{
 		$segments = $this->_validate_request($segments);
-
 		if (count($segments) == 0)
 		{
 			return $this->_set_default_controller();
@@ -281,6 +280,12 @@ class CI_Router {
 			$this->set_directory($segments[0]);
 			$segments = array_slice($segments, 1);
 
+			//使CI其支持2级目录
+			if(is_dir(APPPATH.'controllers/'.$this->fetch_directory().$segments[0])){
+				$this->directory = $this->directory.$segments[0].'/';
+				$segments = array_slice($segments, 1);
+			}
+			
 			if (count($segments) > 0)
 			{
 				// Does the requested controller exist in the sub-folder?
@@ -364,7 +369,6 @@ class CI_Router {
 	{
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
-		var_dump($uri);
 
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
