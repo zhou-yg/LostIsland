@@ -94,7 +94,12 @@ class Sec_key extends CI_Model {
 		$codes = $this->num2bin($num);
 		//变成token
 		$token = $this->num2token($codes[2] . $codes[3] . $codes[4]);
-		return $token;
+		
+		if($this->check_token($token)){
+			return $token;
+		}else{
+			return 'false';
+		}
 	}
 	public function check_token($_strtoken) {
 		//前4位，相对固定，基本过30年才变

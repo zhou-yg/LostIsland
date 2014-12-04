@@ -45,7 +45,7 @@ class User_center extends CI_Controller {
 				 ->set_content_type('application/json')
 				 ->set_output(json_encode(array(
 				 	'result'=>FALSE,
-				 	'data'=>'illegal_data'
+				 	'data'=>'illegal_token'
 				 )));
 		}
 	}

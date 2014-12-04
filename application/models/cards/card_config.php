@@ -11,7 +11,12 @@ class Card_config extends CI_Model {
     {
         parent::__construct();
     }
-	
+	public function get_init_card_ids(){
+			
+		$init_cards = array(1,2,3,4,5,6,7,8,9,10);
+		
+		return $init_cards;
+	}
 	public function getCardConfig($_type){
 		$this->load->database();
 		$table_name = $this->table_pre.$this->saber;
