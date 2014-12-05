@@ -26,7 +26,6 @@ class User_center extends CI_Controller {
 			 ->set_output(json_encode(array(
 					'result'=>$check_result
 				 )));
-		
 	}
 	public function init(){
 		$this->load->model('user/init');

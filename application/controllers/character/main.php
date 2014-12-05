@@ -10,3 +10,4 @@ class Main extends CI_Controller {
 	    $this->load->view('character/character_main');
 	}
 }
+
