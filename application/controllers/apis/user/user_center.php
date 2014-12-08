@@ -33,8 +33,8 @@ class User_center extends CI_Controller {
 		
 		$username = $this->input->post('username');
 		$client_token = $this->input->post('clientToken');
-
-		if($username && $this->sec_key->check_token($client_token)){
+		
+		if($username  && $this->sec_key->check_token($client_token)){
 			$resultArr = $this->init->init($client_token,$username);
 			$this->output
 				 ->set_content_type('application/json')
@@ -44,7 +44,7 @@ class User_center extends CI_Controller {
 				 ->set_content_type('application/json')
 				 ->set_output(json_encode(array(
 				 	'result'=>FALSE,
-				 	'data'=>'illegal_token'
+				 	'data'=>'illegal_token or no name'
 				 )));
 		}
 	}

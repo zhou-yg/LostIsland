@@ -136,7 +136,7 @@ class Sec_key extends CI_Model {
 		$dec_num_arr[1] = substr($strdec, $absolute_pre, $max_len);
 		$dec_num_arr[2] = substr($strdec, $absolute_pre + $max_len, strlen($strdec));
 		
-		if ($max_len != strlen($dec_num_arr[1]) || $max_len != strlen($dec_num_arr[2])) {
+		if ($max_len != strlen($dec_num_arr[1])) {
 			return FALSE;
 		}
 

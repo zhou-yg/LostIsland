@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/LostIsland/';
+$config['base_url']	= 'http://localhost:9000/lostisland/';
 
 /*
 |--------------------------------------------------------------------------

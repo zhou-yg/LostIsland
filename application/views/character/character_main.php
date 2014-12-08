@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<title>人物主界面</title>
-	<link rel="stylesheet" type="text/css" href="<?=base_url()?>/Public/css/character/character_main.css" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/Public/css/character/character_main.css" />
 </head>
 <style>
 </style>
 <body>
+	
 	<div class="character">
 		<div class="character_general_window">
 			
