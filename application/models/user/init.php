@@ -1,8 +1,8 @@
 <?php
 class Init extends CI_Model {
 	
-	private $table_name = 'user_list';
-	private $user_card_table_name = 'user_cards';
+	private $user_list_tname = 'user_list';
+	private $user_card_tname = 'user_cards';
 
     function __construct()
     {
@@ -10,20 +10,24 @@ class Init extends CI_Model {
     }
 	//插入 初始化 基本用户信息
 	function user_init($_client_token,$_user_token,$_username){
+		$this->load->model('user/user_config');
 		
-		$insert_user_basic_sql = "insert into $this->table_name values(NULL,'$_client_token','$_user_token','$_username')";
+		$user_list_tname = $this->user_list_tname;
+		$user_cards_tname = $this->user_card_tname;
+				
+		$chacter = $this->user_config->get_defualt_character_img();
+		
+		$insert_user_basic_sql = "insert into $user_list_tname values(NULL,'$_client_token','$_user_token','$_username','$chacter')";
 		$insert_user_basic_result = $this->db->simple_query($insert_user_basic_sql);
 		
 		if($insert_user_basic_result){
 			
 			$last_uid = $this->db->insert_id();
 			
-			$this->load->model('cards/card_config');
+			$init_card_ids_arr = $this->user_config->get_init_card_ids();
+			$init_card_ids_str = serialize($init_card_ids_arr);
 			
-			$card_ids_arr = $this->card_config->get_init_card_ids();
-			$card_ids_str = serialize($card_ids_arr);
-			
-			$init_user_cards_sql = "insert into $this->user_card_table_name values(NULL,$last_uid,'$card_ids_str','null')";
+			$init_user_cards_sql = "insert into $user_cards_tname values(NULL,$last_uid,'$init_card_ids_str','$init_card_ids_str')";
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
 			if($init_cards_query_result){
@@ -49,12 +53,11 @@ class Init extends CI_Model {
 	}
 	//保证username唯一 是否存在
 	function is_name_isxists($_username){
-
-		$table_name = $this->table_name;
 		//保证username 是否存在
-		$check_username_sql = "select * from $table_name where username='$_username'";
+		$user_list_tname = $this->user_list_tname;
+		$check_username_sql = "select * from $user_list_tname where username='$_username'";
 		$result_username_query = $this->db->query($check_username_sql);
-
+		
 		//已经存在
 		if($result_username_query->num_rows()>0){
 			return TRUE;
@@ -67,11 +70,11 @@ class Init extends CI_Model {
 		$this->load->database();
 		$this->load->model('encry/sec_key');
 		
-
-		if($this->is_name_isxists($_username)){
+		$t = $this->is_name_isxists($_username);
+		if($t){
 			return array(
 				'result'=>FALSE,
-				'data'=>'username_repeat'
+				'data'=>'username repeat'
 			);
 		}
 		//生成一个user_token;
@@ -93,7 +96,7 @@ class Init extends CI_Model {
 		}else{
 			return array(
 				'result' => FALSE,
-				  'data' => 'user_insert'
+				  'data' => 'user_init'
 			);
 		}	
 		

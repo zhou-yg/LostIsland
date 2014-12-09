@@ -1,7 +1,0 @@
-class BattleMsgCenter
-  constructor:(_players)->
-    if _.isObject _players
-      @minePlayer  = _players.mine
-      @enemyPlayer = _players.enemy
-    else
-      throw 'BattleMsgCenter:illegal argument type'

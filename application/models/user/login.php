@@ -16,15 +16,22 @@ class login extends CI_Model {
 		$check_sql_result = $this->db->query($check_sql);
 
 		if($check_sql_result->num_rows()>0){
-			/*
-			 * 此处应返回有用的用户信息 
-			 * array = (
-			 * my_deck
-			 * user_name
-			 * portrait
-			 * )
-			 */
-			return TRUE;
+			
+			$result_array = $check_sql_result->result_array();
+			$userOne = $result_array[0];
+			
+			$sessionToken = $this->sec_key->create_token();
+			
+			$userMsgArr = array(
+				'nickname' => $userOne['username'],
+				'sessionToken' => $sessionToken
+			);
+			
+			$this->session->set_userdata(array(
+				'sessionToken' => $sessionToken
+			));
+			
+			return $userMsgArr;
 		}else{
 			return FALSE;
 		}

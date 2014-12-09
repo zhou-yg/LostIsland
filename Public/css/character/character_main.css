@@ -1,42 +1,44 @@
-*{
+* {
 	margin: 0;
 	padding: 0;
 }
-.character{
-	background-color:#f0f0f0;
+.character {
+	background-color: #f0f0f0;
 	width: 100%;
 	height: 480px;
 }
-.character .character_general_window{
-	background-image:url(/lostisland/Public/images/character/bone_tester.png);
-	background-size:100% 100%;
+.character .character_general_window {
+	background-image: url(/lostisland/Public/images/character/card_1_2.png);
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
 	width: 70%;
 	height: 100%;
 	float: left;
 }
-.character .character_army_window{
-	margin-right:2%;
+.character .character_army_window {
+	margin-right: 2%;
 	width: 28%;
 	height: 100%;
 	float: left;
 }
-.character .character_army_window .blank{
+.character .character_army_window .blank {
 	width: 100%;
 	height: 7.5%;
 	border: none;
 }
-.character .character_army_window .character_army{
+.character .character_army_window .character_army {
 	width: 100%;
 	height: 85%;
 }
-.character  .character_army_window .character_army .character_army_one{
-	background-color:#D6DA45;
+.character  .character_army_window .character_army .character_army_one {
+	background-color: #D6DA45;
 	width: 100%;
 	height: 10%;
 }
-.character  .character_army_window .character_army .two{
-	background-color:#1BBC94;
+.character  .character_army_window .character_army .two {
+	background-color: #1BBC94;
 }
-.character:after{
-	clear:left;
+.character:after {
+	clear: left;
 }

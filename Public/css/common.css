@@ -11,6 +11,7 @@
 .cf{
     clear: both;
     overflow: hidden;
+    height: 0;
 }
 .hide{
     display: none;
