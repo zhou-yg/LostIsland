@@ -2,40 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b643048-5db1-489c-b331-69ae6ac80389" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\coffees\cards\cardConfigObjList.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\coffees\user\playerFactory.coffee" afterPath="" />
-      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\coffees\user\playerFactory.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\coffees\user\playerFactory.js.map" afterPath="" />
-      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\js\user\playerFactory.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/images/cards/normalAvatar/card_3_5.png" afterPath="$PROJECT_DIR$/Public/images/cards/normalAvatar/card_3_5.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/images/cards/character_main/card_4_1.png" afterPath="$PROJECT_DIR$/Public/images/cards/character_main/card_4_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.coffee" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.js.map" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cards/cardFactory.js" afterPath="$PROJECT_DIR$/Public/js/cards/cardFactory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/cards/cardList.html" afterPath="$PROJECT_DIR$/application/views/cards/cardList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardObject.coffee" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardObject.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardObject.js.map" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardObject.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/cards/cardObject.js" afterPath="$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cards/cardObject.js" afterPath="$PROJECT_DIR$/Public/js/cards/cardObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/character/character_main.html" afterPath="$PROJECT_DIR$/application/views/character/character_main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/user/login.php" afterPath="$PROJECT_DIR$/application/models/user/login.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.coffee" afterPath="$PROJECT_DIR$/Public/coffees/user/player.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.js.map" afterPath="$PROJECT_DIR$/Public/coffees/user/player.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.js" afterPath="$PROJECT_DIR$/Public/coffees/user/player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/user/player.js" afterPath="$PROJECT_DIR$/Public/js/user/player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\css\character\character_main.css" afterPath="$PROJECT_DIR$/Public/css/user/character_main.css" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\env.coffee" afterPath="$PROJECT_DIR$/Public/coffees/jslib/env.coffee" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\env.js" afterPath="$PROJECT_DIR$/Public/coffees/jslib/env.js" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\env.js.map" afterPath="$PROJECT_DIR$/Public/coffees/jslib/env.js.map" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.coffee" afterPath="$PROJECT_DIR$/Public/coffees/jslib/utils.coffee" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.js" afterPath="$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.js.map" afterPath="$PROJECT_DIR$/Public/coffees/jslib/utils.js.map" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\views\cards\cardList.coffee" afterPath="$PROJECT_DIR$/Public/coffees/views/cards/cardList.coffee" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\views\cards\cardList.js" afterPath="$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
-      <change type="MOVED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\views\cards\cardList.js.map" afterPath="$PROJECT_DIR$/Public/coffees/views/cards/cardList.js.map" />
+      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\css\character\character_main.css" afterPath="" />
+      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.coffee" afterPath="" />
+      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.js" afterPath="" />
+      <change type="DELETED" beforePath="D:\web_developmentl\wamp\wamp\www\LostIsland\Public\jslib\utils.js.map" afterPath="" />
     </list>
     <ignored path="LostIsland.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -451,8 +421,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="285" y="0" width="1404" height="1010" extended-state="1" />
-    <editor active="true" />
+    <frame x="285" y="0" width="1404" height="1010" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Grunt" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37543055" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -463,7 +433,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16957104" sideWeight="0.50054884" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2252042" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2252042" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
