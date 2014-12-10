@@ -5,6 +5,7 @@ class CardFactory
     @cardNum = 0;
 
     for k,v of cardConfigObjList
+      v.cardAvatarPre = cardAvatarPre
       c = new CardObject(v)
       @cardMap[k] = c
       @cardNum++

@@ -9,6 +9,7 @@
       this.cardNum = 0;
       for (k in cardConfigObjList) {
         v = cardConfigObjList[k];
+        v.cardAvatarPre = cardAvatarPre;
         c = new CardObject(v);
         this.cardMap[k] = c;
         this.cardNum++;

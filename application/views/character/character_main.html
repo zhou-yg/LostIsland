@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
+    <title>人物主界面</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-	<title>人物主界面</title>
-	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/Public/css/character/character_main.css" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/Public/css/user/character_main.css" />
+    <script type="text/javascript" src="<?=base_url()?>/Public/js/jslib/env.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>/Public/js/jslib/utils.js"></script>
 </head>
 <style>
 </style>
 <body>
-	
 	<div class="character">
 		<div class="character_general_window">
 			
@@ -35,19 +36,26 @@
 		<input type="hidden" class="stoken" value="<?= $sessionToken ?>"/>
 	</footer>
 </body>
-<script type="text/javascript">
+<script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>
+<script src="<?= base_url() ?>/Public/js/user/player.js"></script>
+<script>
 (function(_window){
-	var nickName = <?= $nickname ?>,
-		myDeckIds = [];
+	var userMsg,
+        nickName = '<?= $nickname ?>',
+        characterImg = '<?= base_url().$character ?>',
+		myDeckIds;//init:= [];
 
 	myDeckIds = <?= $my_deck ?>;
-	console.log(myDeckIds);
 
-	_window.global = {};
-	global.userMsg = {
+	userMsg = {
 		'nickName':nickName,
-		'myDeckIds':myDeckIds
+        'characterImg':characterImg,
+		'myDeckIds':myDeckIds,
+        'sessionToken':'<?= $sessionToken ?>'
 	};
+    Player.init(userMsg);
 })(this);
 </script>
 </html>
