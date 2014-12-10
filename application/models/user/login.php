@@ -9,6 +9,7 @@ class login extends CI_Model {
         parent::__construct();
     }
 	public function check_login($_client_token,$_user_token){
+		session_start();
 		
 		$this->load->database();
 		
@@ -26,7 +27,7 @@ class login extends CI_Model {
 			$this->session->set_userdata(array(
 				'sessionToken' => $sessionToken
 			));
-			
+
 			//获取当前组
 			$cards_tname = $this->carsd_tname;
 			$uid = $userOne['id'];

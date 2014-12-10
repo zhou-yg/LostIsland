@@ -9,6 +9,7 @@
     }
 
     Player.prototype.init = function(_userMsg) {
+      console.log(_userMsg.sessionToken);
       this.token = _userMsg.sessionToken;
       delete _userMsg.sessionToken;
       this.userMsg = _userMsg;

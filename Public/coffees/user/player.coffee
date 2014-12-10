@@ -4,6 +4,7 @@ class Player
     @deckList = _.query '.character_army .character_army_one'
 
   init:(_userMsg)->
+    console.log _userMsg.sessionToken
     @token = _userMsg.sessionToken
     delete _userMsg.sessionToken
 

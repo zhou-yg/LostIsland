@@ -14,6 +14,7 @@ class Main extends CI_Controller {
 		$loginResult = $this->login->check_login($clientToken,$userToken);		
 		
 		if($loginResult){
+			
 			$this->load->helper('url');
 			$this->load->view('character/character_main.html',$loginResult);
 		}else{
