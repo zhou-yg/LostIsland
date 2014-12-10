@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b643048-5db1-489c-b331-69ae6ac80389" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/cards/card_list.php" afterPath="$PROJECT_DIR$/application/controllers/cards/card_list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/css/user/character_main.css" afterPath="$PROJECT_DIR$/Public/css/user/character_main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/character/character_main.html" afterPath="$PROJECT_DIR$/application/views/character/character_main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.coffee" afterPath="$PROJECT_DIR$/Public/coffees/user/player.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.js.map" afterPath="$PROJECT_DIR$/Public/coffees/user/player.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/coffees/user/player.js" afterPath="$PROJECT_DIR$/Public/coffees/user/player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/user/player.js" afterPath="$PROJECT_DIR$/Public/js/user/player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="8b643048-5db1-489c-b331-69ae6ac80389" name="Default" comment="" />
     <ignored path="LostIsland.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -289,8 +280,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="225" y="0" width="1464" height="1010" extended-state="0" />
-    <editor active="true" />
+    <frame x="225" y="0" width="1464" height="1010" extended-state="1" />
+    <editor active="false" />
     <layout>
       <window_info id="Grunt" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37543055" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -301,7 +292,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16957104" sideWeight="0.50054884" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2252042" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2252042" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
