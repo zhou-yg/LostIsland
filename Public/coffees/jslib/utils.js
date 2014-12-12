@@ -9,11 +9,12 @@
     Util.prototype.query = function(_selector) {
       var nodeList;
       if (_selector[0] === '#') {
+        _selector = _selector.substring(1, _selector.length);
         nodeList = document.getElementById(_selector);
       } else {
         nodeList = document.querySelectorAll(_selector);
       }
-      if (nodeList.length === 1) {
+      if (nodeList.length && nodeList.length === 1) {
         return nodeList[0];
       } else {
         return nodeList;

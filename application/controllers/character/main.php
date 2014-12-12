@@ -17,6 +17,7 @@ class Main extends CI_Controller {
 			
 			$this->load->helper('url');
 			$this->load->view('character/character_main.html',$loginResult);
+			$this->load->view('test/console.html');
 		}else{
 			show_error('not exist',500,'forbidden');
 		}

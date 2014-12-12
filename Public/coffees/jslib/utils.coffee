@@ -4,11 +4,12 @@ class Util
     #获取dom元素
   query: (_selector) ->
     if _selector[0] is '#'
+      _selector = _selector.substring 1,_selector.length
       nodeList = document.getElementById _selector
     else
       nodeList = document.querySelectorAll _selector
 
-    if nodeList.length is 1
+    if nodeList.length and nodeList.length is 1
       return nodeList[0]
     else
       return nodeList

@@ -1,0 +1,23 @@
+<style>
+    #consoleDiv {
+        background-color: #ffffff;
+        width: 48px;
+        height: 48px;
+        border: #000 solid 1px;
+        border-radius: 2px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
+<div id="consoleDiv">
+
+</div>
+<script>
+    var consoleDiv = _.query('#consoleDiv'),
+            is;
+    _.on(consoleDiv, 'click', function () {
+        this.style.width = '248px';
+        this.style.height = '248px';
+    });
+</script>
