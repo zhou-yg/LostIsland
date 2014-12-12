@@ -15,9 +15,15 @@
 </div>
 <script>
     var consoleDiv = _.query('#consoleDiv'),
-            is;
+            isExpand = true;
     _.on(consoleDiv, 'click', function () {
-        this.style.width = '248px';
-        this.style.height = '248px';
+        if(isExpand){
+            this.style.width = '248px';
+            this.style.height = '248px';
+        }else{
+            this.style.width = '48px';
+            this.style.height = '48px';
+            isExpand = !isExpand;
+        }
     });
 </script>
