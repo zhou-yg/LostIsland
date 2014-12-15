@@ -9,7 +9,6 @@ class login extends CI_Model {
         parent::__construct();
     }
 	public function check_login($_client_token,$_user_token){
-		session_start();
 		
 		$this->load->database();
 		
@@ -24,25 +23,28 @@ class login extends CI_Model {
 			
 			$sessionToken = $this->sec_key->create_token();
 			
-			$this->session->set_userdata(array(
-				'sessionToken' => $sessionToken
-			));
-
 			//获取当前组
 			$cards_tname = $this->carsd_tname;
 			$uid = $userOne['id'];
+
+			$this->session->set_userdata(array(
+				'sessionToken' => $sessionToken,
+				'uid' => $uid
+			));
+
+
 			$get_deck_sql = "select * from $cards_tname where uid=$uid ";
 			$get_deck_query = $this->db->query($get_deck_sql);
 			
 			if($get_deck_query->num_rows()>0){
 				$result_array = $get_deck_query->result_array();
-				$cardsOne = $result_array[0];
+				$cards_one = $result_array[0];
 
 
 				$userMsgArr = array(
 					'nickname'     => $userOne['username'],
 					'character'    => $userOne['character'],
-					'my_deck'      => json_encode(unserialize($cardsOne['deck_cards'])),
+					'my_deck'      => json_encode(unserialize($cards_one['deck_cards'])),
 					'sessionToken' => $sessionToken
 				);
 

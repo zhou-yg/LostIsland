@@ -36,10 +36,22 @@
     };
 
     Util.prototype.on = function(_dom, _type, _cb) {
+      var typeArr, typeOne, _i, _j, _len, _len1, _results, _results1;
+      typeArr = _type.split(' ');
       if (_dom.addEventListener) {
-        return _dom.addEventListener(_type, _cb);
+        _results = [];
+        for (_i = 0, _len = typeArr.length; _i < _len; _i++) {
+          typeOne = typeArr[_i];
+          _results.push(_dom.addEventListener(typeOne, _cb));
+        }
+        return _results;
       } else {
-        return _dom['on' + _type] = _cb;
+        _results1 = [];
+        for (_j = 0, _len1 = typeArr.length; _j < _len1; _j++) {
+          typeOne = typeArr[_j];
+          _results1.push(_dom['on' + typeOne] = _cb);
+        }
+        return _results1;
       }
     };
 

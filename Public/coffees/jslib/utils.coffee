@@ -23,10 +23,13 @@ class Util
         _dom.style[k] = v
 
   on: (_dom, _type, _cb)->
+    typeArr = _type.split(' ');
     if _dom.addEventListener
-      _dom.addEventListener _type, _cb
+      for typeOne in typeArr
+        _dom.addEventListener typeOne, _cb
     else
-      _dom['on' + _type] = _cb
+      for typeOne in typeArr
+        _dom['on' + typeOne] = _cb
 
   hide: (_dom) ->
     _dom.style.display = 'none'

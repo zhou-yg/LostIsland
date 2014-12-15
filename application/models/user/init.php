@@ -69,13 +69,15 @@ class Init extends CI_Model {
 		
 		$this->load->database();
 		$this->load->model('encry/sec_key');
+		$result = TRUE;
+		$data;
+		//事务开始
+		$this->db->trans_begin();
 		
 		$t = $this->is_name_isxists($_username);
 		if($t){
-			return array(
-				'result'=>FALSE,
-				'data'=>'username repeat'
-			);
+			$result=FALSE;
+			$data = 'username repeat';
 		}
 		//生成一个user_token;
 		$user_token = $this->sec_key->create_token();
@@ -84,31 +86,35 @@ class Init extends CI_Model {
 		if($this->insert_client_token($_client_token)){
 			
 		}else{
-			return array(
-				'result' => FALSE,
-				'data' => 'client_insert'
-			);
+			$result=FALSE;
+			$data = 'client_insert';
 		}
 		
 		//插入基本用户信息
 		if($this->user_init($_client_token, $user_token, $_username)){
 			
 		}else{
-			return array(
-				'result' => FALSE,
-				  'data' => 'user_init'
-			);
+			$result=FALSE;
+			$data = 'user_init';
 		}	
-		
-   		return array(
-   				'result' => TRUE,
-   				'data' => array(
-   					'clientToken' => $_client_token,
-   					'userToken'   => $user_token,
-	   				'username'    => $_username
-				 )
+
+		if($result){
+			$this->db->trans_commit();
+	   		return array(
+   					'result' => $result,
+   					'data' => array(
+   						'clientToken' => $_client_token,
+   						'userToken'   => $user_token,
+	   					'username'    => $_username
+					 )
 			 );
-		
+		}else{
+			$this->db->trans_rollback();
+	   		return array(
+   					'result' => $result,
+   					'data' => $data
+			 );
+		}
 	}
 }
 ?>

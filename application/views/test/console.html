@@ -9,21 +9,81 @@
         top: 0;
         left: 0;
     }
+
+    #consoleDiv div {
+        display: none;
+    }
+    #consoleDiv .linkToMyIndex{
+        background-color: #f0f0f0;
+        text-decoration: none;
+        height: 30px;
+        line-height: 30px;
+    }
+    #consoleDiv .linkToMyDeck {
+        background-color: #777;
+        text-decoration: none;
+        height: 30px;
+        line-height: 30px;
+    }
 </style>
 <div id="consoleDiv">
-
+    <div class="linkToMyIndex">
+        <a href="<?= base_url() ?>/index.php/">index</a>
+    </div>
+    <div class="linkToMyDeck">
+        <a href="<?= base_url() ?>/index.php/cards/card_list">myDeck</a>
+    </div>
 </div>
+<script src="<?= base_url() ?>/Public/js/jslib/jquery2x.js"></script>
 <script>
     var consoleDiv = _.query('#consoleDiv'),
             isExpand = true;
     _.on(consoleDiv, 'click', function () {
-        if(isExpand){
-            this.style.width = '248px';
-            this.style.height = '248px';
-        }else{
+        if (isExpand) {
+            $(this).children().show();
+            this.style.width = '148px';
+            this.style.height = '148px';
+        } else {
+            $(this).children().hide();
             this.style.width = '48px';
             this.style.height = '48px';
             isExpand = !isExpand;
         }
     });
+    (function (_win) {
+        var isDown = false,
+                $consoleDiv = $(consoleDiv),
+                currentX = 0,
+                currentY = 0,
+                preX,
+                preY;
+
+        _.on(consoleDiv, 'mousedown touchstart', function () {
+            isDown = true;
+        });
+        _.on(consoleDiv, 'mousemove touchmove', function (_e) {
+            var e = _e, x, y;
+            if (isDown) {
+                if (_e.touches) {
+                    e = _e.touches[0];
+                }
+                x = e.pageX,
+                y = e.pageY;
+
+                if(preX && preY){
+                    currentX += x - preX;
+                    currentY += y - preY;
+
+                    $consoleDiv.css('left', currentX + 'px');
+                    $consoleDiv.css('top', currentY + 'px');
+                }
+                preX = x;
+                preY = y;
+            }
+        });
+        _.on(consoleDiv, 'mouseup touchend', function () {
+            isDown = false;
+        });
+
+    })(this);
 </script>
