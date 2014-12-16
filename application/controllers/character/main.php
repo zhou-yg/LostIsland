@@ -5,8 +5,6 @@ if (!defined('BASEPATH'))
 class Main extends CI_Controller {
 
 	public function index() {
-		$this->load->model('user/login');
-		$this->load->model('cards/get_cards');
 		
 		$clientToken = $this->input->post('clientToken');
 		$userToken = $this->input->post('userToken');
@@ -15,6 +13,7 @@ class Main extends CI_Controller {
 		$sessionToken = $this->session->userdata('sessionToken');
 
 		if ($clientToken && $userToken) {
+			$this->load->model('user/login');
 			$loginResult = $this->login->check_login($clientToken, $userToken);
 			
 			if ($loginResult) {
@@ -26,13 +25,16 @@ class Main extends CI_Controller {
 				show_error('not exist', 500, 'forbidden');
 			}
 		} else if ($uid && $sessionToken) {
+			
+			$this->load->model('cards/get_cards');
+			$this->load->model('user/message');
 			$cards_result_array = $this->get_cards->get_deck($uid,$sessionToken);
 			$user_message_array = $this->message->get_basic($uid,$sessionToken);
 			
 			$result = array(
 				'nickname' => $user_message_array['data']['nickname'],
 				'character'=> $user_message_array['data']['character'],
-				'my_deck' => $cards_result_array['data'],
+				'my_deck'  => $cards_result_array['data'],
 				'sessionToken' => $sessionToken
 			);
 

@@ -30,6 +30,8 @@ class Get_cards extends CI_Model {
 				$result_array = $get_deck_query->result_array();
 				$this->cards_one = $result_array[0];
 				
+				$json1 = $this->cards_one[$_type];
+
 				$data = json_encode(unserialize($this->cards_one[$_type]));
 			}else{
 				$result = FALSE;
@@ -46,9 +48,11 @@ class Get_cards extends CI_Model {
 	}
 	public function get_deck($_uid,$_sessionToken){
 		$reuslt = $this->get($_uid,$_sessionToken,'deck_cards');
+		return $reuslt;
 	}
 	public function get_all($_uid,$_sessionToken){
 		$reuslt = $this->get($_uid,$_sessionToken,'all_cards');
+		return $reuslt;
 	}
 }
 ?>
