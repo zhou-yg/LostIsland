@@ -17,21 +17,16 @@
         </ul>
         <hr/>
         <ul class="my-card-list">
-            <li class="my-card-one fl bg1"></li>
-            <li class="my-card-one fl bg2"></li>
-            <li class="my-card-one fl bg3"></li>
-            <li class="my-card-one fl bg4"></li>
-            <li class="my-card-one fl bg5"></li>
-            <li class="my-card-one fl bg1"></li>
-            <li class="my-card-one fl bg2"></li>
-            <li class="my-card-one fl bg3"></li>
-            <li class="my-card-one fl bg4"></li>
-            <li class="my-card-one fl bg5"></li>
-            <li class="my-card-one fl bg1"></li>
-            <li class="my-card-one fl bg2"></li>
         </ul>
 	</div>
 </body>
+<script>
+	global = {};
+	global.myCards = {
+		'deck':<?= $deck ?>,
+		'all':<?= $all ?>,
+	}
+</script>
 <script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>

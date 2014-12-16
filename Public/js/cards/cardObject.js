@@ -26,7 +26,6 @@ hp
       _results = [];
       for (k in _config) {
         v = _config[k];
-        console.log(k);
         _results.push(this[k] = v);
       }
       return _results;

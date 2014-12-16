@@ -1,4 +1,11 @@
-console.log 'views/cardList'
+###
+  global.myCards = {
+    deck:[],
+    all:[]
+  }
+###
+console.log global.myCards
+
 CARD_NUM_MAX = 10
 currentNum = 0
 #set click event

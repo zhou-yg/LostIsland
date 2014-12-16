@@ -16,7 +16,6 @@ class CardObject
 
   setConfig:(_config)->
     for k,v of _config
-      console.log k
       @[k] = v;
 
   setStyle:->

@@ -1,7 +1,7 @@
 (function() {
   var CARD_NUM_MAX, currentNum;
 
-  console.log('views/cardList');
+  console.log(global.myCards);
 
   CARD_NUM_MAX = 10;
 

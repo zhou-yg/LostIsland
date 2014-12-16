@@ -27,41 +27,16 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
     border:none;
     height: 15px;
 }
-.list .my-card-list{
+.list .all-cards-list{
     margin: 2px 2%;
     background-color: #474747;
 }
-.list .my-card-list:after{
+.list .all-cards-list:after{
     clear: left;
 }
-.list .my-card-list .my-card-one{
+.list .all-cards-list .my-card-one{
     background-color: #474747;
     margin:0 1.5% 5px;
     width: 30%;
     padding-top: 50%;
-}
-.list .bg1{
-    background-image: url(http://localhost/LostIsland//Public/images/cards/normalAvatar/archer.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-.list .bg2{
-    background-image: url(http://localhost/LostIsland//Public/images/cards/normalAvatar/saber.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-.list .bg3{
-    background-image: url(http://localhost/LostIsland//Public/images/cards/normalAvatar/caster.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-.list .bg4{
-    background-image: url(http://localhost/LostIsland//Public/images/cards/normalAvatar/rider.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-.list .bg5{
-    background-image: url(http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
 }

@@ -6,6 +6,7 @@
         <item url="file://$PROJECT_DIR$/Gruntfile.js" />
         <item url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
         <item url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
         <item url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
       </sourceFilesUrls>
     </properties>
@@ -24,6 +25,7 @@
       <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
       <root url="file://$PROJECT_DIR$/Gruntfile.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
     </CLASSES>
