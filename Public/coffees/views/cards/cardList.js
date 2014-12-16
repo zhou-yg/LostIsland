@@ -17,37 +17,72 @@
   currentNum = 0;
 
   _.on(window, 'load', function() {
-    var cardImg, cardImgList, cardUl, deckList, myDeck, _i, _len, _results;
+    var actionOn, cardUl, myDeck;
     myDeck = _.query('.my-deck');
     cardUl = _.query('.my-card-list');
-    deckList = myDeck.children;
-    cardImgList = cardUl.children;
-    _results = [];
-    for (_i = 0, _len = cardImgList.length; _i < _len; _i++) {
-      cardImg = cardImgList[_i];
-      _results.push((function() {
-        var liDisplay, type;
-        type = envObj.devEnv ? 'touch' : 'click';
-        liDisplay = function(_decLi, _li) {
-          return _.on(_decLi, type, function(_e) {
-            _e.target.remove();
-            return _.show(_li);
+    actionOn = function() {
+      var cardImg, cardImgList, deckList, _i, _len, _results;
+      deckList = myDeck.children;
+      cardImgList = cardUl.children;
+      _results = [];
+      for (_i = 0, _len = cardImgList.length; _i < _len; _i++) {
+        cardImg = cardImgList[_i];
+        _results.push((function() {
+          var liDisplay, type;
+          type = envObj.devEnv ? 'touch' : 'click';
+          liDisplay = function(_decLi, _li) {
+            return _.on(_decLi, type, function(_e) {
+              _e.target.remove();
+              return _.show(_li);
+            });
+          };
+          _.on(cardImg, type, function(_e) {
+            var deckLi, li;
+            li = _e.target;
+            deckLi = li.cloneNode();
+            if (myDeck.children.length < 10) {
+              _.hide(li);
+              myDeck.appendChild(deckLi);
+              return liDisplay(deckLi, li);
+            }
           });
-        };
-        _.on(cardImg, type, function(_e) {
-          var deckLi, li;
-          li = _e.target;
-          deckLi = li.cloneNode();
-          if (myDeck.children.length < 10) {
-            _.hide(li);
-            myDeck.appendChild(deckLi);
-            return liDisplay(deckLi, li);
+          return _.on(cardImg, type, function(_e) {});
+        })());
+      }
+      return _results;
+    };
+    return (function() {
+      var all, cardId, cardObj, checkCache, deck, deckCache, insertIntoMyDeck, _i, _len, _results;
+      if (global.myCards && global.myCards.deck && global.myCards.all) {
+        deck = global.myCards.deck;
+        all = global.myCards.all;
+        deckCache = [];
+        checkCache = function(_arr, _ele) {
+          var ele, i, result, _i, _len;
+          result = -1;
+          for (i = _i = 0, _len = _arr.length; _i < _len; i = ++_i) {
+            ele = _arr[i];
+            if (_ele === ele) {
+              result = i;
+              break;
+            }
           }
-        });
-        return _.on(cardImg, type, function(_e) {});
-      })());
-    }
-    return _results;
+          return result;
+        };
+        insertIntoMyDeck = function(_cardObj) {};
+        _results = [];
+        for (_i = 0, _len = deck.length; _i < _len; _i++) {
+          cardId = deck[_i];
+          cardObj = checkCache(deckCache, cardId);
+          if (cardObj) {
+            _results.push(insertIntoMyDeck(cardObj));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      }
+    })();
   });
 
 }).call(this);
