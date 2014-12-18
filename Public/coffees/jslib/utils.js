@@ -6,19 +6,29 @@
   Util = (function() {
     function Util() {}
 
-    Util.prototype.query = function(_selector) {
-      var nodeList;
+    Util.prototype.query = function(_selector, _paraent) {
+      var nodeList, parent;
+      parent = _paraent || document;
       if (_selector[0] === '#') {
         _selector = _selector.substring(1, _selector.length);
-        nodeList = document.getElementById(_selector);
+        nodeList = parent.getElementById(_selector);
       } else {
-        nodeList = document.querySelectorAll(_selector);
+        nodeList = parent.querySelectorAll(_selector);
       }
       if (nodeList.length && nodeList.length === 1) {
         return nodeList[0];
       } else {
         return nodeList;
       }
+    };
+
+    Util.prototype.find = function(_parent, _selector) {
+      var node;
+      if (_parent instanceof HTMLElement) {
+        node = this.query(_selector, _parent);
+        return node;
+      }
+      return _parent;
     };
 
     Util.prototype.css = function(_dom, _styleName, _value) {
@@ -33,6 +43,23 @@
         }
         return _results;
       }
+    };
+
+    Util.prototype.cssTrans = function(_propertyName) {
+      var i, len, nameArr, _i, _ref;
+      if (typeof _propertyName === 'string') {
+        nameArr = _propertyName.split('-');
+        len = nameArr.length;
+        if (len !== 1) {
+          for (i = _i = 1, _ref = len - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+            nameArr[i] = nameArr[i].replace(/[\W\w]/, function(_s) {
+              return _s.toUpperCase();
+            });
+          }
+          _propertyName = nameArr.join('');
+        }
+      }
+      return _propertyName;
     };
 
     Util.prototype.on = function(_dom, _type, _cb) {

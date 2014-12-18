@@ -1,12 +1,13 @@
 class CardFactory
   constructor:(_configObjList)->
+    @cardAvatarPre = cardAvatarPre
     @indexPre = 'card'
     @cardMap = {}
     @cardNum = 0;
 
     for k,v of cardConfigObjList
-      v.cardAvatarPre = cardAvatarPre
       c = new CardObject(v)
+      c.id = k
       @cardMap[k] = c
       @cardNum++
 

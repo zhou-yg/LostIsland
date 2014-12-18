@@ -4,13 +4,14 @@
   CardFactory = (function() {
     function CardFactory(_configObjList) {
       var c, k, v;
+      this.cardAvatarPre = cardAvatarPre;
       this.indexPre = 'card';
       this.cardMap = {};
       this.cardNum = 0;
       for (k in cardConfigObjList) {
         v = cardConfigObjList[k];
-        v.cardAvatarPre = cardAvatarPre;
         c = new CardObject(v);
+        c.id = k;
         this.cardMap[k] = c;
         this.cardNum++;
       }

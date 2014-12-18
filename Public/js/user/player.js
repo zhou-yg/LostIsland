@@ -22,7 +22,7 @@
       return _.each(this.deckList, function(_i, _liOne) {
         var cardObj;
         cardObj = cardFactory.getCardByCid(that.userMsg.myDeckIds[_i]);
-        return _.css(_liOne, 'backgroundImage', 'url(' + cardObj.cardAvatarPre + cardObj.charater_main + ')');
+        return _.css(_liOne, 'backgroundImage', 'url(' + cardFactory.cardAvatarPre + cardObj.charater_main + ')');
       });
     };
 

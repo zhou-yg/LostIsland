@@ -17,70 +17,62 @@
   currentNum = 0;
 
   _.on(window, 'load', function() {
-    var actionOn, cardUl, myDeck;
+    var cardUl, myDeck;
     myDeck = _.query('.my-deck');
     cardUl = _.query('.my-card-list');
-    actionOn = function() {
-      var cardImg, cardImgList, deckList, _i, _len, _results;
-      deckList = myDeck.children;
-      cardImgList = cardUl.children;
-      _results = [];
-      for (_i = 0, _len = cardImgList.length; _i < _len; _i++) {
-        cardImg = cardImgList[_i];
-        _results.push((function() {
-          var liDisplay, type;
-          type = envObj.devEnv ? 'touch' : 'click';
-          liDisplay = function(_decLi, _li) {
-            return _.on(_decLi, type, function(_e) {
-              _e.target.remove();
-              return _.show(_li);
-            });
-          };
-          _.on(cardImg, type, function(_e) {
-            var deckLi, li;
-            li = _e.target;
-            deckLi = li.cloneNode();
-            if (myDeck.children.length < 10) {
-              _.hide(li);
-              myDeck.appendChild(deckLi);
-              return liDisplay(deckLi, li);
-            }
-          });
-          return _.on(cardImg, type, function(_e) {});
-        })());
-      }
-      return _results;
-    };
     return (function() {
-      var all, cardId, cardObj, checkCache, deck, deckCache, insertIntoMyDeck, _i, _len, _results;
+      var all, checkCache, deck, deckCache, deckOneTmp, indexPre;
       if (global.myCards && global.myCards.deck && global.myCards.all) {
         deck = global.myCards.deck;
         all = global.myCards.all;
+        indexPre = cardFactory.indexPre;
+        deckOneTmp = _.query('#deck-one-tmp');
         deckCache = [];
-        checkCache = function(_arr, _ele) {
-          var ele, i, result, _i, _len;
-          result = -1;
-          for (i = _i = 0, _len = _arr.length; _i < _len; i = ++_i) {
-            ele = _arr[i];
-            if (_ele === ele) {
-              result = i;
+        checkCache = function(_arr, _cardIndex) {
+          var ele, result, _i, _len;
+          result = null;
+          for (_i = 0, _len = _arr.length; _i < _len; _i++) {
+            ele = _arr[_i];
+            if (indexPre + _cardIndex === ele.cardId) {
+              result = ele;
               break;
+            }
+          }
+          if (!result) {
+            result = cardFactory.getCardByCid(_cardIndex);
+            if (result) {
+              _arr.push(result);
+            } else {
+              console.log('can not find the cardObj by the Index');
             }
           }
           return result;
         };
-        insertIntoMyDeck = function(_cardObj) {};
-        _results = [];
-        for (_i = 0, _len = deck.length; _i < _len; _i++) {
-          cardId = deck[_i];
-          cardObj = checkCache(deckCache, cardId);
-          if (cardObj) {
-            _results.push(insertIntoMyDeck(cardObj));
-          } else {
-            _results.push(void 0);
+        (function() {
+          var cardId, cardObj, insertIntoMyDeck, _i, _len, _results;
+          insertIntoMyDeck = function(_cardObj) {
+            var imgUrl, node, nodeBg;
+            node = deckOneTmp.cloneNode(true);
+            node.setAttribute('id', '');
+            node.className = node.className.replace(/hide/, '');
+            nodeBg = _.find(node, '.bg');
+            imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list;
+            _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
+            return myDeck.appendChild(node);
+          };
+          _results = [];
+          for (_i = 0, _len = deck.length; _i < _len; _i++) {
+            cardId = deck[_i];
+            cardObj = checkCache(deckCache, cardId);
+            if (cardObj) {
+              _results.push(insertIntoMyDeck(cardObj));
+            } else {
+              _results.push(void 0);
+            }
           }
-        }
-        return _results;
+          return _results;
+        })();
+        return (function() {})();
       }
     })();
   });

@@ -17,15 +17,24 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
 .list .my-deck:after{
     clear: left;
 }
-.list .my-deck .my-card-one{
+.list .my-deck .card-one{
+    box-sizing: border-box;
     width: 10%;
-    height: 100%
+    height: 100%;
+    border:solid #000 1px;
+    float: left;
+}
+.list .my-deck .card-one .bg{
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
 }
 .list hr{
     margin: 5px 2%;
     background-color: #474747;
     border:none;
-    height: 15px;
+    height: 2px;
 }
 .list .all-cards-list{
     margin: 2px 2%;
@@ -34,9 +43,9 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
 .list .all-cards-list:after{
     clear: left;
 }
-.list .all-cards-list .my-card-one{
+.list .all-cards-list .card-one{
     background-color: #474747;
-    margin:0 1.5% 5px;
-    width: 30%;
-    padding-top: 50%;
+    margin:0 0.5% 5px;
+    width: 24%;
+    padding-top: 40%;
 }
