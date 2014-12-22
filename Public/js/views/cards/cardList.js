@@ -16,17 +16,18 @@
   currentNum = 0;
 
   _.on(window, 'load', function() {
-    var cardUl, myDeck;
+    var allCard, myDeck;
     myDeck = _.query('.my-deck');
-    cardUl = _.query('.my-card-list');
+    allCard = _.query('.all-cards-list');
     return (function() {
-      var all, checkCache, deck, deckCache, deckOneTmp, indexPre;
+      var all, cardObjCache, cardOneTmp, checkCache, deck, deckOneTmp, indexPre;
       if (global.myCards && global.myCards.deck && global.myCards.all) {
         deck = global.myCards.deck;
         all = global.myCards.all;
         indexPre = cardFactory.indexPre;
         deckOneTmp = _.query('#deck-one-tmp');
-        deckCache = [];
+        cardOneTmp = _.query('#card-one-tmp');
+        cardObjCache = [];
         checkCache = function(_arr, _cardIndex) {
           var ele, result, _i, _len;
           result = null;
@@ -48,11 +49,11 @@
           return result;
         };
         (function() {
-          var cardId, cardObj, insertIntoMyDeck, _i, _len, _results;
-          insertIntoMyDeck = function(_cardObj) {
+          var cardId, cardObj, insertIntoMyDeckDiv, _i, _len, _results;
+          insertIntoMyDeckDiv = function(_cardObj) {
             var imgUrl, node, nodeBg;
             node = deckOneTmp.cloneNode(true);
-            node.setAttribute('id', '');
+            node.removeAttribute('id');
             node.className = node.className.replace(/hide/, '');
             nodeBg = _.find(node, '.bg');
             imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list;
@@ -62,16 +63,56 @@
           _results = [];
           for (_i = 0, _len = deck.length; _i < _len; _i++) {
             cardId = deck[_i];
-            cardObj = checkCache(deckCache, cardId);
+            cardObj = checkCache(cardObjCache, cardId);
             if (cardObj) {
-              _results.push(insertIntoMyDeck(cardObj));
+              _results.push(insertIntoMyDeckDiv(cardObj));
             } else {
               _results.push(void 0);
             }
           }
           return _results;
         })();
-        return (function() {})();
+        (function() {
+          var cardId, cardObj, insertIntoAllDiv, _i, _len, _results;
+          insertIntoAllDiv = function(_cardObj) {
+            var imgUrl, node, nodeBg;
+            node = cardOneTmp.cloneNode(true);
+            node.removeAttribute('id');
+            node.className = node.className.replace(/hide/, '');
+            nodeBg = _.find(node, '.bg');
+            imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar;
+            _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
+            return allCard.appendChild(node);
+          };
+          _results = [];
+          for (_i = 0, _len = all.length; _i < _len; _i++) {
+            cardId = all[_i];
+            cardObj = checkCache(cardObjCache, cardId);
+            if (cardObj) {
+              _results.push(insertIntoAllDiv(cardObj));
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
+        })();
+        return (function() {
+          var deckList, liOne, _i, _len, _results;
+          deckList = myDeck.children;
+          console.log(deckList);
+          _results = [];
+          for (_i = 0, _len = deckList.length; _i < _len; _i++) {
+            liOne = deckList[_i];
+            _results.push((function() {
+              var li;
+              li = liOne;
+              return _.on(li, 'click', function(_e) {
+                return this.remove();
+              });
+            })());
+          }
+          return _results;
+        })();
       }
     })();
   });

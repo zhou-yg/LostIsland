@@ -11,16 +11,17 @@ currentNum = 0
 #set click event
 _.on window, 'load', ->
   myDeck = _.query '.my-deck'
-  cardUl = _.query '.my-card-list'
+  allCard = _.query '.all-cards-list'
 
   do ->
     if global.myCards and global.myCards.deck and global.myCards.all
       deck = global.myCards.deck
       all = global.myCards.all
       indexPre = cardFactory.indexPre
-      deckOneTmp = _.query('#deck-one-tmp')
+      deckOneTmp = _.query '#deck-one-tmp'
+      cardOneTmp = _.query '#card-one-tmp'
       #store the different cardObject because of different cardId
-      deckCache = []
+      cardObjCache = []
 
       checkCache = (_arr, _cardIndex)->
         result = null
@@ -29,7 +30,7 @@ _.on window, 'load', ->
             result = ele
             break
         if !result
-          result = cardFactory.getCardByCid(_cardIndex)
+          result = cardFactory.getCardByCid _cardIndex
           if result
             _arr.push result
           else
@@ -38,9 +39,9 @@ _.on window, 'load', ->
 
       #填充头部栏
       do ->
-        insertIntoMyDeck = (_cardObj)->
-          node = deckOneTmp.cloneNode(true)
-          node.setAttribute('id', '')
+        insertIntoMyDeckDiv = (_cardObj)->
+          node = deckOneTmp.cloneNode true
+          node.removeAttribute 'id'
           node.className = node.className.replace /hide/,''
 
           nodeBg = _.find node, '.bg'
@@ -50,9 +51,35 @@ _.on window, 'load', ->
           myDeck.appendChild node
 
         for cardId in deck
-          cardObj = checkCache deckCache, cardId
+          cardObj = checkCache cardObjCache, cardId
           if cardObj
-            insertIntoMyDeck(cardObj)
+            insertIntoMyDeckDiv cardObj
 
       #填充中间栏
       do ->
+        insertIntoAllDiv = (_cardObj)->
+          node = cardOneTmp.cloneNode true
+          node.removeAttribute 'id'
+          node.className = node.className.replace /hide/,''
+
+          nodeBg = _.find node, '.bg'
+          imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar
+          _.css nodeBg, 'backgroundImage', 'url(' + imgUrl + ')'
+
+          allCard.appendChild node
+
+        for cardId in all
+          cardObj = checkCache cardObjCache,cardId
+          if cardObj
+            insertIntoAllDiv cardObj
+
+      #增减卡组,上减下增
+      do ->
+        deckList = myDeck.children
+        console.log deckList
+
+        for liOne in deckList
+          do ->
+            li = liOne
+            _.on li,'click',(_e)->
+              this.remove()

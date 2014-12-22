@@ -38,7 +38,7 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
 }
 .list .all-cards-list{
     margin: 2px 2%;
-    background-color: #474747;
+    background-color: #E4E4E4;
 }
 .list .all-cards-list:after{
     clear: left;
@@ -47,5 +47,11 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
     background-color: #474747;
     margin:0 0.5% 5px;
     width: 24%;
-    padding-top: 40%;
+}
+.list .all-cards-list .card-one .bg{
+    background-color: #474747;
+    background-size: 100% 100%;
+    margin:0 0.5% 5px;
+    width: 100%;
+    padding-top: 167%;
 }
