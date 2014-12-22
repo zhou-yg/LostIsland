@@ -86,6 +86,6 @@ class Util
   #回调的参数组成,值,下标,整个
   each: (_str, _cb)->
     for v,i in _str
-      _cb(v,i,, _str)
+      _cb(v,i,_str)
 
 window._ = new Util()

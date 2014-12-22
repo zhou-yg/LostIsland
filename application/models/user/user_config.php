@@ -3,7 +3,8 @@ class User_config extends CI_Model {
 	
 	private $default_character_img = '/Public/images/character/card_1_2.png';
 	private $init_cards = array(1,1,1,1,1,1,1,1,1,1); //len = 10
-	
+	private $init_all_cards = array(1); //len = 1
+		
     function __construct()
     {
         parent::__construct();
@@ -13,6 +14,9 @@ class User_config extends CI_Model {
 	}
 	public function get_init_card_ids(){
 		return $this->init_cards;
+	}
+	public function get_init_all_card_ids(){
+		return $this->init_all_cards;
 	}
 }
 ?>

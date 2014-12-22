@@ -2,12 +2,15 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
-        <item url="file://$PROJECT_DIR$/Gruntfile.js" />
-        <item url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
-        <item url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
-        <item url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
         <item url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
+        <item url="file://$PROJECT_DIR$/Gruntfile.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/apis/serverConfig.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/apis/list/cardList.js" />
+        <item url="file://$PROJECT_DIR$/Public/coffees/apis/LLApi.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
@@ -22,12 +25,15 @@
       <root url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/user/playerFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/user/playerFactory.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
-      <root url="file://$PROJECT_DIR$/Gruntfile.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
+      <root url="file://$PROJECT_DIR$/Gruntfile.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/apis/serverConfig.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/apis/list/cardList.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/apis/LLApi.js" />
     </CLASSES>
     <SOURCES />
   </library>

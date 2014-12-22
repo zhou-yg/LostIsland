@@ -19,7 +19,7 @@
       var that;
       that = this;
       _.css(this.characterWindow, 'backgroundImage', 'url(' + this.userMsg.characterImg + ')');
-      return _.each(this.deckList, function(_i, _liOne) {
+      return _.each(this.deckList, function(_liOne, _i) {
         var cardObj;
         cardObj = cardFactory.getCardByCid(that.userMsg.myDeckIds[_i]);
         return _.css(_liOne, 'backgroundImage', 'url(' + cardFactory.cardAvatarPre + cardObj.charater_main + ')');

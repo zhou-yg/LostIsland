@@ -26,8 +26,12 @@ class Init extends CI_Model {
 			
 			$init_card_ids_arr = $this->user_config->get_init_card_ids();
 			$init_card_ids_str = serialize($init_card_ids_arr);
+
+			$init_all_card_ids_arr = $this->user_config->get_init_all_card_ids();
+			$init_all_card_ids_str = serialize($init_all_card_ids_arr);
+
 			
-			$init_user_cards_sql = "insert into $user_cards_tname values(NULL,$last_uid,'$init_card_ids_str','$init_card_ids_str')";
+			$init_user_cards_sql = "insert into $user_cards_tname values(NULL,$last_uid,'$init_card_ids_str','$init_all_card_ids_str')";
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
 			if($init_cards_query_result){

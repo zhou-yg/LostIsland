@@ -61,6 +61,10 @@
       return _propertyName;
     };
 
+    Util.prototype.addClass = function(_dom, _className) {};
+
+    Util.prototype.removeCLass = function(_dom, _className) {};
+
     Util.prototype.on = function(_dom, _type, _cb) {
       var typeArr, typeOne, _i, _j, _len, _len1, _results, _results1;
       typeArr = _type.split(' ');
@@ -134,7 +138,7 @@
       _results = [];
       for (i = _i = 0, _len = _str.length; _i < _len; i = ++_i) {
         v = _str[i];
-        _results.push(_cb(i, v, _str));
+        _results.push(_cb(v, i, _str));
       }
       return _results;
     };
