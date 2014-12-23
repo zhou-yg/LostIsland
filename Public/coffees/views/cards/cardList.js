@@ -100,7 +100,6 @@
         return (function() {
           var deckList, liOne, _i, _len, _results;
           deckList = myDeck.children;
-          console.log(deckList);
           _results = [];
           for (_i = 0, _len = deckList.length; _i < _len; _i++) {
             liOne = deckList[_i];
@@ -119,5 +118,3 @@
   });
 
 }).call(this);
-
-//# sourceMappingURL=cardList.js.map

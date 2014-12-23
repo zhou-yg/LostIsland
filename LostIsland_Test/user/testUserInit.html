@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>test user init</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		body{
+			border:solid 2px #000;
+		}
+		body *{
+			margin:5px;
+		}
+	</style>
+</head>
+<body>
+	token:<input id="token" type="text" value=""/>
+	<br />
+	<button class="getToken">获取生成的token</button>
+	<br />
+	user_name:<input id="username" name="username" type="text" value=""/>
+	<br />
+	init_client_token:<input id="initClientToken" name="clientToken" type="text" value=""/>
+	<br />
+	<button class="initBtn">初始化</button>
+	<br />
+	login_client_token:<input id="loginClientToken" name="clientToken" type="text" value=""/>
+	<br />
+	login_user_token:<input id="loginUserToken" name="userToken" type="text" value=""/>
+	<br />
+	<button class="loginBtn">登录</button>
+	<br />
+	<div id="returnMsgBox">
+		
+	</div>
+</body>
+<script type="text/javascript" src="../jslibs/jquery2x.js"></script>
+<script type="text/javascript">
+var getTokenUrl = 'http://localhost/lostisland/index.php/apis/user/user_center/get_token';
+var initUrl     = 'http://localhost/lostisland/index.php/apis/user/user_center/init';
+var loginUrl    = 'http://localhost/lostisland/index.php/apis/user/user_center/login';
+$('.getToken').click(function(){
+	console.log('getToken');
+	$.get(getTokenUrl,function(_d,_s){
+		if(_s != 'success'){
+			console.log(_d);
+		}
+		try{
+			_d = JSON.parse(_d);
+		}catch(e){
+			if(typeof _d == 'object'){
+				var token = _d.token;
+				$('#token').val(token);
+			}
+		}
+	});
+});
+$('.initBtn').click(function(){
+	data = {
+		username:$('#username').val(),
+	 	clientToken:$('#initClientToken').val(),
+	};
+	$.post(initUrl,data,function(_d,_s){
+		console.log(_d,_s);
+	});
+});
+$('.loginBtn').click(function(){
+	data = {
+	 	clientToken:$('#loginClientToken').val(),
+		userToken:$('#loginUserToken').val()
+	};
+	$.post(loginUrl,data,function(_d,_s){
+		console.log(_d,_s);
+	});
+});
+</script>
+</html>

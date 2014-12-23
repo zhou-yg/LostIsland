@@ -1,5 +1,6 @@
 
 /*
+id:card[\d]
 name
 normalAvatar
 select_list

@@ -158,6 +158,5 @@ class Sec_key extends CI_Model {
 		}
 		return $check_result;
 	}
-
 }
 ?>

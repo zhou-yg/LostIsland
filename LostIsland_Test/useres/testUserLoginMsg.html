@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>test user create</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		body{
+			border:solid 2px #000;
+		}
+		body *{
+			margin:5px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<form action="http://localhost/lostisland/index.php/useres/useres_center/user_create/" method="post">
+			clientToken:<input id="ct" name="clientToken" type="text" />
+			<br />
+			username:<input id="un" name="username" type="text" />
+			<br />
+			<input type="submit"  value="submit"/>
+		</form>
+	</div>
+	<p>
+		client token:<span class="client_token"></span>
+	</p>
+	<p>
+		username:<input type="text" id="username" />
+	</p>
+	<button id="tokenCreateBtn">create new token</button>
+	<button id="userCreateBtn">create new user</button>
+	<div class="returnMsg">
+		
+	</div>
+</body>
+<script type="text/javascript" src="../jslibs/jquery2x.js"></script>
+<script type="text/javascript">
+
+	var clientTokenArr = [
+		'F1U8G3S6B0W9O9I0',
+		'B1Y8W6C3S5F4E4S5',
+	];
+
+	var userCreateUrl  = 'http://localhost/lostisland/index.php/useres/useres_center/user_create/';
+	var tokenCreateUrl = 'http://localhost/lostisland/index.php/useres/useres_center/token_create/';
+	var tokenCheckUrl  = 'http://localhost/lostisland/index.php/useres/useres_center/user_token_check/';
+	
+	$(function(){
+		
+		(function(){
+			var i = parseInt(Math.random()*clientTokenArr.length);
+			$('.client_token').html(clientTokenArr[i]);
+		})();
+		(function(){
+			
+			$('#tokenCreateBtn').click(function() {
+				$.get(tokenCreateUrl,function(_data,_status){
+					if(_status == 'success'){
+						
+						data = _data;
+						console.log(data);
+						
+						if( data && typeof data != 'object'){
+							data = JSON.parse(data);
+						}
+						$('.client_token').html(data.token);
+					}
+				});
+			});
+			
+			$('#userCreateBtn').click(function() {
+
+				var data = {};
+				data.clientToken = $('.client_token').text();
+				data.username = $('#username').val();
+				
+				$('#ct').val(data.clientToken);
+				$('#un').val(data.username);
+				
+				$.post(userCreateUrl,data,function(_data,_status){
+					
+					if(_status == 'success'){
+						
+						data = _data;
+						console.log(data);
+						
+						if( data && typeof data != 'object'){
+							data = JSON.parse(data);
+						}
+						for(var k in data.data){
+							var $p = $('<p></p>').text(k+':'+data.data[k]);
+							$('.returnMsg').append($p);
+						}
+					}
+				});
+			});
+		})();
+	});
+</script>
+</html>

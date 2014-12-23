@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>NULL</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	</head>
+	<style type="text/css">
+	</style>
+	<body>
+		<button onclick="getToken()">
+			getToken
+		</button>
+		<span class="token"></span>
+		<br />
+		<br />
+		<button onclick="toInit()">
+			toInit
+		</button>
+		<input class="userInput" type="text" />
+		<span class="msg"></span>
+		<br/>
+		<!-- ------------------ -->
+		<br/>
+		<button onclick="getToken2()">
+			getToken2
+		</button>
+		<span class="token2"></span>
+		<br />
+		<br />
+		<button onclick="toInit2()">
+			toInit2
+		</button>
+		<input class="userInput2" type="text" />
+		<span class="msg2"></span>
+	</body>
+	<script type="text/javascript" src="jquery2x.js"></script>
+	<script>
+		var tokenUrl = 'http://localhost:9000/lostisland/index.php/apis/user/user_center/get_token';
+		var initUrl =  'http://localhost:9000/lostisland/index.php/apis/user/user_center/init';
+
+		var tokenUrl2 = 'http://192.168.2.1/index.php/apis/user/user_center/get_token';
+		var initUrl2 =  'http://192.168.2.1/index.php/apis/user/user_center/init';
+
+
+		var ts = [];
+		var ts2 = [];
+
+		function getToken() {
+			$.get(tokenUrl, function(_d, _s) {
+				$('.token').text(_d.token);
+				ts.push(_d.token);
+			});
+		}
+
+		function toInit() {
+			$m = $('.msg');
+			if (ts.length >= 1) {
+
+				var t1 = ts[ts.length - 1];
+
+				if ($('.userInput').val()) {
+					$.post(initUrl, {
+						username : $('.userInput').val(),
+						clientToken : t1
+					}, function(_d, _s) {
+						console.log(_d, _s);
+					});
+				}else{
+					$,text('no name');
+				}
+
+			} else {
+				$m.text('len<2');
+			}
+		}
+		//--------------------------------------------
+		function getToken2() {
+			$.get(tokenUrl2, function(_d, _s) {
+				$('.token2').text(_d.token);
+				ts2.push(_d.token);
+			});
+		}
+
+		function toInit2() {
+			$m = $('.msg2');
+			if (ts2.length >= 1) {
+
+				var t1 = ts2[ts2.length - 1];
+
+				if ($('.userInput2').val()) {
+					$.post(initUrl2, {
+						username : $('.userInput2').val(),
+						clientToken : t1
+					}, function(_d, _s) {
+						console.log(_d, _s);
+					});
+				}else{
+					$m.text('no name');
+				}
+
+			} else {
+				$m.text('len<2');
+			}
+		}
+
+	</script>
+</html>

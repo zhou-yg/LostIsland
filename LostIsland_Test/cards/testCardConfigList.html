@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>test card config list</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		body{
+			border:solid 2px #000;
+		}
+		body *{
+			margin:5px;
+		}
+	</style>
+</head>
+<body>
+	<button id="sendToServer">sendToServer</button>
+	<div class="returnMsg"></div>
+	<button id="sendToServer2">sendToServer</button>
+	<div class="returnMsg2"></div>
+</body>
+<script type="text/javascript" src="../jslibs/jquery2x.js"></script>
+<script type="text/javascript">
+var cardConfigListUrl     = 'http://localhost:9000/lostisland/index.php/cards/card_config_factory/getList';
+var cardConfigListUrl2     = 'http://192.168.2.1/lostisland/index.php/cards/card_config_factory/getList';
+
+$('#sendToServer').click(function() {
+	$.get(cardConfigListUrl,function(_data,_status){
+		$('.returnMsg').html(_data);
+	});
+});
+
+$('#sendToServer2').click(function() {
+	$.get(cardConfigListUrl2,function(_data,_status){
+		$('.returnMsg2').html(_data);
+	});
+});
+</script>
+</html>

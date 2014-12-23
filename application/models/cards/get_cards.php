@@ -10,6 +10,9 @@ class Get_cards extends CI_Model {
 	public function index(){
 		
 	}
+	public function save($_uid,$_sessionToken,$_type){
+		
+	}
 	public function get($_uid,$_sessionToken,$_type){
 		
 		$result = TRUE;
@@ -28,6 +31,13 @@ class Get_cards extends CI_Model {
 			if($get_deck_query->num_rows()>0){
 				
 				$result_array = $get_deck_query->result_array();
+				/*  
+				 *  当前表下的一条查询记录
+				 *  $result_array[0] = (
+				 *     deck_cards =>  [],
+				 *     all_cards => []
+				 *  )
+				 * */
 				$this->cards_one = $result_array[0];
 				
 				$json1 = $this->cards_one[$_type];
@@ -45,6 +55,9 @@ class Get_cards extends CI_Model {
 			'result' => $result,
 			'data' => $data
 		);		
+	}
+	public function save_deck($_uid,$_sessionToken){
+		
 	}
 	public function get_deck($_uid,$_sessionToken){
 		$reuslt = $this->get($_uid,$_sessionToken,'deck_cards');
