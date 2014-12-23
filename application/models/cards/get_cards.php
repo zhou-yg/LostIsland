@@ -10,8 +10,30 @@ class Get_cards extends CI_Model {
 	public function index(){
 		
 	}
-	public function save($_uid,$_sessionToken,$_type){
+	public function save($_uid,$_sessionToken,$_type,$_data){
+			
+		$result = TRUE;
+		$data = 'update success';
+			
+		if($this->session->userdata('sessionToken') === $_sessionToken){
+			
+			$dataArr = array(
+				'$_type' => $_data
+			);
+			$where = 'uid = $_uid';
+			$save_cards_sql = $this->db->update_string($this->cards_tname,$dataArr,$where);
+			$save_cards_query_result = $this->db>simple_query($save_cards_sql);
 		
+			if(!$save_cards_query_result){
+				$data = 'update fail';
+			}
+		}else{
+			$data = 'illegal sessionToken in save cards';
+		}
+		return array(
+			'result' => $result,
+			'data' => $data
+		);
 	}
 	public function get($_uid,$_sessionToken,$_type){
 		
@@ -56,8 +78,14 @@ class Get_cards extends CI_Model {
 			'data' => $data
 		);		
 	}
-	public function save_deck($_uid,$_sessionToken){
-		
+	//存入的必须是序列化的数组
+	public function save_deck($_uid,$_sessionToken,$_data){
+		$result = $this->save($_uid, $_sessionToken, 'deck_cards', $_data);
+		return $resultl;
+	}
+	public function save_all($_uid,$_sessionToken,$_data){
+		$result = $this->save($_uid, $_sessionToken, 'all_cards', $_data);
+		return $resultl;
 	}
 	public function get_deck($_uid,$_sessionToken){
 		$reuslt = $this->get($_uid,$_sessionToken,'deck_cards');
