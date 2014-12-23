@@ -1,5 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class User_center extends CI_Controller {
 	
 	public function index()
@@ -10,7 +9,10 @@ class User_center extends CI_Controller {
 		$this->load->model('encry/sec_key');
 		
 		$token = $this->sec_key->create_token();
+		header("Access-Control-Allow-Origin:*");
+		
 		$this->output
+			 ->set_header('Access-Control-Allow-Origin:*')
 			 ->set_content_type('application/json')
 			 ->set_output(json_encode(array(
 					'token'=>$token
@@ -26,7 +28,9 @@ class User_center extends CI_Controller {
 					'result'=>$check_result
 				 )));
 	}
+//	public function init($client_token,$username){
 	public function init(){
+	
 		$this->load->model('user/init');
 		$this->load->model('encry/sec_key');
 		
