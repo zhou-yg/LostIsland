@@ -64,6 +64,7 @@
 						username : $('.userInput').val(),
 						clientToken : t1
 					}, function(_d, _s) {
+						$m.text(_d.result);
 						console.log(_d, _s);
 					});
 				}else{
@@ -93,6 +94,7 @@
 						username : $('.userInput2').val(),
 						clientToken : t1
 					}, function(_d, _s) {
+						$m.text(_d.result);
 						console.log(_d, _s);
 					});
 				}else{
