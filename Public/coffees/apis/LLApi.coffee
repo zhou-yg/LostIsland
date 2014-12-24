@@ -28,7 +28,7 @@ class  LLApi
     xhr.open 'post',_url
     xhr.setRequestHeader 'Content-Type', 'application/x-www-form-urlencoded'
     @onReadyStateChange xhr,_callback
-    xhr.sned _data
+    xhr.send _data
 
   request : (_method,_param,_callback)->
     if _param

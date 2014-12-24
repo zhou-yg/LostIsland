@@ -43,7 +43,7 @@
       xhr.open('post', _url);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       this.onReadyStateChange(xhr, _callback);
-      return xhr.sned(_data);
+      return xhr.send(_data);
     };
 
     LLApi.prototype.request = function(_method, _param, _callback) {

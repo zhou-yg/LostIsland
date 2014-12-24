@@ -42,9 +42,10 @@
           };
         })();
         btnToClick = (function() {
-          var add, isWaitUpdate, min, updateBtn, updateToServer;
+          var add, isWaitUpdate, min, updateBtn, updateBtnDisplayClass, updateToServer;
           isWaitUpdate = false;
           updateBtn = _.query('.list .hr');
+          updateBtnDisplayClass = ' hr-to-btn';
           min = function(_cid) {
             var i, v, _i, _len;
             for (i = _i = 0, _len = deck.length; _i < _len; i = ++_i) {
@@ -69,10 +70,20 @@
           };
           updateToServer = function() {
             var param;
-            return param = {
+            param = {
               uid: global.user.userId,
-              sessionToken: global.user.sessionToken
+              sessionToken: global.user.sessionToken,
+              cards: JSON.stringify(deck)
             };
+            return LLApi.CardList.saveDeck(param, function(_e, _d) {
+              if (typeof _d === 'string') {
+                _d = JSON.parse(_d);
+              }
+              if (_d.data === 'update success') {
+                updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
+                return isWaitUpdate = true;
+              }
+            });
           };
           return {
             changeDeckDelete: function(_cid) {
@@ -81,7 +92,7 @@
 
               } else {
                 isWaitUpdate = true;
-                updateBtn.className = updateBtn.className + ' hr-to-btn';
+                updateBtn.className = updateBtn.className + updateBtnDisplayClass;
                 return _.on(updateBtn, 'click', function() {
                   return updateToServer();
                 });
@@ -93,7 +104,7 @@
 
               } else {
                 isWaitUpdate = true;
-                updateBtn.className = updateBtn.className + ' hr-to-btn';
+                updateBtn.className = updateBtn.className + updateBtnDisplayClass;
                 return _.on(updateBtn, 'click', function() {
                   return updateToServer();
                 });

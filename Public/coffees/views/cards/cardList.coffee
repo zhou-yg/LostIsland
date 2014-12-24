@@ -39,6 +39,7 @@ _.on window, 'load', ->
         isWaitUpdate = false
 
         updateBtn = _.query '.list .hr'
+        updateBtnDisplayClass = ' hr-to-btn'
 
         min = (_cid)->
           for v,i in deck
@@ -58,6 +59,14 @@ _.on window, 'load', ->
           param =
             uid:global.user.userId
             sessionToken:global.user.sessionToken
+            cards:JSON.stringify deck
+
+          LLApi.CardList.saveDeck param,(_e,_d)->
+            if typeof _d is 'string'
+              _d = JSON.parse _d;
+            if _d.result is 'true'
+              updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
+              isWaitUpdate = true
 
         return {
           changeDeckDelete : (_cid)->
@@ -65,7 +74,7 @@ _.on window, 'load', ->
             if isWaitUpdate
             else
               isWaitUpdate = true
-              updateBtn.className = updateBtn.className + ' hr-to-btn'
+              updateBtn.className = updateBtn.className + updateBtnDisplayClass
 
               _.on updateBtn,'click',->
                 updateToServer()
@@ -75,7 +84,7 @@ _.on window, 'load', ->
             if isWaitUpdate
             else
               isWaitUpdate = true
-              updateBtn.className = updateBtn.className + ' hr-to-btn'
+              updateBtn.className = updateBtn.className + updateBtnDisplayClass
 
               _.on updateBtn,'click',->
                 updateToServer()

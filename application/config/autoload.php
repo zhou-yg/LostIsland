@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('encry/sec_key');
+$autoload['model'] = array('encry/sec_key','encry/tools');
 
 
 /* End of file autoload.php */

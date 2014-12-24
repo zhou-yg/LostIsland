@@ -9,7 +9,7 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
 
 }
 .list .my-deck{
-    background-color: #474747;
+    background-color: #DBDBDB;
     margin: 5px 2% 0;
     width: 96%;
     height: 60px;
@@ -32,12 +32,16 @@ http://localhost/LostIsland//Public/images/cards/normalAvatar/assassin.jpg
 }
 .list .hr{
     margin: 5px 2%;
-    background-color: #474747;
-    border:none;
+    background-color: #DBDBDB;
     height: 2px;
+    border:none;
+    text-align: center;
+
+    overflow: hidden;
 }
 .list .hr-to-btn{
-    height: 20px;
+    height: 30px;
+    line-height: 30px;
 }
 .list .all-cards-list{
     margin: 2px 2%;

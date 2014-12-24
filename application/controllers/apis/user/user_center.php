@@ -12,7 +12,6 @@ class User_center extends CI_Controller {
 		header("Access-Control-Allow-Origin:*");
 		
 		$this->output
-			 ->set_header('Access-Control-Allow-Origin:*')
 			 ->set_content_type('application/json')
 			 ->set_output(json_encode(array(
 					'token'=>$token

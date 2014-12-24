@@ -13,6 +13,15 @@
       });
     };
 
+    CardList.prototype.saveDeck = function(_param, _cb) {
+      var address;
+      address = 'apis/cards/user_cards/save_deck';
+      LLApi.setAddress(address);
+      return LLApi.request('post', _param, function(_e, _d) {
+        return _cb(_e, _d);
+      });
+    };
+
     return CardList;
 
   })();
