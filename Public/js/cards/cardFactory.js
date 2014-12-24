@@ -11,7 +11,7 @@
       for (k in cardConfigObjList) {
         v = cardConfigObjList[k];
         c = new CardObject(v);
-        c.id = k;
+        c.cid = k;
         this.cardMap[k] = c;
         this.cardNum++;
       }

@@ -1,5 +1,5 @@
 ###
-id:card[\d]
+cid:card[\d]
 name
 normalAvatar
 select_list

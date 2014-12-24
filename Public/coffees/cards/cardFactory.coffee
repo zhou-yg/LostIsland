@@ -7,7 +7,7 @@ class CardFactory
 
     for k,v of cardConfigObjList
       c = new CardObject(v)
-      c.id = k
+      c.cid = k
       @cardMap[k] = c
       @cardNum++
 

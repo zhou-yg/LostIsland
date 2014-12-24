@@ -17,6 +17,8 @@ class Card_list extends CI_Controller {
 			if ($deck_result_array['result'] && $all_result_array['result']) {
 			
 				$cards_arr = array(
+					'uid' => $uid,
+					'sessionToken' => $sessionToken,
 					'deck' => $deck_result_array['data'], 
 					'all' => $all_result_array['data']
 				);

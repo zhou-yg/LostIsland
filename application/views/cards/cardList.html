@@ -18,7 +18,7 @@
 				</div>
 			</li>
         </ul>
-        <hr/>
+        <div class="hr"></div>
         <ul class="all-cards-list">
 			<li id="card-one-tmp" class="card-one hide">
 				<div class="bg">
@@ -29,10 +29,14 @@
 </body>
 <script>
 	global = {};
+	global.user = {
+		'userId':'<?= $uid ?>',
+		'sessionToken':'<?= $sessionToken ?>'
+	};
 	global.myCards = {
 		'deck':<?= $deck ?>,
 		'all':<?= $all ?>,
-	}
+	};
 </script>
 <!-- api -->
 <script src="<?=base_url()?>/Public/js/apis/LLApi.js"></script>
