@@ -7,7 +7,7 @@ class CardList
       _cb _e,_d
 
   saveDeck:(_param,_cb)->
-    address =  'apis/cards/user_cards/save_deck'
+    address =  'apis/user/user_cards/save_deck'
     LLApi.setAddress address
 
     LLApi.request 'post',_param,(_e,_d)->
