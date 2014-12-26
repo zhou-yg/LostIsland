@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <title>all cards</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="<?=base_url()?>/Public/js/jslib/utils.js"></script>
+    <script src="<?=base_url()?>Public/js/jslib/jquery2x.js"></script>
+    <style>
+        .all-cards {
+            overflow: hidden;
+        }
+
+        .card-one {
+            background: #f0f0f0;
+            width: 400px;
+            height: 551px;
+            display: none;
+        }
+
+        .card-one:after {
+            clear: left;
+            height: 0;
+        }
+
+        .imgs {
+            background-color: #D0D0D0;
+            width: 60%;
+            height: 100%;
+            overflow: hidden;
+
+            float: left;
+        }
+
+        .c-normal {
+            background-repeat: no-repeat;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            width: 100%;
+            padding-top: 167%;
+        }
+
+        .c-cmain {
+            background-repeat: no-repeat;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            width: 50%;
+            padding-top: 12.5%;
+        }
+
+        .ccc {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .ccc:after {
+            clear: left;
+        }
+
+        .c-ba {
+            background-repeat: no-repeat;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            width: 25%;
+            padding-top: 50%;
+            float: left;
+        }
+
+        .c-sl {
+            background-repeat: no-repeat;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            width: 10%;
+            padding-top: 40%;
+            float: left;
+        }
+
+        .texts {
+            width: 40%;
+            height: 100%;
+            float: right;
+        }
+
+        .c-name, .atk, .hp {
+            background-color: #e4f8ff;
+            text-align: center;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .atk {
+            background-color: #fffbf4;
+        }
+
+        .hp {
+            background-color: #f4fffd;
+        }
+    </style>
+</head>
+<style>
+</style>
+<body>
+<div class="all-cards">
+    <div id="tmp" class="card-one">
+        <div class="imgs">
+            <div class="c-normal">
+            </div>
+            <div class="c-cmain">
+            </div>
+            <div class="ccc">
+                <div class="c-ba"></div>
+                <div class="c-sl"></div>
+            </div>
+        </div>
+        <div class="texts">
+            <div class="c-name">example</div>
+            <div class="atk">1</div>
+            <div class="hp">2</div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
+<script>
+    var $box = $('.all-cards'),
+        $tmp = $('#tmp'),
+        $cardOne = '';
+    for(var co in cardConfigObjList){
+        co = cardConfigObjList[co];
+        $cardOne = $tmp.clone().show().removeAttr('id');
+        $cardOne.find('.c-normal').css('backgroundImage','url('+cardAvatarPre+co.normalAvatar+')');
+        $cardOne.find('.c-cmain').css('backgroundImage','url('+cardAvatarPre+co.character_main+')');
+        $cardOne.find('.c-ba').css('backgroundImage','url('+cardAvatarPre+co.battleAvatar+')');
+        $cardOne.find('.c-sl').css('backgroundImage','url('+cardAvatarPre+co.select_list+')');
+        $cardOne.find('.atk').text(co.atk);
+        $cardOne.find('.hp').text(co.hp);
+
+        $box.append($cardOne);
+    }
+
+</script>
+</html>
