@@ -32,13 +32,8 @@ class Card_config_factory extends CI_Controller {
 						'set cardConfigObjList : <span style="color:red">false</span>'
 					);
 		}
-		/*
-		$this->output
-			 ->set_content_type('application/json')
-      		 ->set_output(json_encode($saber_query_arr));
-		*/
 	}
-	public function get_archer_list()
-	{
+	public function save_card(){
+		
 	}
 }

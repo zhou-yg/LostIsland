@@ -25,7 +25,7 @@ class Card_list extends CI_Controller {
 			
 				$this->load->helper('url');
 				$this->load->view('cards/cardList.html', $cards_arr);
-				$this->load->view('test/console.html');
+				$this->load->view('sys/console.html');
 			}else{
 				show_error($deck_result_array['data'].'<br>'.$all_result_array['data'], 500, 'forbidden');
 			}

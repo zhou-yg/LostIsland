@@ -7,10 +7,12 @@ class Init extends CI_Model {
     function __construct()
     {
         parent::__construct();
+		$this->load->database();
+		$this->load->model('encry/sec_key');
+		$this->load->model('user/user_config');
     }
 	//插入 初始化 基本用户信息
 	function user_init($_client_token,$_user_token,$_username){
-		$this->load->model('user/user_config');
 		
 		$user_list_tname = $this->user_list_tname;
 		$user_cards_tname = $this->user_card_tname;
@@ -71,8 +73,6 @@ class Init extends CI_Model {
 	}
 	public function init($_client_token,$_username){
 		
-		$this->load->database();
-		$this->load->model('encry/sec_key');
 		$result = TRUE;
 		$data;
 		//事务开始

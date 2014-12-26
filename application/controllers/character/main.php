@@ -40,7 +40,7 @@ class Main extends CI_Controller {
 
 			$this->load->helper('url');
 			$this->load->view('character/character_main.html', $result);
-			$this->load->view('test/console.html');
+			$this->load->view('sys/console.html');
 		} else {
 			show_error('no token', 500, 'forbidden');
 		}
