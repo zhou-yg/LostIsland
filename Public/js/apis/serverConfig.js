@@ -1,1 +1,4 @@
-LLApi.setServerPre("http://192.168.2.1/index.php/");
+(function() {
+  LLApi.setServerPre(serverConfig.mac);
+
+}).call(this);

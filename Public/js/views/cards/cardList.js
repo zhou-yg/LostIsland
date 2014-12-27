@@ -79,7 +79,7 @@
               if (typeof _d === 'string') {
                 _d = JSON.parse(_d);
               }
-              if (_d.data === 'update success') {
+              if (_d.result === 'true') {
                 updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
                 return isWaitUpdate = true;
               }
