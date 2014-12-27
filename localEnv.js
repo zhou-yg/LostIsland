@@ -18,7 +18,7 @@
     hp: ''
   };
 
-  server = serverConfig.melot;
+  server = serverConfig.mac;
 
   phpConfigFilePath = 'application/config/config.php';
 
@@ -53,8 +53,8 @@
       console.log(_err);
     }
     content = _data.toString();
-    console.log(content.match(/\$config\['base_url'\]([\s\S]{0,25})(;){1}/));
-    content = content.replace(/\$config\['base_url'\]([\s\S]{0,25});/, "$config['base_url']='" + server.serverAd + "';");
+    console.log('macth =>',content.match(/\$config\['base_url'\]([\s\S]{0,50})(;){1}/));
+    content = content.replace(/\$config\['base_url'\]([\s\S]{0,50});/, "$config['base_url']='" + server.serverAd + "';");
     return fs.writeFile(phpConfigFilePath, content, function(_err) {
       if (_err) {
         return console.log(_err);

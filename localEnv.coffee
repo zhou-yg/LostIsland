@@ -10,7 +10,7 @@ serverConfig =
     baseUrl:'http://192.168.2.1/index.php/'
   hp:''
 
-server = serverConfig.melot
+server = serverConfig.mac
 #---------------------------------------------------
 phpConfigFilePath = 'application/config/config.php'
 

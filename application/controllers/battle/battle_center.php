@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Battle_grand extends CI_Controller {
+class Battle_center extends CI_Controller {
 	
 	public function index()
 	{
 		$this->output
 			 ->set_output(json_encode(array(
-			 		'index' => 'Battle_grand'
+			 		'index' => 'Battle_center'
 			 	)));
 	}
-	public function build(){
+	public function initial(){
 		$this->load->helper('url');
-		$this->load->view('battle/battleGrand');
+		$this->load->view('battle/initial.html');
 	}
 }
