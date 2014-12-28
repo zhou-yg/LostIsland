@@ -647,8 +647,8 @@ var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){v
         delete io.socket;
         return io;
       }
-        return;
-
+      //阻止原来的自动连接
+      return;
       // If this is an attempt at a cross-origin or cross-port
       // socket connection, send an AJAX request first to ensure
       // that a valid cookie is available.  This can be disabled
