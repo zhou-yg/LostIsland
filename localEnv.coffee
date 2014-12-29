@@ -3,9 +3,9 @@ fs = require 'fs'
 
 serverConfig =
   melot:
-    serverAd:'http://localhost:9000/lostisland/'
-    battleServerAd:''
-    baseUrl:'http://localhost:9000/lostisland/index.php/'
+    serverAd:'http://10.0.1.82:9000/lostisland/'
+    battleServerAd:'http://10.0.1.82:1337/'
+    baseUrl:'http://10.0.1.82:9000/lostisland/index.php/'
   mac:
     serverAd:'http://192.168.2.1/'
     battleServerAd:'http://192.168.2.1:1337/'

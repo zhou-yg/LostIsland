@@ -29,6 +29,9 @@
 	<div class="linkToMyDeck">
 		<a href="<?= base_url() ?>index.php/cards/card_list">myDeck</a>
 	</div>
+	<div class="linkToMyDeck">
+		<a href="<?= base_url() ?>index.php/battle/battle_center/initial">battle_init</a>
+	</div>
 </div>
 <script src="<?= base_url() ?>/Public/js/jslib/jquery2x.js"></script>
 <script>
@@ -48,10 +51,10 @@
 	(function(_win) {
 		var isDown = false, $consoleDiv = $(consoleDiv), currentX = 0, currentY = 0, preX, preY;
 
-		_.on(consoleDiv, 'mousedown touchstart', function() {
+		_.on(consoleDiv, 'touchstart mousedown', function() {
 			isDown = true;
 		});
-		_.on(consoleDiv, 'mousemove touchmove', function(_e) {
+		_.on(consoleDiv, 'touchmove mousemove', function(_e) {
 			var e = _e, x, y;
 			if (isDown) {
 				if (_e.touches) {
@@ -70,7 +73,7 @@
 				preY = y;
 			}
 		});
-		_.on(consoleDiv, 'mouseup touchend', function() {
+		_.on(consoleDiv, 'touchend mouseup', function() {
 			isDown = false;
 		});
 

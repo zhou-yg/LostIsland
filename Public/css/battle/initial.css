@@ -1,0 +1,54 @@
+.prepare-ui{
+
+}
+.split-line{
+    background-color: #000000;
+    margin: 0 2%;
+    width: 96%;
+    height: 2px;
+
+}
+.prepare-ui .personal{
+    margin: 5px 2%;
+    background-color: #eef2ed;
+    width: 96%;
+    height: 160px; /* js */
+    overflow: hidden;
+}
+.personal .hero{
+    background-color: #e1b1b4;
+    margin-right: 1%;
+    width: 49%;
+    height: 100%;
+    float: left;
+}
+.personal .record{
+    background-color: #d9d9ee;
+    margin-left: 1%;
+    width: 49%;
+    height: 100%;
+    float: right;
+}
+.prepare-ui .personal-deck{
+    margin: 5px 2% 0;
+    width: 96%;
+    overflow: hidden;
+}
+.personal-deck .deck-one{
+    background-color: #D8D0FF;
+    background-repeat: no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    margin: 0 1% 5px;
+    width: 23%;
+    padding-top: 23%;
+    float: left;
+}
+.prepare-ui .start-battle{
+    background-color: #E2CC9C;
+    height: 60px;
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    bottom: 5px;
+}

@@ -1,1 +1,1 @@
-var battleServerAd = "http://192.168.2.1:1337/";
+var battleServerAd = "http://10.0.1.82:1337/";
