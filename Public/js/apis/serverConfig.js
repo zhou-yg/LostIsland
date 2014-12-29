@@ -1,4 +1,1 @@
-(function() {
-  LLApi.setServerPre(serverConfig.mac);
-
-}).call(this);
+LLApi.setServerPre("http://10.0.1.82:9000/lostisland/index.php/");

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2014-12-29 02:47:40
+-- Generation Time: 2014-12-29 08:53:29
 -- 服务器版本： 5.5.20-log
 -- PHP Version: 5.3.10
 
@@ -19,6 +19,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `lostisland`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `card_hero`
+--
+
+CREATE TABLE IF NOT EXISTS `card_hero` (
+`id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `img` varchar(64) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `card_hero`
+--
+
+INSERT INTO `card_hero` (`id`, `name`, `img`) VALUES
+(1, 'railgun', 'Public/images/hero/hero1.jpg');
 
 -- --------------------------------------------------------
 
@@ -73,16 +92,24 @@ INSERT INTO `client_tokens` (`id`, `client_token`) VALUES
 CREATE TABLE IF NOT EXISTS `user_cards` (
 `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `all_cards` varchar(128) NOT NULL,
-  `deck_cards` text NOT NULL
+  `hid` int(11) NOT NULL,
+  `all_cards` varchar(128) DEFAULT NULL,
+  `deck_cards` text,
+  `deck_cards_2` text,
+  `deck_cards_3` text,
+  `deck_cards_4` text,
+  `deck_cards_5` text,
+  `deck_cards_6` text,
+  `deck_cards_7` text,
+  `deck_cards_8` text
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `user_cards`
 --
 
-INSERT INTO `user_cards` (`id`, `uid`, `all_cards`, `deck_cards`) VALUES
-(1, 1, 'a:1:{i:0;s:5:"card1";}', 'a:10:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";i:4;s:5:"card1";i:5;s:5:"card1";i:6;s:5:"card1";i:7;s:5:"card1";i:8;s:5:"card1";i:9;s:5:"card1";}');
+INSERT INTO `user_cards` (`id`, `uid`, `hid`, `all_cards`, `deck_cards`, `deck_cards_2`, `deck_cards_3`, `deck_cards_4`, `deck_cards_5`, `deck_cards_6`, `deck_cards_7`, `deck_cards_8`) VALUES
+(1, 1, 0, 'a:1:{i:0;s:5:"card1";}', 'a:10:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";i:4;s:5:"card1";i:5;s:5:"card1";i:6;s:5:"card1";i:7;s:5:"card1";i:8;s:5:"card1";i:9;s:5:"card1";}', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -108,6 +135,12 @@ INSERT INTO `user_list` (`id`, `client_token`, `user_token`, `username`, `charac
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `card_hero`
+--
+ALTER TABLE `card_hero`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `card_saber`
@@ -137,6 +170,11 @@ ALTER TABLE `user_list`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `card_hero`
+--
+ALTER TABLE `card_hero`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `card_saber`
 --
