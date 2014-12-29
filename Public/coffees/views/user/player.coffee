@@ -17,10 +17,9 @@ class Player
     #nickname 暂无
     #characImg
     _.css @characterWindow,'backgroundImage','url('+@userMsg.characterImg+')'
-
     _.each @deckList,(_liOne,_i)->
       cardObj = cardFactory.getCardByCid that.userMsg.myDeckIds[_i]
-      _.css _liOne,'backgroundImage','url('+cardFactory.cardAvatarPre+cardObj.charater_main+')'
+      _.css _liOne,'backgroundImage','url('+cardFactory.cardAvatarPre+cardObj.character_main+')'
 
 
 window.Player = new Player();

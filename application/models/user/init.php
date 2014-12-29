@@ -19,6 +19,7 @@ class Init extends CI_Model {
 				
 		$chacter = $this->user_config->get_defualt_character_img();
 		
+		
 		$insert_user_basic_sql = "insert into $user_list_tname values(NULL,'$_client_token','$_user_token','$_username','$chacter')";
 		$insert_user_basic_result = $this->db->simple_query($insert_user_basic_sql);
 		
@@ -32,8 +33,21 @@ class Init extends CI_Model {
 			$init_all_card_ids_arr = $this->user_config->get_init_all_card_ids();
 			$init_all_card_ids_str = serialize($init_all_card_ids_arr);
 
+			$insert_data_arr = array(
+				'id' => null,
+				'uid'=> $last_uid,
+				'all_cards' => $init_all_card_ids_str,
+				'deck_cards' => $init_card_ids_str,
+				'deck_cards_2' => null,
+				'deck_cards_3' => null,
+				'deck_cards_4' => null,
+				'deck_cards_5' => null,
+				'deck_cards_6' => null,
+				'deck_cards_7' => null,
+				'deck_cards_8' => null
+			);
+			$init_user_cards_sql = $this->db->insert_string($user_cards_tname,$insert_data_arr); 
 			
-			$init_user_cards_sql = "insert into $user_cards_tname values(NULL,$last_uid,'$init_all_card_ids_str','$init_card_ids_str')";
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
 			if($init_cards_query_result){

@@ -27,7 +27,7 @@
       <root url="file://$PROJECT_DIR$/Public/coffees/user/playerFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/user/player.js" />
+      <root url="file://$PROJECT_DIR$/Public/coffees/views/user/player.js" />
       <root url="file://$PROJECT_DIR$/Gruntfile.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/apis/list/cardList.js" />

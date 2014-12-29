@@ -12,10 +12,11 @@
   CARD_NUM_MAX = 10;
 
   _.on(window, 'load', function() {
-    var all, allCardDom, deck, myDeckDom;
+    var all, allCardDom, deck, hero, myDeckDom;
     myDeckDom = _.query('.my-deck');
     allCardDom = _.query('.all-cards-list');
-    deck = global.myCards.deck;
+    hero = global.myCards.deck.hero;
+    deck = global.myCards.deck.deck;
     all = global.myCards.all;
     return (function() {
       var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, indexPre;
@@ -76,12 +77,13 @@
               cards: JSON.stringify(deck)
             };
             return LLApi.CardList.saveDeck(param, function(_e, _d) {
+              console.log('save deck return', _d);
               if (typeof _d === 'string') {
                 _d = JSON.parse(_d);
               }
-              if (_d.result === 'true') {
+              if (_d.result === 'true' || _d.result === true) {
                 updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
-                return isWaitUpdate = true;
+                return isWaitUpdate = false;
               }
             });
           };

@@ -11,7 +11,7 @@ class Main extends CI_Controller {
 
 		$uid = $this->session->userdata('uid');
 		$sessionToken = $this->session->userdata('sessionToken');
-
+		
 		if ($clientToken && $userToken) {
 			$this->load->model('user/login');
 			$loginResult = $this->login->check_login($clientToken, $userToken);
@@ -20,15 +20,15 @@ class Main extends CI_Controller {
 
 				$this->load->helper('url');
 				$this->load->view('character/character_main.html', $loginResult);
-				$this->load->view('test/console.html');
+				$this->load->view('sys/console.html');
 			} else {
 				show_error('not exist', 500, 'forbidden');
 			}
-		} else if ($uid && $sessionToken) {
+		} else if ($uid && $sessionToken && $sessionToken === $this->session->userdata('sessionToken')) {
 			
 			$this->load->model('cards/get_cards');
 			$this->load->model('user/message');
-			$cards_result_array = $this->get_cards->get_deck($uid,$sessionToken);
+			$cards_result_array = $this->get_cards->get_deck($uid);
 			$user_message_array = $this->message->get_basic($uid,$sessionToken);
 			
 			$result = array(

@@ -37,7 +37,7 @@
 <script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>
-<script src="<?= base_url() ?>/Public/js/user/player.js"></script>
+<script src="<?= base_url() ?>/Public/js/views/user/player.js"></script>
 <script>
 (function(_window){
 	var userMsg,
@@ -46,11 +46,11 @@
 		myDeckIds;//init:= [];
 
 	myDeckIds = <?= $my_deck ?>;
-
+	console.log(myDeckIds);
 	userMsg = {
 		'nickName':nickName,
         'characterImg':characterImg,
-		'myDeckIds':myDeckIds,
+		'myDeckIds':myDeckIds.deck,
         'sessionToken':'<?= $sessionToken ?>'
 	};
     Player.init(userMsg);

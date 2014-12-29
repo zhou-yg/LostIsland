@@ -10,7 +10,8 @@ _.on window, 'load', ->
   myDeckDom = _.query '.my-deck'
   allCardDom = _.query '.all-cards-list'
 
-  deck = global.myCards.deck
+  hero = global.myCards.deck.hero
+  deck = global.myCards.deck.deck
   all = global.myCards.all
   do ->
     if global.myCards and global.myCards.deck and global.myCards.all
@@ -62,11 +63,12 @@ _.on window, 'load', ->
             cards:JSON.stringify deck
 
           LLApi.CardList.saveDeck param,(_e,_d)->
+            console.log 'save deck return',_d
             if typeof _d is 'string'
               _d = JSON.parse _d;
-            if _d.result is 'true'
+            if _d.result is 'true' or _d.result is true
               updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
-              isWaitUpdate = true
+              isWaitUpdate = false
 
         return {
           changeDeckDelete : (_cid)->

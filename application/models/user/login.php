@@ -40,7 +40,6 @@ class login extends CI_Model {
 				$result_array = $get_deck_query->result_array();
 				$cards_one = $result_array[0];
 
-
 				$userMsgArr = array(
 					'nickname'     => $userOne['username'],
 					'character'    => $userOne['character'],

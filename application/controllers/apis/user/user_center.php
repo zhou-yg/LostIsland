@@ -36,6 +36,9 @@ class User_center extends CI_Controller {
 		$client_token = $this->input->post('clientToken');
 		$username = $this->input->post('username');
 		
+	//	$client_token = $_c;
+	//  $username = $_u;
+			
 		if($username  && $this->sec_key->check_token($client_token)){
 			$resultArr = $this->init->init($client_token,$username);
 			$this->output

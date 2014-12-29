@@ -1,1 +1,0 @@
-LLApi.setServerPre serverConfig.mac

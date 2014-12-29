@@ -10,27 +10,29 @@ class Card_list extends CI_Controller {
 
 		if ($uid && $sessionToken) {
 
-			$this->load->model('cards/get_cards');
-			$deck_result_array = $this->get_cards->get_deck($uid, $sessionToken);
-			$all_result_array = $this->get_cards->get_all($uid, $sessionToken);
+			if ($sessionToken === $this->session->userdata('sessionToken')) {
 
-			if ($deck_result_array['result'] && $all_result_array['result']) {
-			
-				$cards_arr = array(
-					'uid' => $uid,
-					'sessionToken' => $sessionToken,
-					'deck' => $deck_result_array['data'], 
-					'all' => $all_result_array['data']
-				);
-			
-				$this->load->helper('url');
-				$this->load->view('cards/cardList.html', $cards_arr);
-				$this->load->view('sys/console.html');
-			}else{
-				show_error($deck_result_array['data'].'<br>'.$all_result_array['data'], 500, 'forbidden');
+				$this->load->model('cards/get_cards');
+				$deck_result_array = $this->get_cards->get_deck($uid);
+				$all_result_array = $this->get_cards->get_all($uid);
+
+				if ($deck_result_array['result'] && $all_result_array['result']) {
+
+					$cards_arr = array('uid' => $uid, 'sessionToken' => $sessionToken, 'deck' => $deck_result_array['data'], 'all' => $all_result_array['data']);
+
+					$this->load->helper('url');
+					$this->load->view('cards/cardList.html', $cards_arr);
+					$this->load->view('sys/console.html');
+				} else {
+					show_error($deck_result_array['data'] . '<br>' . $all_result_array['data'], 500, 'forbidden');
+				}
+				
+			} else {
+				show_error('illegal sessiontoken', 500, 'forbidden');
 			}
 		} else {
 			show_error('no token', 500, 'forbidden');
 		}
 	}
+
 }

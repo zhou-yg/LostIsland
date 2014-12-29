@@ -10,6 +10,7 @@ class Battle_center extends CI_Controller {
 			 	)));
 	}
 	public function initial(){
+
 		$this->load->helper('url');
 		$this->load->view('battle/initial.html');
 		$this->load->view('sys/console.html');
