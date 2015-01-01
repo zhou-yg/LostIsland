@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.1.9
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: 2014-12-29 08:53:29
--- 服务器版本： 5.5.20-log
--- PHP Version: 5.3.10
+-- Host: 127.0.0.1
+-- Generation Time: 2015-01-01 13:26:05
+-- 服务器版本： 5.6.22
+-- PHP Version: 5.5.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,9 +27,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `card_hero` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `img` varchar(64) NOT NULL
+  `img` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -46,14 +47,15 @@ INSERT INTO `card_hero` (`id`, `name`, `img`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `card_saber` (
-`id` int(4) NOT NULL,
+  `id` int(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) CHARACTER SET utf8 NOT NULL,
   `normalAvatar` varchar(256) CHARACTER SET utf8 NOT NULL,
   `select_list` varchar(256) CHARACTER SET utf8 NOT NULL,
   `character_main` varchar(256) CHARACTER SET utf8 NOT NULL,
   `battleAvatar` varchar(256) CHARACTER SET utf8 NOT NULL,
   `atk` int(2) NOT NULL,
-  `hp` int(2) NOT NULL
+  `hp` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -70,9 +72,10 @@ INSERT INTO `card_saber` (`id`, `name`, `normalAvatar`, `select_list`, `characte
 --
 
 CREATE TABLE IF NOT EXISTS `client_tokens` (
-`id` int(8) NOT NULL,
-  `client_token` varchar(64) CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `client_token` varchar(64) CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `client_tokens`
@@ -81,7 +84,8 @@ CREATE TABLE IF NOT EXISTS `client_tokens` (
 INSERT INTO `client_tokens` (`id`, `client_token`) VALUES
 (1, '89eb56dX2a039ccaX197'),
 (2, '9c835aeX1ea4b5edX013a'),
-(3, '63936fbX1cc93ac4X62');
+(3, '63936fbX1cc93ac4X62'),
+(13, '803359dX722de39X25f2');
 
 -- --------------------------------------------------------
 
@@ -90,9 +94,8 @@ INSERT INTO `client_tokens` (`id`, `client_token`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `user_cards` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
-  `hid` int(11) NOT NULL,
   `all_cards` varchar(128) DEFAULT NULL,
   `deck_cards` text,
   `deck_cards_2` text,
@@ -101,15 +104,16 @@ CREATE TABLE IF NOT EXISTS `user_cards` (
   `deck_cards_5` text,
   `deck_cards_6` text,
   `deck_cards_7` text,
-  `deck_cards_8` text
+  `deck_cards_8` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `user_cards`
 --
 
-INSERT INTO `user_cards` (`id`, `uid`, `hid`, `all_cards`, `deck_cards`, `deck_cards_2`, `deck_cards_3`, `deck_cards_4`, `deck_cards_5`, `deck_cards_6`, `deck_cards_7`, `deck_cards_8`) VALUES
-(1, 1, 0, 'a:1:{i:0;s:5:"card1";}', 'a:10:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";i:4;s:5:"card1";i:5;s:5:"card1";i:6;s:5:"card1";i:7;s:5:"card1";i:8;s:5:"card1";i:9;s:5:"card1";}', '', '', '', '', '', '', '');
+INSERT INTO `user_cards` (`id`, `uid`, `all_cards`, `deck_cards`, `deck_cards_2`, `deck_cards_3`, `deck_cards_4`, `deck_cards_5`, `deck_cards_6`, `deck_cards_7`, `deck_cards_8`) VALUES
+(1, 10, 'a:1:{i:0;s:5:"card1";}', 'a:2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:10:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";i:4;s:5:"card1";i:5;s:5:"card1";i:6;s:5:"card1";i:7;s:5:"card1";i:8;s:5:"card1";i:9;s:5:"card1";}}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -118,83 +122,22 @@ INSERT INTO `user_cards` (`id`, `uid`, `hid`, `all_cards`, `deck_cards`, `deck_c
 --
 
 CREATE TABLE IF NOT EXISTS `user_list` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_token` varchar(64) NOT NULL,
   `user_token` varchar(64) NOT NULL,
   `username` varchar(256) NOT NULL,
-  `character` varchar(64) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `character` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_token` (`user_token`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `user_list`
 --
 
 INSERT INTO `user_list` (`id`, `client_token`, `user_token`, `username`, `character`) VALUES
-(1, '63936fbX1cc93ac4X62', '93129c7X28b5be66X272', '一号user', '/Public/images/character/card_1_2.png');
+(10, '803359dX722de39X25f2', 'b9b3917X70636acX115', 'heroXX', '/Public/images/character/card_1_2.png');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `card_hero`
---
-ALTER TABLE `card_hero`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `card_saber`
---
-ALTER TABLE `card_saber`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `client_tokens`
---
-ALTER TABLE `client_tokens`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_cards`
---
-ALTER TABLE `user_cards`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_list`
---
-ALTER TABLE `user_list`
- ADD PRIMARY KEY (`id`), ADD KEY `user_token` (`user_token`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `card_hero`
---
-ALTER TABLE `card_hero`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `card_saber`
---
-ALTER TABLE `card_saber`
-MODIFY `id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `client_tokens`
---
-ALTER TABLE `client_tokens`
-MODIFY `id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `user_cards`
---
-ALTER TABLE `user_cards`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `user_list`
---
-ALTER TABLE `user_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

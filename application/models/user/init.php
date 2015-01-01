@@ -24,7 +24,6 @@ class Init extends CI_Model {
 		$insert_user_basic_result = $this->db->simple_query($insert_user_basic_sql);
 		
 		if($insert_user_basic_result){
-			
 			$last_uid = $this->db->insert_id();
 			
 			$init_card_ids_arr = $this->user_config->get_init_card_ids();
@@ -47,12 +46,14 @@ class Init extends CI_Model {
 				'deck_cards_8' => null
 			);
 			$init_user_cards_sql = $this->db->insert_string($user_cards_tname,$insert_data_arr); 
-			
+			var_dump($init_user_cards_sql);
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
 			if($init_cards_query_result){
+				var_dump('true');
 				return TRUE;
 			}else{
+				var_dump('false');
 				return FALSE;
 			}
 		}else{

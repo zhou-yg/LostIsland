@@ -1,15 +1,25 @@
 class CardFactory
-  constructor:(_configObjList)->
+  constructor:->
     @cardAvatarPre = cardAvatarPre
+    @heroAvatarPre = heroAvatarPre
     @indexPre = 'card'
     @cardMap = {}
-    @cardNum = 0;
+    @cardNum = 0
+    @heroIndexPre = 'hero'
+    @heroMap = {}
+    @heroNum = 0
 
     for k,v of cardConfigObjList
       c = new CardObject(v)
       c.cid = k
       @cardMap[k] = c
       @cardNum++
+
+    for k,v of heroConfigObjList
+      h = new CardObject(v)
+      h.hid = k
+      @heroMap[k] = h
+      @heroNum++
 
   getCardByName:(_cname)->
     cardOne = null
@@ -33,4 +43,16 @@ class CardFactory
     else
       return null
 
-window.cardFactory = new CardFactory(cardConfigObjList)
+  getHeroByHid:(_hid)->
+    heroOne = null
+    for k,v of @heroMap
+      if k is _hid or k is (@heroIndexPre+_hid)
+        heroOne = v
+
+    if heroOne
+      return _.clone heroOne
+    else
+      return null
+
+
+window.cardFactory = new CardFactory()

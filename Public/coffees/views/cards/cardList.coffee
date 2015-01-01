@@ -12,7 +12,7 @@ _.on window, 'load', ->
 
   hero = global.myCards.deck.hero
   deck = global.myCards.deck.deck
-  all = global.myCards.all
+  all  = global.myCards.all
   do ->
     if global.myCards and global.myCards.deck and global.myCards.all
       indexPre = cardFactory.indexPre

@@ -32,7 +32,9 @@
 
     Util.prototype.css = function(_dom, _styleName, _value) {
       var k, v, _results;
-      if (_value && typeof _styleName === 'string') {
+      if (_value === void 0) {
+        return _dom.style[_styleName];
+      } else if (_value && typeof _styleName === 'string') {
         return _dom.style[_styleName] = _value;
       } else if (this.isObject(_styleName)) {
         _results = [];

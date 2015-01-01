@@ -45,12 +45,12 @@
         characterImg = '<?= base_url().$character ?>',
 		myDeckIds;//init:= [];
 
+	//myDeckIds的结构为：[{}]
 	myDeckIds = <?= $my_deck ?>;
-	console.log(myDeckIds);
 	userMsg = {
 		'nickName':nickName,
         'characterImg':characterImg,
-		'myDeckIds':myDeckIds.deck,
+		'myDeckIds':myDeckIds[0].deck,
         'sessionToken':'<?= $sessionToken ?>'
 	};
     Player.init(userMsg);

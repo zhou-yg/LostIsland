@@ -21,7 +21,10 @@ class Util
     return _parent
 
   css: (_dom, _styleName, _value)->
-    if _value and typeof _styleName is 'string'
+    if _value is undefined
+      return _dom.style[_styleName]
+
+    else if _value and typeof _styleName is 'string'
       _dom.style[_styleName] = _value
 
     else if @.isObject _styleName

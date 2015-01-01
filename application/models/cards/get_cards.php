@@ -30,7 +30,7 @@ class Get_cards extends CI_Model {
 	private function get($_uid, $_type) {
 
 		$result = TRUE;
-		$data = '';
+		$data = array();
 
 		if ($this->cards_one) {
 			$data = json_encode(unserialize($this->cards_one[$_type]));
@@ -54,9 +54,14 @@ class Get_cards extends CI_Model {
 				 * */
 				$this->cards_one = $result_array[0];
 
-				$json1 = $this->cards_one[$_type];
-
-				$data = json_encode(unserialize($this->cards_one[$_type]));
+				for($i=0,$len=count($_type);$i<$len;$i++){
+					$deck_one = $this->cards_one[$_type[$i]];
+					if($deck_one){
+						$deck_one = unserialize($deck_one);
+						array_push($data,$deck_one);
+					}
+				}
+				$data = json_encode($data);
 			} else {
 				$result = FALSE;
 				$data = 'data is null acording the uid';
@@ -77,12 +82,12 @@ class Get_cards extends CI_Model {
 	}
 
 	public function get_deck($_uid) {
-		$reuslt = $this->get($_uid, 'deck_cards');
+		$reuslt = $this->get($_uid, array('deck_cards','deck_cards_2','deck_cards_3','deck_cards_4','deck_cards_5','deck_cards_6','deck_cards_7','deck_cards_8'));
 		return $reuslt;
 	}
 
 	public function get_all($_uid) {
-		$reuslt = $this->get($_uid, 'all_cards');
+		$reuslt = $this->get($_uid, array('all_cards'));
 		return $reuslt;
 	}
 

@@ -16,14 +16,15 @@
 
         </div>
         <div class="record">
-            <div class="record-icon"></div>
-            <div class="record-win">
-                10
-                <span></span>
-            </div>
-            <div class="record-lose">
-                5
-                <span></span>
+            <div class="record-icon">
+                <div class="record-win">
+                    0
+                    <span></span>
+                </div>
+                <div class="record-lose">
+                    0
+                    <span></span>
+                </div>
             </div>
         </div>
     </div>
@@ -43,6 +44,26 @@
     </div>
 </div>
 </body>
+<script>
+    (function(_window){
+        var userMsg,
+                myDeckIds;
+
+        //myDeckIds的结构为：[{}]
+        myDeckIds = <?= $my_deck ?>;
+
+        userMsg = {
+                'myDeckIds':myDeckIds,
+                'sessionToken':'<?= $sessionToken ?>'
+                };
+        _window.userMsg = userMsg;
+        })(this);
+</script>
+<script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/heroConfigObjList.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/heroObject.js"></script>
+<script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>
 <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
-<script src="<?= base_url() ?>Public/js/battle/initial.js"></script>
+<script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
 </html>

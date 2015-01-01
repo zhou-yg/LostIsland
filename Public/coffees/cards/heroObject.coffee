@@ -1,12 +1,7 @@
 ###
-cid:card[\d]
+hid:hero[\d]
 name
-normalAvatar
-select_list
-charater_main
-battleAvatar
-atk
-hp
+img
 ###
 class CardObject
   constructor:(_config)->

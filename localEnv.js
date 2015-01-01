@@ -9,20 +9,25 @@
   serverConfig = {
     melot: {
       serverAd: 'http://10.0.1.82:9000/lostisland/',
-      battleServerAd: 'http://10.0.1.82:1337/',
+      battleServerAd: 'http://10.0.1.82:1337',
       baseUrl: 'http://10.0.1.82:9000/lostisland/index.php/'
     },
     mac: {
-      serverAd: 'http://192.168.2.1/',
-      battleServerAd: 'http://192.168.2.1:1337/',
-      baseUrl: 'http://192.168.2.1/index.php/'
+      serverAd: 'http://lostisland/',
+      battleServerAd: 'http://localhost:1337',
+      baseUrl: 'http://lostisland/index.php/'
     },
-    hp: ''
+    hp: {
+      serverAd: 'http://192.168.2.1/',
+      battleServerAd: 'http://192.168.2.1:1337',
+      baseUrl: 'http://192.168.2.1/index.php/'
+    }
   };
 
-  server = serverConfig.melot;
+  server = serverConfig.mac;
 
   cardConfigUrl = 'apis/cards/card_config_factory/getList/';
+  heroConfigUrl = 'apis/cards/card_config_factory/getHeroList/';
 
   LLApiConfigFilePath = 'Public/js/apis/serverConfig.js';
 
@@ -41,9 +46,20 @@
       return responseStr += _chunk;
     });
     return _res.on('end', function() {
-      return console.log('end');
+      return console.log(responseStr);
     });
   });
+  http.get(server.baseUrl + heroConfigUrl, function(_res) {
+    var responseStr;
+    responseStr = '';
+    _res.on('data', function(_chunk) {
+      return responseStr += _chunk;
+    });
+    return _res.on('end', function() {
+      return console.log(responseStr);
+    });
+  });
+
 
   fs.writeFile(LLApiConfigFilePath, LLApiConfigData, function(_err) {
     if (_err) {
@@ -59,7 +75,7 @@
       console.log(_err);
     }
     content = _data.toString();
-    content = content.replace(/\$config\['base_url'\]([\s\S]{0,25});/, "$config['base_url']='" + server.serverAd + "';");
+    content = content.replace(/\$config\['base_url'\]([\s\S]{0,50});/, "$config['base_url']='" + server.serverAd + "';");
     return fs.writeFile(phpConfigFilePath, content, function(_err) {
       if (_err) {
         return console.log(_err);

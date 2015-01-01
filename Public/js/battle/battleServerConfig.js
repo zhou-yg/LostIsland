@@ -1,1 +1,1 @@
-var battleServerAd = "http://10.0.1.82:1337/";
+var battleServerAd = "http://localhost:1337";

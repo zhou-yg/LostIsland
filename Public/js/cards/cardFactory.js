@@ -2,18 +2,29 @@
   var CardFactory;
 
   CardFactory = (function() {
-    function CardFactory(_configObjList) {
-      var c, k, v;
+    function CardFactory() {
+      var c, h, k, v;
       this.cardAvatarPre = cardAvatarPre;
+      this.heroAvatarPre = heroAvatarPre;
       this.indexPre = 'card';
       this.cardMap = {};
       this.cardNum = 0;
+      this.heroIndexPre = 'hero';
+      this.heroMap = {};
+      this.heroNum = 0;
       for (k in cardConfigObjList) {
         v = cardConfigObjList[k];
         c = new CardObject(v);
         c.cid = k;
         this.cardMap[k] = c;
         this.cardNum++;
+      }
+      for (k in heroConfigObjList) {
+        v = heroConfigObjList[k];
+        h = new CardObject(v);
+        h.hid = k;
+        this.heroMap[k] = h;
+        this.heroNum++;
       }
     }
 
@@ -51,10 +62,27 @@
       }
     };
 
+    CardFactory.prototype.getHeroByHid = function(_hid) {
+      var heroOne, k, v, _ref;
+      heroOne = null;
+      _ref = this.heroMap;
+      for (k in _ref) {
+        v = _ref[k];
+        if (k === _hid || k === (this.heroIndexPre + _hid)) {
+          heroOne = v;
+        }
+      }
+      if (heroOne) {
+        return _.clone(heroOne);
+      } else {
+        return null;
+      }
+    };
+
     return CardFactory;
 
   })();
 
-  window.cardFactory = new CardFactory(cardConfigObjList);
+  window.cardFactory = new CardFactory();
 
 }).call(this);

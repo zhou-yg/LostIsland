@@ -24,7 +24,7 @@ class Main extends CI_Controller {
 			} else {
 				show_error('not exist', 500, 'forbidden');
 			}
-		} else if ($uid && $sessionToken && $sessionToken === $this->session->userdata('sessionToken')) {
+		} else if ($uid && $sessionToken) {
 			
 			$this->load->model('cards/get_cards');
 			$this->load->model('user/message');

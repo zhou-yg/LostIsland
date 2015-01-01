@@ -32,25 +32,17 @@ class login extends CI_Model {
 				'uid' => $uid
 			));
 
-
-			$get_deck_sql = "select * from $cards_tname where uid=$uid ";
-			$get_deck_query = $this->db->query($get_deck_sql);
+			//获取卡组
+			$this->load->model('cards/get_cards');
+			$cards_result_array = $this->get_cards->get_deck($uid);
 			
-			if($get_deck_query->num_rows()>0){
-				$result_array = $get_deck_query->result_array();
-				$cards_one = $result_array[0];
-
-				$userMsgArr = array(
-					'nickname'     => $userOne['username'],
-					'character'    => $userOne['character'],
-					'my_deck'      => json_encode(unserialize($cards_one['deck_cards'])),
-					'sessionToken' => $sessionToken
-				);
-
-				return $userMsgArr;
-			}else{
-				return FALSE;
-			}
+			$userMsgArr = array(
+				'nickname'     => $userOne['username'],
+				'character'    => $userOne['character'],
+				'my_deck'      => $cards_result_array['data'],
+				'sessionToken' => $sessionToken
+			);
+			return $userMsgArr;
 		}else{
 			return FALSE;
 		}

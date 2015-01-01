@@ -27,17 +27,15 @@ class User_center extends CI_Controller {
 					'result'=>$check_result
 				 )));
 	}
-//	public function init($client_token,$username){
-	public function init(){
+	public function init($client_token,$username){
+//	public function init(){
 	
 		$this->load->model('user/init');
 		$this->load->model('encry/sec_key');
 		
-		$client_token = $this->input->post('clientToken');
-		$username = $this->input->post('username');
+//		$client_token = $this->input->post('clientToken');
+//		$username = $this->input->post('username');
 		
-	//	$client_token = $_c;
-	//  $username = $_u;
 			
 		if($username  && $this->sec_key->check_token($client_token)){
 			$resultArr = $this->init->init($client_token,$username);

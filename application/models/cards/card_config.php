@@ -2,10 +2,11 @@
 class Card_config extends CI_Model {
 	//at present:
 	//id name normalAvatar battleAvatar hp atk ability
-	///normalAvatar/0_184_184.jpg,
+	// /normalAvatar/0_184_184.jpg,
 	// /battleAvatar/0_184_184.jpg
 	private $table_pre = 'card_';	
 	private $saber     = 'saber';
+	private $hero      = 'hero';
 
     function __construct()
     {
@@ -13,20 +14,13 @@ class Card_config extends CI_Model {
     }
 	public function getCardConfig($_type){
 		$this->load->database();
-		$table_name = $this->table_pre.$this->saber;
+		$table_name = $this->table_pre.$_type;
 		
 		$get_saber_sql = "select * from $table_name";
 		$card_saber_query = $this->db->query($get_saber_sql);
 		
 		if($card_saber_query->num_rows()>0){
-			
-			if($_type == 'array' || $_type == 'arr'){
-				return $card_saber_query->result_array();
-			}else if($_type == 'object' || $_type == 'obj'){
-				return $card_saber_query->result();
-			}else{
-				return null;
-			}
+			return $card_saber_query->result_array();
 		}else{
 			return null;
 		}
@@ -35,8 +29,9 @@ class Card_config extends CI_Model {
 
         $this->load->helper('url');
 
-		$saber_query_arr = $this->getCardConfig('arr');
+		$saber_query_arr = $this->getCardConfig($this->saber);
 
+	
 		$card_config_js_data = 'var cardConfigObjList={';
 		
 		for ($i=0; $i < count($saber_query_arr); $i++) { 
@@ -55,9 +50,36 @@ class Card_config extends CI_Model {
 		}
 		$card_config_js_data .= '};';
 
-		$card_config_js_data .= 'var cardAvatarPre = "'.base_url().'/Public/images/cards/";';
+		$card_config_js_data .= 'var cardAvatarPre = "'.base_url().'Public/images/cards/";';
 
 		return $card_config_js_data;		
+	}
+	public function getHeroConfigJS(){
+        $this->load->helper('url');
+
+		$hero_query_arr = $this->getCardConfig($this->hero);
+
+		$hero_config_js_data = 'var heroConfigObjList={';
+		
+		for ($i=0; $i < count($hero_query_arr); $i++) { 
+			foreach ($hero_query_arr[$i] as $key => $value) {
+				if($key == 'id'){
+					$hero_config_js_data .= 'hero'.$value.':{';
+				}else{
+					if(intval($value) == 0 && $value!='0' ){
+						$hero_config_js_data .= $key.':"'.$value.'",';
+					}else{
+						$hero_config_js_data .= $key.':'.$value.',';
+					}
+				}
+			}
+			$hero_config_js_data .= '},';
+		}
+		$hero_config_js_data .= '};';
+
+		$hero_config_js_data .= 'var heroAvatarPre = "'.base_url().'Public/images/hero/";';
+
+		return $hero_config_js_data;		
 	}
 }
 ?>
