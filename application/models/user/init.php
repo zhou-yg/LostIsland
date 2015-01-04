@@ -20,7 +20,7 @@ class Init extends CI_Model {
 		$chacter = $this->user_config->get_defualt_character_img();
 		
 		
-		$insert_user_basic_sql = "insert into $user_list_tname values(NULL,'$_client_token','$_user_token','$_username','$chacter')";
+		$insert_user_basic_sql = "insert into $user_list_tname values(NULL,'$_client_token','$_user_token','$_username','$chacter',0,0)";
 		$insert_user_basic_result = $this->db->simple_query($insert_user_basic_sql);
 		
 		if($insert_user_basic_result){

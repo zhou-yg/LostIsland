@@ -33,7 +33,7 @@ class Battle_center extends CI_Controller {
 			$this->load->model('cards/get_cards');
 			$this->load->model('user/message');
 			$cards_result_array = $this->get_cards->get_deck($uid);
-			$user_message_array = $this->message->get_basic($uid,$sessionToken);
+			$user_message_array = $this->message->get_basic($uid);
 			
 			$result = array(
 				'uid'      => $user_message_array['data']['id'],

@@ -9,7 +9,7 @@ class Message extends CI_Model {
         parent::__construct();
     }
 
-	public function get_basic($_uid,$_sessionToken){
+	public function get_basic($_uid){
 		$result = TRUE;
 		$data = '';
 	
@@ -19,7 +19,7 @@ class Message extends CI_Model {
 					'nickname' => $this->user_one['nickname'],
 					'character' => $this->user_one['character']
 				);
-		}else if($this->session->userdata('sessionToken') === $_sessionToken){
+		}else{
 			$this->load->database();
 			$user_tname = $this->user_tname;
 			
@@ -31,19 +31,15 @@ class Message extends CI_Model {
 				$result_array = $get_basic_query->result_array();
 				$this->user_one = $result_array[0];
 				
-				$data = array(
-						'id'     => $this->user_one['id'],
-						'username' => $this->user_one['username'],
-						'character' => $this->user_one['character']
-					);
+				$data = $this->user_one;
+				//删除私密信息
+				unset($data['client_token']);
+				unset($data['user_token']);
 			}else{
 				$result = FALSE;
 				$data = 'data is null acording the uid';
 			}
-		}else{
-			$result = FALSE;
-			$data = 'sessionToken illegal';			
-		}	
+		}
 		return array(
 			'result' => $result,
 			'data' => $data
