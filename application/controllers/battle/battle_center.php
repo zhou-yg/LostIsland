@@ -36,7 +36,8 @@ class Battle_center extends CI_Controller {
 			$user_message_array = $this->message->get_basic($uid,$sessionToken);
 			
 			$result = array(
-				'nickname' => $user_message_array['data']['nickname'],
+				'uid'      => $user_message_array['data']['id'],
+				'nickname' => $user_message_array['data']['username'],
 				'character'=> $user_message_array['data']['character'],
 				'my_deck'  => $cards_result_array['data'],
 				'sessionToken' => $sessionToken

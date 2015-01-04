@@ -15,6 +15,7 @@ class Message extends CI_Model {
 	
 		if($this->user_one){
 			$data = array(
+					'uid'     => $this->user_one['id'],
 					'nickname' => $this->user_one['nickname'],
 					'character' => $this->user_one['character']
 				);
@@ -31,7 +32,8 @@ class Message extends CI_Model {
 				$this->user_one = $result_array[0];
 				
 				$data = array(
-						'nickname' => $this->user_one['username'],
+						'id'     => $this->user_one['id'],
+						'username' => $this->user_one['username'],
 						'character' => $this->user_one['character']
 					);
 			}else{

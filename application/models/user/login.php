@@ -37,6 +37,7 @@ class login extends CI_Model {
 			$cards_result_array = $this->get_cards->get_deck($uid);
 			
 			$userMsgArr = array(
+				'uid'          => $uid,
 				'nickname'     => $userOne['username'],
 				'character'    => $userOne['character'],
 				'my_deck'      => $cards_result_array['data'],

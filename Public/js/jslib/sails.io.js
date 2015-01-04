@@ -642,7 +642,8 @@ var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){v
         io.socket = new TmpSocket();
 
         setTimeout(function() {
-
+            //来自于自定义的websocket地址
+            io.sails.url = battleServerAd;
             // If autoConnect is disabled, delete the TmpSocket and bail out.
             if (!io.sails.autoConnect) {
                 delete io.socket;

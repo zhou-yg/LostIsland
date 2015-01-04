@@ -54,14 +54,19 @@
   })();
 
   (function() {
-    var goAheadAndActuallyConnect;
-    goAheadAndActuallyConnect = function() {
-      io.sails.url = battleServerAd;
-      return io.socket.on('connect', function() {
-        return console.log('connect to battle server success');
+    var startStauts, whileConnectSuccess;
+    startStauts = false;
+    whileConnectSuccess = function() {
+      return io.socket.post(battleServerAd + '/UidInsert/sendUid', {
+        uid: userMsg.uid
+      }, function(_a) {
+        return console.log.apply(console, arguments);
       });
     };
-    return goAheadAndActuallyConnect();
+    return io.socket.on('connect', function() {
+      console.log('connect to battle server success');
+      return whileConnectSuccess();
+    });
   })();
 
 }).call(this);

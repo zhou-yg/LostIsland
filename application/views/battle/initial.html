@@ -4,8 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>battle initial</title>
-    <script src="<?= base_url() ?>Public/js/jslib/sails.io.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>/Public/js/jslib/utils.js"></script>
+    <script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
+    <script src="<?=base_url()?>/Public/js/cards/heroConfigObjList.js"></script>
+    <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
+    <script src="<?=base_url()?>/Public/js/jslib/utils.js"></script>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/common.css"/>
 </head>
@@ -53,17 +55,16 @@
         myDeckIds = <?= $my_deck ?>;
 
         userMsg = {
+                'uid':'<?= $uid ?>',
                 'myDeckIds':myDeckIds,
                 'sessionToken':'<?= $sessionToken ?>'
                 };
         _window.userMsg = userMsg;
         })(this);
 </script>
-<script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
-<script src="<?=base_url()?>/Public/js/cards/heroConfigObjList.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/sails.io.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/heroObject.js"></script>
 <script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>
-<script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
 <script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
 </html>

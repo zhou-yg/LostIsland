@@ -43,10 +43,14 @@ do ->
 
 #connect to battle server
 do ->
-  goAheadAndActuallyConnect = ->
-    io.sails.url = battleServerAd
+  startStauts = false
 
-    io.socket.on 'connect', ->
-      console.log 'connect to battle server success'
+  whileConnectSuccess = ->
+    io.socket.post battleServerAd+'/UidInsert/sendUid',{
+      uid:userMsg.uid
+    },(_a)->
+      console.log.apply console,arguments
 
-  goAheadAndActuallyConnect()
+  io.socket.on 'connect', ->
+    console.log 'connect to battle server success'
+    whileConnectSuccess()
