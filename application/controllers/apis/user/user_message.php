@@ -11,10 +11,17 @@ class User_message extends CI_Controller {
 		$result = TRUE;
 		if($uid){
 			$this->load->model('user/message');
-			$user_message_array = $this->message->get_basic($uid);
+			$data = $this->message->get_basic($uid);
 		}else{
-			
+			$result = FALSE;		
+			$data = 'lose uid';	
 		}
+		$this->output
+			 ->set_content_type('application/json')
+			 ->set_output(json_encode(array(
+			 	'result'=>$result,
+			 	'data' => $data
+			 )));
 	}
 	//根据uid和token来获取全部用户信息 
 	public function get_all(){
