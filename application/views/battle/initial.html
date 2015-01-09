@@ -48,18 +48,11 @@
 </body>
 <script>
     (function(_window){
-        var userMsg,
-                myDeckIds;
-
-        //myDeckIds的结构为：[{}]
-        myDeckIds = <?= $my_deck ?>;
-
-        userMsg = {
+        _window.userMsg = {
                 'uid':'<?= $uid ?>',
-                'myDeckIds':myDeckIds,
+                'myDeckIds':<?= $my_deck ?>,
                 'sessionToken':'<?= $sessionToken ?>'
                 };
-        _window.userMsg = userMsg;
         })(this);
 </script>
 <script src="<?= base_url() ?>Public/js/jslib/sails.io.js"></script>

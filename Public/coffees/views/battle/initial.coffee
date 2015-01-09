@@ -43,8 +43,6 @@ do ->
 
 #connect to battle server
 do ->
-  startStauts = false
-
   whileConnectSuccess = ->
     io.socket.post battleServerAd+'/UidInsert/sendUid',{
       uid:userMsg.uid

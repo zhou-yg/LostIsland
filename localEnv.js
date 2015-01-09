@@ -24,7 +24,7 @@
     }
   };
 
-  server = serverConfig.melot;
+  server = serverConfig.mac;
 
   cardConfigUrl = 'apis/cards/card_config_factory/getList/';
   heroConfigUrl = 'apis/cards/card_config_factory/getHeroList/';

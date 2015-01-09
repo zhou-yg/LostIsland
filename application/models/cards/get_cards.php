@@ -33,8 +33,14 @@ class Get_cards extends CI_Model {
 		$data = array();
 
 		if ($this->cards_one) {
-			$data = json_encode(unserialize($this->cards_one[$_type]));
-
+			for($i=0,$len=count($_type);$i<$len;$i++){
+				$deck_one = $this->cards_one[$_type[$i]];
+				if($deck_one){
+					$deck_one = unserialize($deck_one);
+					array_push($data,$deck_one);
+				}
+			}
+			$data = json_encode($data);
 		} else {
 			$this->load->database();
 			$cards_tname = $this->cards_tname;
@@ -53,7 +59,6 @@ class Get_cards extends CI_Model {
 				 *  )
 				 * */
 				$this->cards_one = $result_array[0];
-
 				for($i=0,$len=count($_type);$i<$len;$i++){
 					$deck_one = $this->cards_one[$_type[$i]];
 					if($deck_one){

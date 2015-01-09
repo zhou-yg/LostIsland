@@ -11,7 +11,9 @@ _.on window, 'load', ->
   allCardDom = _.query '.all-cards-list'
 
   hero = global.myCards.deck.hero
-  deck = global.myCards.deck.deck
+  window.decks = global.myCards.deck
+
+  deck = decks[0].deck
   all  = global.myCards.all
   do ->
     if global.myCards and global.myCards.deck and global.myCards.all
@@ -22,17 +24,28 @@ _.on window, 'load', ->
 
       currentNum = 0
 
+      #store the different cardObject because of different cardId
       getCardObjByCache = do ->
-        #store the different cardObject because of different cardId
-        cardObjCache = []
-        return (_cardIndex)->
-          result = cardObjCache[_cardIndex]
+        cardObjCache = {}
+        heroObjCache = {}
+
+        return (_cardIndex,_type)->
+          cache = {}
+          fn = ''
+          if _type is 'card' or !_type
+            cache = cardObjCache
+            fn = 'getCardByCid'
+          else if _type is 'hero'
+            cache = heroObjCache
+            fn = 'getHeroByHid'
+
+          result = cache[_cardIndex]
           if !result
-            result = cardFactory.getCardByCid _cardIndex
-            if result
-              cardObjCache[_cardIndex] = result
-            else
-              console.log 'can not find the cardObj by the Index'
+            result = cardFactory[fn] _cardIndex
+          if result
+            cache[_cardIndex] = result
+          else
+            console.error 'can not find the cardObj by the Index'
           return result
 
       #btn to update
@@ -47,14 +60,12 @@ _.on window, 'load', ->
             if v is _cid
               deck.splice i,1
               break;
-          console.log deck
 
         add = (_cid)->
           for v,i in deck
             if v is _cid and deck[i+1] isnt _cid
               deck.splice i,0,_cid
               break;
-          console.log deck
 
         updateToServer = ->
           param =
@@ -93,7 +104,6 @@ _.on window, 'load', ->
         }
       #fill
       do ->
-        deckIndexName = 'i';
         cardObjIndexName = 'cardIndex'
         #填充头部栏:当前的构成
         insertIntoMyDeckDiv = (_cardObj)->

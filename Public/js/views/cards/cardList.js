@@ -16,7 +16,8 @@
     myDeckDom = _.query('.my-deck');
     allCardDom = _.query('.all-cards-list');
     hero = global.myCards.deck.hero;
-    deck = global.myCards.deck.deck;
+    window.decks = global.myCards.deck;
+    deck = decks[0].deck;
     all = global.myCards.all;
     return (function() {
       var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, indexPre;
@@ -26,18 +27,28 @@
         cardOneTmp = _.query('#card-one-tmp');
         currentNum = 0;
         getCardObjByCache = (function() {
-          var cardObjCache;
-          cardObjCache = [];
-          return function(_cardIndex) {
-            var result;
-            result = cardObjCache[_cardIndex];
+          var cardObjCache, heroObjCache;
+          cardObjCache = {};
+          heroObjCache = {};
+          return function(_cardIndex, _type) {
+            var cache, fn, result;
+            cache = {};
+            fn = '';
+            if (_type === 'card' || !_type) {
+              cache = cardObjCache;
+              fn = 'getCardByCid';
+            } else if (_type === 'hero') {
+              cache = heroObjCache;
+              fn = 'getHeroByHid';
+            }
+            result = cache[_cardIndex];
             if (!result) {
-              result = cardFactory.getCardByCid(_cardIndex);
-              if (result) {
-                cardObjCache[_cardIndex] = result;
-              } else {
-                console.log('can not find the cardObj by the Index');
-              }
+              result = cardFactory[fn](_cardIndex);
+            }
+            if (result) {
+              cache[_cardIndex] = result;
+            } else {
+              console.error('can not find the cardObj by the Index');
             }
             return result;
           };
@@ -48,26 +59,32 @@
           updateBtn = _.query('.list .hr');
           updateBtnDisplayClass = ' hr-to-btn';
           min = function(_cid) {
-            var i, v, _i, _len;
+            var i, v, _i, _len, _results;
+            _results = [];
             for (i = _i = 0, _len = deck.length; _i < _len; i = ++_i) {
               v = deck[i];
               if (v === _cid) {
                 deck.splice(i, 1);
                 break;
+              } else {
+                _results.push(void 0);
               }
             }
-            return console.log(deck);
+            return _results;
           };
           add = function(_cid) {
-            var i, v, _i, _len;
+            var i, v, _i, _len, _results;
+            _results = [];
             for (i = _i = 0, _len = deck.length; _i < _len; i = ++_i) {
               v = deck[i];
               if (v === _cid && deck[i + 1] !== _cid) {
                 deck.splice(i, 0, _cid);
                 break;
+              } else {
+                _results.push(void 0);
               }
             }
-            return console.log(deck);
+            return _results;
           };
           updateToServer = function() {
             var param;
@@ -115,8 +132,7 @@
           };
         })();
         return (function() {
-          var allCardsList, allOne, cardIndex, cardObj, cardObjIndexName, deckIndexName, deckList, insertIntoAllDiv, insertIntoMyDeckDiv, liOne, _fn, _i, _j, _k, _l, _len, _len1, _len2, _len3, _results;
-          deckIndexName = 'i';
+          var allCardsList, allOne, cardIndex, cardObj, cardObjIndexName, deckList, insertIntoAllDiv, insertIntoMyDeckDiv, liOne, _fn, _i, _j, _k, _l, _len, _len1, _len2, _len3, _results;
           cardObjIndexName = 'cardIndex';
           insertIntoMyDeckDiv = function(_cardObj) {
             var imgUrl, node, nodeBg;

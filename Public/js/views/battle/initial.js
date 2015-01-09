@@ -54,8 +54,7 @@
   })();
 
   (function() {
-    var startStauts, whileConnectSuccess;
-    startStauts = false;
+    var whileConnectSuccess;
     whileConnectSuccess = function() {
       return io.socket.post(battleServerAd + '/UidInsert/sendUid', {
         uid: userMsg.uid
