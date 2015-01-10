@@ -8,10 +8,25 @@ class Card_config extends CI_Model {
 	private $saber     = 'saber';
 	private $hero      = 'hero';
 
+	private $types_arr = array();
+
     function __construct()
     {
         parent::__construct();
+		array_push($this->types_arr,$this->saber);
+		array_push($this->types_arr,$this->hero);
     }
+	public function set_param($_param){
+		$type = $_param->type;
+		if(in_array($type, $this->types_arr)){
+			if($type == $this->saber){
+				return $this->getCardConfigJS();
+			}
+			if($type == $this->hero){
+				return $this->getHeroConfigJS();
+			}
+		}
+	}
 	public function getCardConfig($_type){
 		$this->load->database();
 		$table_name = $this->table_pre.$_type;
