@@ -1,110 +1,97 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>NULL</title>
+		<title>测试用户初始化</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	</head>
 	<style type="text/css">
+		div.pl{
+			box-sizing: border-box;
+			width: 70px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+		}
+		div.selected{
+			border: 2px solid #000000;
+		}
+		div.platform1{
+			background-color: #9EBAF5;
+		}
+		div.platform2{
+			background-color: #e1b1b4;
+		}
+		.token,.username{
+			background-color: #f0f0f0;
+			margin-top: 5px;
+			width: 300px;
+			height: 30px;
+			line-height: 30px;
+			outline: none;
+			border: none;
+		}
+		.get-token,.user-init{
+			margin-top: 5px;
+			width: 90px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			border: 1px solid #000000;
+		}
 	</style>
 	<body>
-		<button onclick="getToken()">
-			getToken
-		</button>
-		<span class="token"></span>
-		<br />
-		<br />
-		<button onclick="toInit()">
-			toInit
-		</button>
-		<input class="userInput" type="text" />
-		<span class="msg"></span>
-		<br/>
-		<!-- ------------------ -->
-		<br/>
-		<button onclick="getToken2()">
-			getToken2
-		</button>
-		<span class="token2"></span>
-		<br />
-		<br />
-		<button onclick="toInit2()">
-			toInit2
-		</button>
-		<input class="userInput2" type="text" />
-		<span class="msg2"></span>
+	<div class="pl platform1 selected">mac</div>
+	<div class="pl platform2">melot</div>
+	<br/>
+	<input type="text" placeholder="先获取token" class="token">
+	<div class="get-token">getToken</div>
+	<input type="text" placeholder="输入用户名" class="username">
+	<div class="user-init">userInit</div>
 	</body>
 	<script type="text/javascript" src="jquery2x.js"></script>
 	<script>
-		var tokenUrl = 'http://10.0.1.82:9000/lostisland/index.php/apis/user/user_center/get_token';
-		var initUrl =  'http://10.0.1.82:9000/lostisland/index.php/apis/user/user_center/init';
+		var macInitUrl = 'http://lostisland/index.php/apis/route?fn=1001';
+		var macTokenUrl = 'http://lostisland/index.php/apis/route?fn=1002&param={"type":"create"}';
 
-		var tokenUrl2 = 'http://192.168.2.1/index.php/apis/user/user_center/get_token';
-		var initUrl2 =  'http://192.168.2.1/index.php/apis/user/user_center/init';
+		var initUrl = macInitUrl;
+		var tokenUrl = macTokenUrl;
 
+		var token = '';
+		var username = '';
 
-		var ts = [];
-		var ts2 = [];
-
-		function getToken() {
-			$.get(tokenUrl, function(_d, _s) {
-				$('.token').text(_d.token);
-				ts.push(_d.token);
-			});
-		}
-
-		function toInit() {
-			$m = $('.msg');
-			if (ts.length >= 1) {
-
-				var t1 = ts[ts.length - 1];
-
-				if ($('.userInput').val()) {
-					$.post(initUrl, {
-						username : $('.userInput').val(),
-						clientToken : t1
-					}, function(_d, _s) {
-						$m.text(_d.result);
-						console.log(_d, _s);
-					});
-				}else{
-					$,text('no name');
+		$('.pl').click(function(){
+			var $this = $(this);
+			$this.addClass('selected');
+			$this.siblings().removeClass('selected');
+		});
+		$('.platform1').click(function(){
+			initUrl = macInitUrl;
+			tokenUrl = macTokenUrl;
+		});
+		$('.get-token').click(function(){
+			$tokenInput = $('.token');
+			$.get(tokenUrl,function(_data,_status){
+				console.log(_data,_status);
+				if(typeof _data === 'string'){
+					_data = JSON.parse(_data);
 				}
-
-			} else {
-				$m.text('len<2');
-			}
-		}
-		//--------------------------------------------
-		function getToken2() {
-			$.get(tokenUrl2, function(_d, _s) {
-				$('.token2').text(_d.token);
-				ts2.push(_d.token);
+				token = _data.result;
+				$tokenInput.val(token);
 			});
-		}
-
-		function toInit2() {
-			$m = $('.msg2');
-			if (ts2.length >= 1) {
-
-				var t1 = ts2[ts2.length - 1];
-
-				if ($('.userInput2').val()) {
-					$.post(initUrl2, {
-						username : $('.userInput2').val(),
-						clientToken : t1
-					}, function(_d, _s) {
-						$m.text(_d.result);
-						console.log(_d, _s);
-					});
-				}else{
-					$m.text('no name');
-				}
-
-			} else {
-				$m.text('len<2');
+		});
+		$('.user-init').click(function(){
+			username = $('.username').val();
+			if(!(token && username)){
+				alert('no token or no username');
+				return;
 			}
-		}
-
+			$.post(macInitUrl,{
+				'clientToken':token,
+				'username':username
+			},function(_data,_status){
+				console.log(_data,_status);
+			});
+		});
 	</script>
 </html>

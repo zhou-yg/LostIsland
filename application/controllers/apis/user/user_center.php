@@ -9,7 +9,6 @@ class User_center extends CI_Controller {
 		$this->load->model('encry/sec_key');
 		
 		$token = $this->sec_key->create_token();
-		header("Access-Control-Allow-Origin:*");
 		
 		$this->output
 			 ->set_content_type('application/json')

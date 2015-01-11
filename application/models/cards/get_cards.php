@@ -11,7 +11,6 @@ class Get_cards extends CI_Model {
 
 	}
 	public function set_param($_param){
-		
 	}
 	private function save($_uid, $_type, $_data) {
 

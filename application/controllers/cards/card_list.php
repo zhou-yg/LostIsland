@@ -24,7 +24,7 @@ class Card_list extends CI_Controller {
 						'uid' => $uid, 
 						'sessionToken' => $sessionToken, 
 						'my_deck' => $deck_result_array['data'], 
-						'all' => $all_result_array['data']
+						'all_card' => $all_result_array['data']
 					);
 					$this->load->helper('url');
 					$this->load->view('cards/cardList.html', $cards_arr);

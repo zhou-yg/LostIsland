@@ -26,8 +26,8 @@
 
   server = serverConfig.mac;
 
-  cardConfigUrl = 'apis/cards/card_config_factory/getList/';
-  heroConfigUrl = 'apis/cards/card_config_factory/getHeroList/';
+  cardConfigUrl = 'apis/route?fn=2001&param={"type":"saber"}';
+  heroConfigUrl = 'apis/route?fn=2001&param={"type":"hero"}';
 
   LLApiConfigFilePath = 'Public/js/apis/serverConfig.js';
 

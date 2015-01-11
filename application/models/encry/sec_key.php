@@ -5,7 +5,20 @@ class Sec_key extends CI_Model {
     {
         parent::__construct();
     }
-	
+	public function set_param($_param){
+		$type = $_param->type;
+		$result = null;
+		if($type === 'create'){
+			$result = $this->create_token();
+		}
+		if($type === 'check'){
+			$token = $_param->token;
+			$result = $this->check_token($token);
+		}
+		return array(
+			'result'=>$result
+		);
+	}
 	private function unixtime_craete() {
 		list($ms, $sec) = explode(' ', microtime());
 

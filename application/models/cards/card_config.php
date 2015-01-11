@@ -8,6 +8,9 @@ class Card_config extends CI_Model {
 	private $saber     = 'saber';
 	private $hero      = 'hero';
 
+	private $configObjPath = 'Public/js/cards/cardConfigObjList.js';
+	private $heroConfigObjPath = 'Public/js/cards/heroConfigObjList.js';
+
 	private $types_arr = array();
 
     function __construct()
@@ -18,14 +21,37 @@ class Card_config extends CI_Model {
     }
 	public function set_param($_param){
 		$type = $_param->type;
+		$result = TRUE;
+		$data = null;
+		$js = null;
+		$path = null;
+
 		if(in_array($type, $this->types_arr)){
 			if($type == $this->saber){
-				return $this->getCardConfigJS();
+				$js = $this->getCardConfigJS();
+				$path = $this->configObjPath;
 			}
 			if($type == $this->hero){
-				return $this->getHeroConfigJS();
+				$js = $this->getHeroConfigJS();
+				$path = $this->heroConfigObjPath;
+			}
+			if($js && $path){
+				$this->load->helper('file');
+				if(write_file($path,$js)){
+					$data = 'init '.$_param.' js success';
+				}else{
+					$result = FALSE;
+					$data = 'init '.$_param.' js fail';
+				}
+			}else{
+				$result = FALSE;
+				$data = 'get js or path is null';				
 			}
 		}
+		return array(
+			'result' => $result,
+			'data' => $data
+		);
 	}
 	public function getCardConfig($_type){
 		$this->load->database();

@@ -11,6 +11,19 @@ class Init extends CI_Model {
 		$this->load->model('encry/sec_key');
 		$this->load->model('user/user_config');
     }
+	public function set_param($_param){
+		$client_token = $this->input->post('clientToken');
+		$username = $this->input->post('username');
+				
+		if($username && $this->sec_key->check_token($client_token)){
+			return $this->init($client_token, $username);
+		}else{
+			return array(
+				'result' => FALSE,
+				'data' => 'illegal_token or no name'
+			);
+		}
+	}
 	//插入 初始化 基本用户信息
 	function user_init($_client_token,$_user_token,$_username){
 		
@@ -46,17 +59,15 @@ class Init extends CI_Model {
 				'deck_cards_8' => null
 			);
 			$init_user_cards_sql = $this->db->insert_string($user_cards_tname,$insert_data_arr); 
-			var_dump($init_user_cards_sql);
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
 			if($init_cards_query_result){
-				var_dump('true');
 				return TRUE;
 			}else{
-				var_dump('false');
 				return FALSE;
 			}
 		}else{
+			var_dump();
 			return FALSE;
 		}		
 	}

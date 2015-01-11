@@ -4,8 +4,12 @@ class Route extends CI_Controller {
 
 	private $api_model_key = array(
 		1001,
+		1002,
+		2001,
 	);
 	private $api_model_paths = array(
+		'user/init',
+		'encry/sec_key',
 		'cards/card_config'
 	);
 	private $api_models = array();
@@ -43,7 +47,9 @@ class Route extends CI_Controller {
 			$this->load->model($model_path,$normal_name);
 
 			$result = $this->$normal_name->set_param($param);
-			echo $result;
+			$this->output
+			 	 ->set_content_type('application/json')
+				 ->set_output(json_encode($result));
 		}
 	}
 }
