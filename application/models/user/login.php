@@ -8,6 +8,13 @@ class login extends CI_Model {
     {
         parent::__construct();
     }
+	public function set_param($_param){
+		$client_token = $this->input->post('client_token');
+		$user_token = $this->input->post('user_token');
+		
+		$result = $this->check_login($client_token, $user_token);
+		return $result;
+	}
 	public function check_login($_client_token,$_user_token){
 		
 		$this->load->database();
@@ -45,7 +52,9 @@ class login extends CI_Model {
 			);
 			return $userMsgArr;
 		}else{
-			return FALSE;
+			return array(
+				'result' => FALSE
+			);
 		}
 	}
 }

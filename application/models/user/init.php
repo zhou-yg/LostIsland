@@ -45,10 +45,14 @@ class Init extends CI_Model {
 			$init_all_card_ids_arr = $this->user_config->get_init_all_card_ids();
 			$init_all_card_ids_str = serialize($init_all_card_ids_arr);
 
+			$init_all_hero_ids_arr = $this->user_config->get_init_all_hero_ids();
+			$init_all_hero_ids_str = serialize($init_all_hero_ids_arr);
+
 			$insert_data_arr = array(
 				'id' => null,
 				'uid'=> $last_uid,
-				'all_cards' => $init_all_card_ids_str,
+				'all_heroes' =>	$init_all_hero_ids_str,
+				'all_cards'  => $init_all_card_ids_str,
 				'deck_cards' => $init_card_ids_str,
 				'deck_cards_2' => null,
 				'deck_cards_3' => null,

@@ -3,14 +3,20 @@
 class Route extends CI_Controller {
 
 	private $api_model_key = array(
+		1000,
 		1001,
 		1002,
+		1003,
 		2001,
+		2002
 	);
 	private $api_model_paths = array(
-		'user/init',
 		'encry/sec_key',
-		'cards/card_config'
+		'user/init',
+		'user/login',
+		'user/message',
+		'cards/card_config',
+		'cards/get_cards'
 	);
 	private $api_models = array();
 
@@ -43,6 +49,7 @@ class Route extends CI_Controller {
 		if(in_array($fn, $this->api_model_key)){
 			$normal_name = $this->normal_name;
 			$model_path = $this->api_models[$fn];
+
 
 			$this->load->model($model_path,$normal_name);
 
