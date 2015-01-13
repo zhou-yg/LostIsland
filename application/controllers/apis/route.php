@@ -50,7 +50,6 @@ class Route extends CI_Controller {
 			$normal_name = $this->normal_name;
 			$model_path = $this->api_models[$fn];
 
-
 			$this->load->model($model_path,$normal_name);
 
 			$result = $this->$normal_name->set_param($param);

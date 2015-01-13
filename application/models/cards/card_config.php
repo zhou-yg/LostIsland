@@ -19,6 +19,11 @@ class Card_config extends CI_Model {
 		array_push($this->types_arr,$this->saber);
 		array_push($this->types_arr,$this->hero);
     }
+	/**
+	 * $_param = object(
+	 * 	   type
+	 * );
+	 */
 	public function set_param($_param){
 		$type = $_param->type;
 		$result = TRUE;

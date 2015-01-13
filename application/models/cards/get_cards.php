@@ -17,32 +17,47 @@ class Get_cards extends CI_Model {
 		'deck7' =>'deck_cards_7',	
 		'deck8' =>'deck_cards_8',	
 	);
-
+	/**
+	 * $_param = object(
+	 *    *token:'验证'
+	 *    *type:'决定调用哪个处理函数',
+	 * 	  data:'如果是save的操作，则需要data',
+	 * );
+	 */
 	public function set_param($_param){
-		$uid = $_param->type;
+		$session_token = $_param->token;
+		$uid = $_param->uid;
 		$type = $_param->type;
 		$result = null;
-		
-		switch($type){
-			case 'save_deck':
-				$tname_key = $_param->deck_name;
-				$data = $_param->data;
-				$result = $this->save_deck($uid, $tname_key,$data);
-				break;
-			case 'save_all':
-				$data = $_param->data;
-				$result = $this->save_all($uid, $data);
-				break;
-			case 'get_deck':
-				$result = $this->get_deck($uid);
-				break;
-			case 'get_all_cards':
-				$result = $this->get_all_cards($uid);
-				break;
-			case 'get_all_heroes':
-				$result = $this->get_all_heroes($uid);
-				break;
+
+		if($session_token === $this->session->userdata('sessionToken')){
+			switch($type){
+				case 'save_deck':
+					$tname_key = $_param->deck_name;
+					$data = $_param->data;
+					$result = $this->save_deck($uid, $tname_key,$data);
+					break;
+				case 'save_all':
+					$data = $_param->data;
+					$result = $this->save_all($uid, $data);
+					break;
+				case 'get_deck':
+					$result = $this->get_deck($uid);
+					break;
+				case 'get_all_cards':
+					$result = $this->get_all_cards($uid);
+					break;
+				case 'get_all_heroes':
+					$result = $this->get_all_heroes($uid);
+					break;
+			}
+		}else{
+			$result = array(
+				'result' => FALSE,
+				'data' => 'token illegal'
+			);
 		}
+		
 		if(!$result){
 			$result = array(
 				'result' => FALSE
