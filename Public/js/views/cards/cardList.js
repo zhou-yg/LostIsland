@@ -12,16 +12,19 @@
   CARD_NUM_MAX = 10;
 
   _.on(window, 'load', function() {
-    var all, allCardDom, deck, hero, myDeckDom;
+    var allCardDom, allCards, allHeroes, deck, decks, myDeckDom;
     myDeckDom = _.query('.my-deck');
+    window.allDecksDom = _.query('.all-decks');
     allCardDom = _.query('.all-cards-list');
-    hero = global.myCards.deck.hero;
-    window.decks = global.myCards.deck;
+    decks = global.myCards.deck;
     deck = decks[0].deck;
-    all = global.myCards.all;
+    allCards = global.myCards.allCard;
+    allHeroes = global.myCards.allHero;
+    allCards = allCards.concat();
+    allHeroes = allHeroes.concat();
     return (function() {
       var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, indexPre;
-      if (global.myCards && global.myCards.deck && global.myCards.all) {
+      if (global.myCards) {
         indexPre = cardFactory.indexPre;
         deckOneTmp = _.query('#deck-one-tmp');
         cardOneTmp = _.query('#card-one-tmp');
@@ -132,72 +135,107 @@
           };
         })();
         return (function() {
-          var allCardsList, allOne, cardIndex, cardObj, cardObjIndexName, deckList, insertIntoAllDiv, insertIntoMyDeckDiv, liOne, _fn, _i, _j, _k, _l, _len, _len1, _len2, _len3, _results;
+          var allCardsList, allOne, cardObjIndexName, displayAllCards, displayAllHeroes, displayCurrentDeck, _i, _len, _results;
           cardObjIndexName = 'cardIndex';
-          insertIntoMyDeckDiv = function(_cardObj) {
-            var imgUrl, node, nodeBg;
-            node = deckOneTmp.cloneNode(true);
-            node.removeAttribute('id');
-            node.setAttribute(cardObjIndexName, _cardObj.cid);
-            node.className = node.className.replace(/hide/, '');
-            nodeBg = _.find(node, '.bg');
-            imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list;
-            _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
-            return myDeckDom.appendChild(node);
-          };
-          for (_i = 0, _len = deck.length; _i < _len; _i++) {
-            cardIndex = deck[_i];
-            cardObj = getCardObjByCache(cardIndex);
-            if (cardObj) {
-              insertIntoMyDeckDiv(cardObj);
+          displayCurrentDeck = function() {
+            var cardIndex, cardObj, insertIntoMyDeckDiv, _i, _len, _results;
+            myDeckDom.innerHTML = '';
+            insertIntoMyDeckDiv = function(_cardObj) {
+              var imgUrl, node, nodeBg;
+              node = deckOneTmp.cloneNode(true);
+              node.removeAttribute('id');
+              node.setAttribute(cardObjIndexName, _cardObj.cid);
+              node.className = node.className.replace(/hide/, '');
+              nodeBg = _.find(node, '.bg');
+              imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list;
+              _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
+              return myDeckDom.appendChild(node);
+            };
+            _results = [];
+            for (_i = 0, _len = deck.length; _i < _len; _i++) {
+              cardIndex = deck[_i];
+              cardObj = getCardObjByCache(cardIndex);
+              if (cardObj) {
+                _results.push(insertIntoMyDeckDiv(cardObj));
+              } else {
+                _results.push(void 0);
+              }
             }
-          }
-          insertIntoAllDiv = function(_cardObj, _cardIndex) {
-            var imgUrl, node, nodeBg;
-            node = cardOneTmp.cloneNode(true);
-            node.removeAttribute('id');
-            node.className = node.className.replace(/hide/, '');
-            nodeBg = _.find(node, '.bg');
-            imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar;
-            _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
-            node.setAttribute(cardObjIndexName, _cardIndex);
-            return allCardDom.appendChild(node);
+            return _results;
           };
-          for (_j = 0, _len1 = all.length; _j < _len1; _j++) {
-            cardIndex = all[_j];
-            cardObj = getCardObjByCache(cardIndex);
-            if (cardObj) {
-              insertIntoAllDiv(cardObj, cardIndex);
+          displayAllHeroes = function() {
+            var allDecksDomChildren, heroI, heroObj, i, setHero, _i, _len, _results;
+            allDecksDomChildren = allDecksDom.children;
+            setHero = function(_heroObj, _i) {
+              var deckDom, heroImg;
+              deckDom = allDecksDomChildren[_i];
+              heroImg = cardFactory.heroAvatarPre + _heroObj.img;
+              return _.css(deckDom, 'backgroundImage', 'url(' + heroImg + ')');
+            };
+            _results = [];
+            for (i = _i = 0, _len = allHeroes.length; _i < _len; i = ++_i) {
+              heroI = allHeroes[i];
+              heroObj = getCardObjByCache(heroI, 'hero');
+              if (heroObj) {
+                _results.push(setHero(heroObj, i));
+              } else {
+                _results.push(void 0);
+              }
             }
-          }
-          deckList = myDeckDom.children;
-          _fn = function() {
-            var li;
-            li = liOne;
-            return _.on(li, 'click', function(_e) {
-              var cid;
-              cid = this.getAttribute(cardObjIndexName);
-              this.remove();
-              return btnToClick.changeDeckDelete(cid);
-            });
+            return _results;
           };
-          for (_k = 0, _len2 = deckList.length; _k < _len2; _k++) {
-            liOne = deckList[_k];
-            _fn();
-          }
+          displayAllCards = function() {
+            var cardIndex, cardObj, insertIntoAllDiv, _i, _len, _results;
+            insertIntoAllDiv = function(_cardObj, _cardIndex) {
+              var imgUrl, node, nodeBg;
+              node = cardOneTmp.cloneNode(true);
+              node.removeAttribute('id');
+              node.className = node.className.replace(/hide/, '');
+              nodeBg = _.find(node, '.bg');
+              imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar;
+              _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
+              node.setAttribute(cardObjIndexName, _cardIndex);
+              return allCardDom.appendChild(node);
+            };
+            _results = [];
+            for (_i = 0, _len = allCards.length; _i < _len; _i++) {
+              cardIndex = allCards[_i];
+              cardObj = getCardObjByCache(cardIndex);
+              if (cardObj) {
+                _results.push(insertIntoAllDiv(cardObj, cardIndex));
+              } else {
+                _results.push(void 0);
+              }
+            }
+            return _results;
+          };
+          displayCurrentDeck();
+          displayAllHeroes();
+          displayAllCards();
+          _.on(myDeckDom, 'click', function(_e) {
+            var cid, target;
+            target = _e.target.parentElement;
+            console.log(target, target.className);
+            if (-1 === target.className.indexOf('card-one')) {
+              return false;
+            }
+            cid = target.getAttribute(cardObjIndexName);
+            target.remove();
+            return btnToClick.changeDeckDelete(cid);
+          });
           allCardsList = allCardDom.children;
           _results = [];
-          for (_l = 0, _len3 = allCardsList.length; _l < _len3; _l++) {
-            allOne = allCardsList[_l];
+          for (_i = 0, _len = allCardsList.length; _i < _len; _i++) {
+            allOne = allCardsList[_i];
             _results.push((function() {
               var one;
               one = allOne;
               return _.on(one, 'click', function(_e) {
+                var cardIndex;
                 if (deck.length < CARD_NUM_MAX) {
                   cardIndex = this.getAttribute(cardObjIndexName);
-                  cardObj = getCardObjByCache(cardIndex);
-                  insertIntoMyDeckDiv(cardObj);
-                  return btnToClick.changeDeckAdd(cardIndex);
+                  btnToClick.changeDeckAdd(cardIndex);
+                  return displayCurrentDeck();
                 }
               });
             })());

@@ -8,15 +8,20 @@ CARD_NUM_MAX = 10
 #set click event
 _.on window, 'load', ->
   myDeckDom = _.query '.my-deck'
+  window. allDecksDom = _.query '.all-decks'
   allCardDom = _.query '.all-cards-list'
 
-  hero = global.myCards.deck.hero
-  window.decks = global.myCards.deck
-
+  decks = global.myCards.deck
   deck = decks[0].deck
-  all  = global.myCards.all
+
+  allCards  = global.myCards.allCard
+  allHeroes = global.myCards.allHero
+
+  allCards = allCards.concat()
+  allHeroes = allHeroes.concat()
+
   do ->
-    if global.myCards and global.myCards.deck and global.myCards.all
+    if global.myCards
       indexPre = cardFactory.indexPre
 
       deckOneTmp = _.query '#deck-one-tmp'
@@ -105,52 +110,75 @@ _.on window, 'load', ->
       #fill
       do ->
         cardObjIndexName = 'cardIndex'
-        #填充头部栏:当前的构成
-        insertIntoMyDeckDiv = (_cardObj)->
-          node = deckOneTmp.cloneNode true
-          node.removeAttribute 'id'
-          node.setAttribute cardObjIndexName,_cardObj.cid
-          node.className = node.className.replace /hide/,''
 
-          nodeBg = _.find node, '.bg'
-          imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list
-          _.css nodeBg, 'backgroundImage', 'url(' + imgUrl + ')'
+        #填充:当前的deck的构成
+        displayCurrentDeck = ->
+          myDeckDom.innerHTML = ''
 
-          myDeckDom.appendChild node
+          insertIntoMyDeckDiv = (_cardObj)->
+            node = deckOneTmp.cloneNode true
+            node.removeAttribute 'id'
+            node.setAttribute cardObjIndexName,_cardObj.cid
+            node.className = node.className.replace /hide/,''
 
-        for cardIndex in deck
-          cardObj = getCardObjByCache cardIndex
-          if cardObj
-            insertIntoMyDeckDiv cardObj
-        #填充中间栏:拥有的所有卡牌
-        insertIntoAllDiv = (_cardObj,_cardIndex)->
-          node = cardOneTmp.cloneNode true
-          node.removeAttribute 'id'
-          node.className = node.className.replace /hide/,''
+            nodeBg = _.find node, '.bg'
+            imgUrl = cardFactory.cardAvatarPre + _cardObj.select_list
+            _.css nodeBg, 'backgroundImage', 'url(' + imgUrl + ')'
 
-          nodeBg = _.find node, '.bg'
-          imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar
+            myDeckDom.appendChild node
 
-          _.css nodeBg, 'backgroundImage', 'url(' + imgUrl + ')'
-          node.setAttribute cardObjIndexName,_cardIndex
+          for cardIndex in deck
+            cardObj = getCardObjByCache cardIndex
+            if cardObj
+              insertIntoMyDeckDiv cardObj
+        #填充:所有的heroes
+        displayAllHeroes = ->
+          allDecksDomChildren = allDecksDom.children
 
-          allCardDom.appendChild node
+          setHero = (_heroObj,_i)->
+            deckDom = allDecksDomChildren[_i]
+            heroImg = cardFactory.heroAvatarPre + _heroObj.img
+            _.css deckDom,'backgroundImage','url('+heroImg+')'
 
-        for cardIndex in all
-          cardObj = getCardObjByCache cardIndex
-          if cardObj
-            insertIntoAllDiv cardObj,cardIndex
+          for heroI,i in allHeroes
+            heroObj = getCardObjByCache heroI,'hero'
+            if heroObj
+              setHero heroObj,i
+
+        #填充:拥有的所有卡牌
+        displayAllCards = ->
+          insertIntoAllDiv = (_cardObj,_cardIndex)->
+            node = cardOneTmp.cloneNode true
+            node.removeAttribute 'id'
+            node.className = node.className.replace /hide/,''
+
+            nodeBg = _.find node, '.bg'
+            imgUrl = cardFactory.cardAvatarPre + _cardObj.normalAvatar
+
+            _.css nodeBg, 'backgroundImage', 'url(' + imgUrl + ')'
+            node.setAttribute cardObjIndexName,_cardIndex
+
+            allCardDom.appendChild node
+
+          for cardIndex in allCards
+            cardObj = getCardObjByCache cardIndex
+            if cardObj
+              insertIntoAllDiv cardObj,cardIndex
+
+        displayCurrentDeck()
+        displayAllHeroes()
+        displayAllCards()
 
         #增减卡组,上减下增
-        deckList = myDeckDom.children
-        for liOne in deckList
-          do ->
-            li = liOne
-            _.on li,'click',(_e)->
-              cid = this.getAttribute cardObjIndexName
-              this.remove()
+        _.on myDeckDom,'click',(_e)->
+          target = _e.target.parentElement
+          if -1 is target.className.indexOf 'card-one'
+            return false
 
-              btnToClick.changeDeckDelete(cid)
+          cid = target.getAttribute cardObjIndexName
+          target.remove()
+
+          btnToClick.changeDeckDelete(cid)
 
         allCardsList = allCardDom.children
         for allOne in allCardsList
@@ -160,8 +188,6 @@ _.on window, 'load', ->
               if deck.length < CARD_NUM_MAX
 
                 cardIndex = this.getAttribute cardObjIndexName
-
-                cardObj = getCardObjByCache cardIndex
-                insertIntoMyDeckDiv cardObj
-
                 btnToClick.changeDeckAdd cardIndex
+
+                displayCurrentDeck()
