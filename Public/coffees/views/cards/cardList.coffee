@@ -8,11 +8,12 @@ CARD_NUM_MAX = 10
 #set click event
 _.on window, 'load', ->
   myDeckDom = _.query '.my-deck'
-  window. allDecksDom = _.query '.all-decks'
+  allDecksDom = _.query '.all-decks'
   allCardDom = _.query '.all-cards-list'
+  allHeroesDom = _.query '.all-heroes-list'
 
-  decks = global.myCards.deck
-  deck = decks[0].deck
+  allDecks = global.myCards.deck
+  deck = allDecks[0].deck
 
   allCards  = global.myCards.allCard
   allHeroes = global.myCards.allHero
@@ -26,7 +27,7 @@ _.on window, 'load', ->
 
       deckOneTmp = _.query '#deck-one-tmp'
       cardOneTmp = _.query '#card-one-tmp'
-
+      heroOneTmp = _.query '#hero-one-tmp'
       currentNum = 0
 
       #store the different cardObject because of different cardId
@@ -131,8 +132,8 @@ _.on window, 'load', ->
             cardObj = getCardObjByCache cardIndex
             if cardObj
               insertIntoMyDeckDiv cardObj
-        #填充:所有的heroes
-        displayAllHeroes = ->
+        #填充:所有的decks
+        displayAllDecks = ->
           allDecksDomChildren = allDecksDom.children
 
           setHero = (_heroObj,_i)->
@@ -140,8 +141,8 @@ _.on window, 'load', ->
             heroImg = cardFactory.heroAvatarPre + _heroObj.img
             _.css deckDom,'backgroundImage','url('+heroImg+')'
 
-          for heroI,i in allHeroes
-            heroObj = getCardObjByCache heroI,'hero'
+          for deckOne,i in allDecks
+            heroObj = getCardObjByCache deckOne.hero,'hero'
             if heroObj
               setHero heroObj,i
 
@@ -165,29 +166,55 @@ _.on window, 'load', ->
             if cardObj
               insertIntoAllDiv cardObj,cardIndex
 
+        #填充:拥有的所有hero
+        displayAllHeroes = ->
+          insertIntoAllHero = (_heroObj)->
+            node  = heroOneTmp.cloneNode true
+            node.removeAttribute 'id'
+            node.className = node.className.replace /hide/,''
+
+            avatar = _.find node,'.avatar'
+            name  = _.find node,'.name'
+
+            heroImg = cardFactory.heroAvatarPre + _heroObj.img
+
+            _.css avatar,'background-Image','url('+heroImg+')'
+            _.text name,_heroObj.name
+            console.log node
+            allHeroesDom.appendChild node
+
+          for heroI in allHeroes
+            heroObj = getCardObjByCache heroI,'hero'
+            if heroObj
+              insertIntoAllHero heroObj
+
         displayCurrentDeck()
-        displayAllHeroes()
+        displayAllDecks()
         displayAllCards()
+        displayAllHeroes()
 
-        #增减卡组,上减下增
-        _.on myDeckDom,'click',(_e)->
-          target = _e.target.parentElement
-          if -1 is target.className.indexOf 'card-one'
-            return false
+        do ->
+          #增减卡组,上减下增
+          _.on myDeckDom,'click',(_e)->
+            target = _e.target.parentElement
+            if -1 is target.className.indexOf 'card-one'
+              return false
 
-          cid = target.getAttribute cardObjIndexName
-          target.remove()
+            cid = target.getAttribute cardObjIndexName
+            target.remove()
 
-          btnToClick.changeDeckDelete(cid)
+            btnToClick.changeDeckDelete(cid)
 
-        allCardsList = allCardDom.children
-        for allOne in allCardsList
-          do ->
-            one = allOne
-            _.on one,'click',(_e)->
-              if deck.length < CARD_NUM_MAX
+          allCardsList = allCardDom.children
+          for allOne in allCardsList
+            do ->
+              one = allOne
+              _.on one,'click',(_e)->
+                if deck.length < CARD_NUM_MAX
 
-                cardIndex = this.getAttribute cardObjIndexName
-                btnToClick.changeDeckAdd cardIndex
+                  cardIndex = this.getAttribute cardObjIndexName
+                  btnToClick.changeDeckAdd cardIndex
 
-                displayCurrentDeck()
+                  displayCurrentDeck()
+
+          _.on allDecksDom,'click',(_e)->

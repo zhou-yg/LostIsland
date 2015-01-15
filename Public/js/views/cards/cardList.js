@@ -12,22 +12,24 @@
   CARD_NUM_MAX = 10;
 
   _.on(window, 'load', function() {
-    var allCardDom, allCards, allHeroes, deck, decks, myDeckDom;
+    var allCardDom, allCards, allDecks, allDecksDom, allHeroes, allHeroesDom, deck, myDeckDom;
     myDeckDom = _.query('.my-deck');
-    window.allDecksDom = _.query('.all-decks');
+    allDecksDom = _.query('.all-decks');
     allCardDom = _.query('.all-cards-list');
-    decks = global.myCards.deck;
-    deck = decks[0].deck;
+    allHeroesDom = _.query('.all-heroes-list');
+    allDecks = global.myCards.deck;
+    deck = allDecks[0].deck;
     allCards = global.myCards.allCard;
     allHeroes = global.myCards.allHero;
     allCards = allCards.concat();
     allHeroes = allHeroes.concat();
     return (function() {
-      var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, indexPre;
+      var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, heroOneTmp, indexPre;
       if (global.myCards) {
         indexPre = cardFactory.indexPre;
         deckOneTmp = _.query('#deck-one-tmp');
         cardOneTmp = _.query('#card-one-tmp');
+        heroOneTmp = _.query('#hero-one-tmp');
         currentNum = 0;
         getCardObjByCache = (function() {
           var cardObjCache, heroObjCache;
@@ -135,7 +137,7 @@
           };
         })();
         return (function() {
-          var allCardsList, allOne, cardObjIndexName, displayAllCards, displayAllHeroes, displayCurrentDeck, _i, _len, _results;
+          var allCardsList, allOne, cardObjIndexName, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, _i, _len, _results;
           cardObjIndexName = 'cardIndex';
           displayCurrentDeck = function() {
             var cardIndex, cardObj, insertIntoMyDeckDiv, _i, _len, _results;
@@ -163,8 +165,8 @@
             }
             return _results;
           };
-          displayAllHeroes = function() {
-            var allDecksDomChildren, heroI, heroObj, i, setHero, _i, _len, _results;
+          displayAllDecks = function() {
+            var allDecksDomChildren, deckOne, heroObj, i, setHero, _i, _len, _results;
             allDecksDomChildren = allDecksDom.children;
             setHero = function(_heroObj, _i) {
               var deckDom, heroImg;
@@ -173,9 +175,9 @@
               return _.css(deckDom, 'backgroundImage', 'url(' + heroImg + ')');
             };
             _results = [];
-            for (i = _i = 0, _len = allHeroes.length; _i < _len; i = ++_i) {
-              heroI = allHeroes[i];
-              heroObj = getCardObjByCache(heroI, 'hero');
+            for (i = _i = 0, _len = allDecks.length; _i < _len; i = ++_i) {
+              deckOne = allDecks[i];
+              heroObj = getCardObjByCache(deckOne.hero, 'hero');
               if (heroObj) {
                 _results.push(setHero(heroObj, i));
               } else {
@@ -209,13 +211,40 @@
             }
             return _results;
           };
+          displayAllHeroes = function() {
+            var heroI, heroObj, insertIntoAllHero, _i, _len, _results;
+            insertIntoAllHero = function(_heroObj) {
+              var avatar, heroImg, name, node;
+              node = heroOneTmp.cloneNode(true);
+              node.removeAttribute('id');
+              node.className = node.className.replace(/hide/, '');
+              avatar = _.find(node, '.avatar');
+              name = _.find(node, '.name');
+              heroImg = cardFactory.heroAvatarPre + _heroObj.img;
+              _.css(avatar, 'background-Image', 'url(' + heroImg + ')');
+              _.text(name, _heroObj.name);
+              console.log(node);
+              return allHeroesDom.appendChild(node);
+            };
+            _results = [];
+            for (_i = 0, _len = allHeroes.length; _i < _len; _i++) {
+              heroI = allHeroes[_i];
+              heroObj = getCardObjByCache(heroI, 'hero');
+              if (heroObj) {
+                _results.push(insertIntoAllHero(heroObj));
+              } else {
+                _results.push(void 0);
+              }
+            }
+            return _results;
+          };
           displayCurrentDeck();
-          displayAllHeroes();
+          displayAllDecks();
           displayAllCards();
+          displayAllHeroes();
           _.on(myDeckDom, 'click', function(_e) {
             var cid, target;
             target = _e.target.parentElement;
-            console.log(target, target.className);
             if (-1 === target.className.indexOf('card-one')) {
               return false;
             }

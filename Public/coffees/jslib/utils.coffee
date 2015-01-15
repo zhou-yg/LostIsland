@@ -21,6 +21,11 @@ class Util
     return _parent
 
   css: (_dom, _styleName, _value)->
+    transStr = /-([\w])/
+
+    _styleName = _styleName.replace transStr,(_all,_second)->
+      return _second.toUpperCase()
+
     if _value is undefined
       return _dom.style[_styleName]
 
@@ -30,18 +35,6 @@ class Util
     else if @.isObject _styleName
       for k,v of _styleName
         _dom.style[k] = v
-
-  cssTrans:(_propertyName)->
-    if typeof _propertyName is 'string'
-      nameArr = _propertyName.split '-'
-      len = nameArr.length
-      if len isnt 1
-        for i in [1..len-1]
-          nameArr[i] = nameArr[i].replace /[\W\w]/,(_s)->
-            return _s.toUpperCase()
-
-        _propertyName = nameArr.join('')
-    return _propertyName
 
   addClass:(_dom,_className)->
   removeCLass:(_dom,_className)->
@@ -60,6 +53,9 @@ class Util
   show: (_dom)->
     _dom.style.display = 'block'
 
+  #----------------------------
+  text:(_dom,_text)->
+    _dom.innerText = _text
   #-------------obj-----------
   isObject: (_obj)->
     return typeof _obj is 'object' && !!_obj;

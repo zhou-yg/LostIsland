@@ -31,7 +31,11 @@
     };
 
     Util.prototype.css = function(_dom, _styleName, _value) {
-      var k, v, _results;
+      var k, transStr, v, _results;
+      transStr = /-([\w])/;
+      _styleName = _styleName.replace(transStr, function(_all, _second) {
+        return _second.toUpperCase();
+      });
       if (_value === void 0) {
         return _dom.style[_styleName];
       } else if (_value && typeof _styleName === 'string') {
@@ -44,23 +48,6 @@
         }
         return _results;
       }
-    };
-
-    Util.prototype.cssTrans = function(_propertyName) {
-      var i, len, nameArr, _i, _ref;
-      if (typeof _propertyName === 'string') {
-        nameArr = _propertyName.split('-');
-        len = nameArr.length;
-        if (len !== 1) {
-          for (i = _i = 1, _ref = len - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
-            nameArr[i] = nameArr[i].replace(/[\W\w]/, function(_s) {
-              return _s.toUpperCase();
-            });
-          }
-          _propertyName = nameArr.join('');
-        }
-      }
-      return _propertyName;
     };
 
     Util.prototype.addClass = function(_dom, _className) {};
@@ -93,6 +80,10 @@
 
     Util.prototype.show = function(_dom) {
       return _dom.style.display = 'block';
+    };
+
+    Util.prototype.text = function(_dom, _text) {
+      return _dom.innerText = _text;
     };
 
     Util.prototype.isObject = function(_obj) {
