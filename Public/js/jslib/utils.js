@@ -3,9 +3,11 @@
     __hasProp = {}.hasOwnProperty;
 
   Util = (function() {
-    function Util() {}
+    function Util() {
+      this.curDom = null;
+    }
 
-    Util.prototype.query = function(_selector, _paraent) {
+    Util.prototype.q = function(_selector, _paraent) {
       var nodeList, parent;
       parent = _paraent || document;
       if (_selector[0] === '#') {
@@ -24,7 +26,7 @@
     Util.prototype.find = function(_parent, _selector) {
       var node;
       if (_parent instanceof HTMLElement) {
-        node = this.query(_selector, _parent);
+        node = this.q(_selector, _parent);
         return node;
       }
       return _parent;
@@ -50,9 +52,17 @@
       }
     };
 
-    Util.prototype.addClass = function(_dom, _className) {};
+    Util.prototype.addClass = function(_dom, _className) {
+      _dom.className += _dom.className + ' ' + _className;
+      return this;
+    };
 
-    Util.prototype.removeCLass = function(_dom, _className) {};
+    Util.prototype.removeCLass = function(_dom, _className) {
+      _dom.className += ' ';
+      _className += '';
+      _dom.className = _dom.className.replace(_className, '');
+      return this;
+    };
 
     Util.prototype.on = function(_dom, _type, _cb) {
       var typeArr, typeOne, _i, _j, _len, _len1, _results, _results1;
@@ -75,11 +85,25 @@
     };
 
     Util.prototype.hide = function(_dom) {
-      return _dom.style.display = 'none';
+      var d, _i, _len, _results;
+      _dom = Array.apply(Array, arguments);
+      _results = [];
+      for (_i = 0, _len = _dom.length; _i < _len; _i++) {
+        d = _dom[_i];
+        _results.push(d.style.display = 'none');
+      }
+      return _results;
     };
 
     Util.prototype.show = function(_dom) {
-      return _dom.style.display = 'block';
+      var d, _i, _len, _results;
+      _dom = Array.apply(Array, arguments);
+      _results = [];
+      for (_i = 0, _len = _dom.length; _i < _len; _i++) {
+        d = _dom[_i];
+        _results.push(d.style.display = 'block');
+      }
+      return _results;
     };
 
     Util.prototype.text = function(_dom, _text) {

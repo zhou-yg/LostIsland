@@ -40,6 +40,9 @@
     border: 1px solid #736E6E;
     float: left;
 }
+.list .all-decks .deck-one-selected{
+    border:5px solid #4A4949;
+}
 .list .hr{
     margin: 5px 2%;
     background-color: #DBDBDB;
@@ -71,6 +74,15 @@
     margin:0 0.5% 5px;
     width: 100%;
     padding-top: 167%;
+}
+.list .all-heroes-bg{
+    background-color: #000000;
+    opacity: 0.6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 .list .all-heroes-list{
     background-color: #f0f0f0;

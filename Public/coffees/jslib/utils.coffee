@@ -1,8 +1,9 @@
 class Util
   constructor: ->
+    @curDom = null
     #-------------dom-----------
     #获取dom元素
-  query: (_selector,_paraent) ->
+  q: (_selector,_paraent) ->
     parent = _paraent||document
     if _selector[0] is '#'
       _selector = _selector.substring 1,_selector.length
@@ -16,7 +17,7 @@ class Util
       return nodeList
   find: (_parent,_selector)->
     if _parent instanceof HTMLElement
-      node = @query _selector,_parent
+      node = @q _selector,_parent
       return node
     return _parent
 
@@ -37,7 +38,13 @@ class Util
         _dom.style[k] = v
 
   addClass:(_dom,_className)->
+    _dom.className += _dom.className + ' ' + _className
+    return this
   removeCLass:(_dom,_className)->
+    _dom.className += ' '
+    _className += ''
+    _dom.className = _dom.className.replace _className,''
+    return this
 
   on: (_dom, _type, _cb)->
     typeArr = _type.split(' ');
@@ -49,9 +56,13 @@ class Util
         _dom['on' + typeOne] = _cb
 
   hide: (_dom) ->
-    _dom.style.display = 'none'
+    _dom = Array.apply Array,arguments
+    for d in _dom
+      d.style.display = 'none'
   show: (_dom)->
-    _dom.style.display = 'block'
+    _dom = Array.apply Array,arguments
+    for d in _dom
+      d.style.display = 'block'
 
   #----------------------------
   text:(_dom,_text)->
