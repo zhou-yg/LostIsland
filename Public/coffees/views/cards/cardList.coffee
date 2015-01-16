@@ -112,6 +112,10 @@ _.on window, 'load', ->
       do ->
         cardObjIndexName = 'cardIndex'
 
+        decksStateCache =  do ->
+
+          
+
         #填充:当前的deck的构成
         displayCurrentDeck = ->
           myDeckDom.innerHTML = ''
@@ -218,3 +222,4 @@ _.on window, 'load', ->
                   displayCurrentDeck()
 
           _.on allDecksDom,'click',(_e)->
+            tar = _e.target

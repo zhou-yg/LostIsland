@@ -53,9 +53,11 @@
 	<script>
 		var macTokenUrl = 'http://lostisland/index.php/apis/route?fn=1000&param={"type":"create"}';
 		var macInitUrl = 'http://lostisland/index.php/apis/route?fn=1001';
+		var melotTokenUrl = 'http://10.0.1.82:9000/lostisland//index.php/apis/route?fn=1000&param={"type":"create"}';
+		var melotInitUrl = 'http://10.0.1.82:9000/lostisland//index.php/apis/route?fn=1001';
 
-		var initUrl = macInitUrl;
 		var tokenUrl = macTokenUrl;
+		var initUrl = macInitUrl;
 
 		var token = '';
 		var username = '';
@@ -64,6 +66,11 @@
 			var $this = $(this);
 			$this.addClass('selected');
 			$this.siblings().removeClass('selected');
+			
+			if($this.text() == 'melot'){
+				initUrl = melotInitUrl;
+				tokenUrl = melotTokenUrl;
+			}
 		});
 		$('.platform1').click(function(){
 			initUrl = macInitUrl;
@@ -86,7 +93,7 @@
 				alert('no token or no username');
 				return;
 			}
-			$.post(macInitUrl,{
+			$.post(initUrl,{
 				'clientToken':token,
 				'username':username
 			},function(_data,_status){

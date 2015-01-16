@@ -137,7 +137,7 @@
           };
         })();
         return (function() {
-          var allCardsList, allOne, cardObjIndexName, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, _i, _len, _results;
+          var cardObjIndexName, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck;
           cardObjIndexName = 'cardIndex';
           displayCurrentDeck = function() {
             var cardIndex, cardObj, insertIntoMyDeckDiv, _i, _len, _results;
@@ -242,21 +242,20 @@
           displayAllDecks();
           displayAllCards();
           displayAllHeroes();
-          _.on(myDeckDom, 'click', function(_e) {
-            var cid, target;
-            target = _e.target.parentElement;
-            if (-1 === target.className.indexOf('card-one')) {
-              return false;
-            }
-            cid = target.getAttribute(cardObjIndexName);
-            target.remove();
-            return btnToClick.changeDeckDelete(cid);
-          });
-          allCardsList = allCardDom.children;
-          _results = [];
-          for (_i = 0, _len = allCardsList.length; _i < _len; _i++) {
-            allOne = allCardsList[_i];
-            _results.push((function() {
+          return (function() {
+            var allCardsList, allOne, _fn, _i, _len;
+            _.on(myDeckDom, 'click', function(_e) {
+              var cid, target;
+              target = _e.target.parentElement;
+              if (-1 === target.className.indexOf('card-one')) {
+                return false;
+              }
+              cid = target.getAttribute(cardObjIndexName);
+              target.remove();
+              return btnToClick.changeDeckDelete(cid);
+            });
+            allCardsList = allCardDom.children;
+            _fn = function() {
               var one;
               one = allOne;
               return _.on(one, 'click', function(_e) {
@@ -267,9 +266,15 @@
                   return displayCurrentDeck();
                 }
               });
-            })());
-          }
-          return _results;
+            };
+            for (_i = 0, _len = allCardsList.length; _i < _len; _i++) {
+              allOne = allCardsList[_i];
+              _fn();
+            }
+            return _.on(allDecksDom, 'click', function(_e) {
+              return console.log(_e.target);
+            });
+          })();
         })();
       }
     })();

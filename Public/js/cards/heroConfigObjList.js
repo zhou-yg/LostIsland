@@ -1,1 +1,1 @@
-var heroConfigObjList={hero1:{name:"railgun",img:"hero1.jpg",},};var heroAvatarPre = "http://lostisland/Public/images/hero/";
+var heroConfigObjList={hero1:{name:"railgun",img:"hero1.jpg",},};var heroAvatarPre = "http://10.0.1.82:9000/lostisland/Public/images/hero/";

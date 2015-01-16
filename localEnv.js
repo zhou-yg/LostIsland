@@ -24,7 +24,7 @@
     }
   };
 
-  server = serverConfig.mac;
+  server = serverConfig.melot;
 
   cardConfigUrl = 'apis/route?fn=2001&param={"type":"saber"}';
   heroConfigUrl = 'apis/route?fn=2001&param={"type":"hero"}';

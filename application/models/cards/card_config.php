@@ -43,10 +43,10 @@ class Card_config extends CI_Model {
 			if($js && $path){
 				$this->load->helper('file');
 				if(write_file($path,$js)){
-					$data = 'init '.$_param.' js success';
+					$data = 'init '.$type.' js success';
 				}else{
 					$result = FALSE;
-					$data = 'init '.$_param.' js fail';
+					$data = 'init '.$type.' js fail';
 				}
 			}else{
 				$result = FALSE;
