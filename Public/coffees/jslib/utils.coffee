@@ -38,11 +38,11 @@ class Util
         _dom.style[k] = v
 
   addClass:(_dom,_className)->
-    _dom.className += _dom.className + ' ' + _className
+    _dom.className += ' ' + _className
     return this
-  removeCLass:(_dom,_className)->
+  removeClass:(_dom,_className)->
     _dom.className += ' '
-    _className += ''
+    _className += ' '
     _dom.className = _dom.className.replace _className,''
     return this
 

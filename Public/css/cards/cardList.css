@@ -37,10 +37,10 @@
     margin: 0 1% 5px;
     width: 23%;
     padding-top: 23%;
-    border: 1px solid #736E6E;
+    border:5px solid #ffffff;
     float: left;
 }
-.list .all-decks .deck-one-selected{
+.list .all-decks .deck-one-cur{
     border:5px solid #4A4949;
 }
 .list .hr{

@@ -13,7 +13,8 @@ _.on window, 'load', ->
   allHeroesDom = _.q '.all-heroes-list'
 
   allDecks = global.myCards.deck
-  window.curDeck = allDecks[0]
+  curDeck = allDecks[0]
+  curDeck.cur = true
 
   allCards  = global.myCards.allCard
   allHeroes = global.myCards.allHero
@@ -74,6 +75,19 @@ _.on window, 'load', ->
               curDeck.deck.splice i,0,_cid
               break;
 
+        waitToUpdate:->
+          if isWaitUpdate
+          else
+            isWaitUpdate = true
+            updateBtn.className = updateBtn.className + updateBtnDisplayClass
+
+            _.on updateBtn,'click',->
+              updateToServer()
+        afterUpdate:->
+          if isWaitUpdate
+            isWaitUpdate = false
+            updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
+
         updateToServer = ->
           param =
             uid:global.user.userId
@@ -85,29 +99,18 @@ _.on window, 'load', ->
             if typeof _d is 'string'
               _d = JSON.parse _d;
             if _d.result is 'true' or _d.result is true
-              updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
-              isWaitUpdate = false
+              afterUpdate()
 
         return {
-          changeDeckDelete : (_cid)->
+          deleteCard : (_cid)->
             min _cid
-            if isWaitUpdate
-            else
-              isWaitUpdate = true
-              updateBtn.className = updateBtn.className + updateBtnDisplayClass
+            waitToUpdate();
 
-              _.on updateBtn,'click',->
-                updateToServer()
-
-          changeDeckAdd : (_cid)->
+          addToCard : (_cid)->
             add _cid
-            if isWaitUpdate
-            else
-              isWaitUpdate = true
-              updateBtn.className = updateBtn.className + updateBtnDisplayClass
+            waitToUpdate();
+          addToDeck:(_deck)->
 
-              _.on updateBtn,'click',->
-                updateToServer()
         }
       #fill
       do ->
@@ -118,7 +121,7 @@ _.on window, 'load', ->
           deckSpotAttr = 'spot'
           deckSpotNames = ['a','b','c','d']
 
-          deckSpotMap = {}
+          deckSpotDomMap = {}
           domSpotMap = {}
 
           children = allDecksDom.children
@@ -129,16 +132,16 @@ _.on window, 'load', ->
 
           set = ->
             for deckOne,i in allDecks
-              deckSpotMap[deckSpotNames[i]] = deckOne
+              deckSpotDomMap[deckSpotNames[i]] = deckOne
           set()
           return {
-            #如果传入了插槽值，返回对应的
+            #返回对应的dom
             deckBySpot:(_deckSpot)->
-                return deckSpotMap[_deckSpot]
-            #如果没有参数，则返回最近最空的插槽
+                return deckSpotDomMap[_deckSpot]
+            #则返回最近最空的插槽
             undefSpot:->
               curSpots = []
-              for s in deckSpotMap
+              for s of deckSpotDomMap
                 curSpots.push s
               for spot in deckSpotNames
                 if !(spot in curSpots)
@@ -166,22 +169,29 @@ _.on window, 'load', ->
             cardObj = getCardObjByCache cardIndex
             if cardObj
               insertIntoMyDeckDiv cardObj
-        #填充:所有的decks,添加一个
+        #填充:所有的deck
         displayAllDecks = ->
-          allDecksDomChildren = allDecksDom.children
+          deckSpots = allDecksDom.children
+          deckCurStyle = 'deck-one-cur'
 
-          setHero = (_heroObj,_i)->
-            deckDom = decksStateCache.undefSpot()
+          setHero = (_heroObj,_isCur,_i)->
+            deckDom = deckSpots[_i]
+            if _isCur
+              _.addClass deckDom,deckCurStyle
+            else
+              _.removeClass deckDom,deckCurStyle
+
             heroImg = cardFactory.heroAvatarPre + _heroObj.img
             _.css deckDom,'backgroundImage','url('+heroImg+')'
 
           for deckOne,i in allDecks
             heroObj = getCardObjByCache deckOne.hero,'hero'
             if heroObj
-              setHero heroObj
+              setHero heroObj,deckOne.cur,i
 
         #填充:拥有的所有卡牌
         displayAllCards = ->
+          allCardDom.innerHTML = ''
           insertIntoAllDiv = (_cardObj,_cardIndex)->
             node = cardOneTmp.cloneNode true
             node.removeAttribute 'id'
@@ -235,17 +245,26 @@ _.on window, 'load', ->
           allHeroUl = _.q '.all-heroes-list'
 
           resetDeck = (_heroIndex)->
-            window.curDeck =
+            curDeck.cur = false
+            curDeck =
               hero:_heroIndex
               deck:[]
+              cur:true
+            allDecks.push curDeck
+
+            decksStateCache.refresh()
+            displayCurrentDeck()
+            displayAllDecks()
 
           show = ->
             _.show allHeroesBg,allHeroUl
             if !isSet
+              isSet = true
               _.on allHeroesBg,'click',(_e)->
                 hide()
               _.on allHeroUl,'click',(_e)->
                 tar = _e.target.parentNode
+
                 if tar.nodeName is 'LI'
                   heroIndex = tar.getAttribute heroDomIndexName
                   resetDeck(heroIndex)
@@ -281,13 +300,13 @@ _.on window, 'load', ->
             cid = target.getAttribute cardDomIndexName
             target.remove()
 
-            btnToClick.changeDeckDelete(cid)
+            btnToClick.deleteCard(cid)
 
           _.on allCardDom,'click',(_e)->
             tar = _e.target.parentNode
             if tar.nodeName is 'LI' and curDeck.deck.length < CARD_NUM_MAX
                 cardIndex = tar.getAttribute cardDomIndexName
-                btnToClick.changeDeckAdd cardIndex
+                btnToClick.addToCard cardIndex
 
                 displayCurrentDeck()
 
@@ -300,7 +319,11 @@ _.on window, 'load', ->
             clickedDeck = decksStateCache.deckBySpot spot
             #已经存在?则展示:构建
             if clickedDeck
-              curDeck.deck = clickedDeck
-              displayAllCards()
+              curDeck.cur = false;
+              clickedDeck.cur = true
+              curDeck = clickedDeck
+
+              displayCurrentDeck()
+              displayAllDecks()
             else
               buildNewDeck.build(tar)

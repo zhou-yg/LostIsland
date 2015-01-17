@@ -53,13 +53,13 @@
     };
 
     Util.prototype.addClass = function(_dom, _className) {
-      _dom.className += _dom.className + ' ' + _className;
+      _dom.className += ' ' + _className;
       return this;
     };
 
-    Util.prototype.removeCLass = function(_dom, _className) {
+    Util.prototype.removeClass = function(_dom, _className) {
       _dom.className += ' ';
-      _className += '';
+      _className += ' ';
       _dom.className = _dom.className.replace(_className, '');
       return this;
     };
