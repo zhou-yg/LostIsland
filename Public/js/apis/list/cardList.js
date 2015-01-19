@@ -14,11 +14,20 @@
     };
 
     CardList.prototype.saveDeck = function(_param, _cb) {
-      var address;
-      address = 'apis/user/user_cards/save_deck';
-      LLApi.setAddress(address);
-      return LLApi.request('post', _param, function(_e, _d) {
-        return _cb(_e, _d);
+      var param, tnamePre;
+      tnamePre = 'deck';
+      param = {
+        fn: 2002,
+        param: {
+          uid: _param.uid,
+          token: _param.token,
+          data: _param.deck,
+          name: tnamePre + _param.spot,
+          type: 'save_deck'
+        }
+      };
+      return LLApi.request('get', param, function(_error, _data) {
+        return _cb(_error, _data);
       });
     };
 

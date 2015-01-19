@@ -73,17 +73,16 @@ _.on window, 'load', ->
           for v,i in curDeck.deck
             if v is _cid and curDeck.deck[i+1] isnt _cid
               curDeck.deck.splice i,0,_cid
-              break;
+              return;
+          curDeck.deck.push _cid
 
-        waitToUpdate:->
+        waitToUpdate = ->
           if isWaitUpdate
           else
             isWaitUpdate = true
             updateBtn.className = updateBtn.className + updateBtnDisplayClass
 
-            _.on updateBtn,'click',->
-              updateToServer()
-        afterUpdate:->
+        afterUpdate = ->
           if isWaitUpdate
             isWaitUpdate = false
             updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
@@ -91,9 +90,13 @@ _.on window, 'load', ->
         updateToServer = ->
           param =
             uid:global.user.userId
-            sessionToken:global.user.sessionToken
-            cards:JSON.stringify deck
+            token:global.user.sessionToken
+            deck:
+              hero:curDeck.hero
+              deck:curDeck.deck
+            spot:curDeck.spot
 
+          console.log param
           LLApi.CardList.saveDeck param,(_e,_d)->
             console.log 'save deck return',_d
             if typeof _d is 'string'
@@ -101,11 +104,13 @@ _.on window, 'load', ->
             if _d.result is 'true' or _d.result is true
               afterUpdate()
 
+        _.on updateBtn,'click',->
+          updateToServer()
+
         return {
           deleteCard : (_cid)->
             min _cid
             waitToUpdate();
-
           addToCard : (_cid)->
             add _cid
             waitToUpdate();
@@ -132,7 +137,9 @@ _.on window, 'load', ->
 
           set = ->
             for deckOne,i in allDecks
-              deckSpotDomMap[deckSpotNames[i]] = deckOne
+              spotName = deckSpotNames[i]
+              deckOne.spot = spotName
+              deckSpotDomMap[spotName] = deckOne
           set()
           return {
             #返回对应的dom
@@ -291,7 +298,7 @@ _.on window, 'load', ->
         displayAllHeroes()
 
         do ->
-          #增减卡组,上减下增
+          #点,上减下增
           _.on myDeckDom,'click',(_e)->
             target = _e.target.parentElement
             if -1 is target.className.indexOf 'card-one'
@@ -327,3 +334,5 @@ _.on window, 'load', ->
               displayAllDecks()
             else
               buildNewDeck.build(tar)
+
+          return

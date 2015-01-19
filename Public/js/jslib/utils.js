@@ -53,7 +53,11 @@
     };
 
     Util.prototype.addClass = function(_dom, _className) {
-      _dom.className += ' ' + _className;
+      var domClass;
+      domClass = _dom.className;
+      if (-1 === domClass.indexOf(_className)) {
+        _dom.className += ' ' + _className;
+      }
       return this;
     };
 

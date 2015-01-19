@@ -16,11 +16,22 @@ class Get_cards extends CI_Model {
 		'deck6' =>'deck_cards_6',	
 		'deck7' =>'deck_cards_7',	
 		'deck8' =>'deck_cards_8',	
+		'decka' =>'deck_cards',	
+		'deckb' =>'deck_cards_2',	
+		'deckc' =>'deck_cards_3',	
+		'deckd' =>'deck_cards_4',	
+		'decke' =>'deck_cards_5',	
+		'deckf' =>'deck_cards_6',	
+		'deckg' =>'deck_cards_7',	
+		'deckh' =>'deck_cards_8',	
 	);
 	/**
+	 * 路由号:2002 
+	 *
 	 * $_param = object(
 	 *    *token:'验证'
 	 *    *type:'决定调用哪个处理函数',
+	 *    *name:'如果是save操作，决定存哪个字段',
 	 * 	  data:'如果是save的操作，则需要data',
 	 * );
 	 */
@@ -33,7 +44,8 @@ class Get_cards extends CI_Model {
 		if($session_token === $this->session->userdata('sessionToken')){
 			switch($type){
 				case 'save_deck':
-					$tname_key = $_param->deck_name;
+					$tname_key = $_param->name;
+					$tname_key = strtolower($tname_key);
 					$data = $_param->data;
 					$result = $this->save_deck($uid, $tname_key,$data);
 					break;
@@ -66,12 +78,12 @@ class Get_cards extends CI_Model {
 		return $result;
 	}
 	private function save($_uid, $_type, $_data) {
-
+		$card_tname = $this->cards_tname;
 		$result = TRUE;
 		$data = 'update success';
 
 		$this->load->database();
-		$save_cards_sql = "UPDATE $this->cards_tname SET $_type='$_data' WHERE uid='$_uid' ";
+		$save_cards_sql = "UPDATE $card_tname SET $_type='$_data' WHERE uid='$_uid' ";
 		
 		$save_cards_query_result = $this->db->simple_query($save_cards_sql);
 
@@ -138,6 +150,9 @@ class Get_cards extends CI_Model {
 	//存入的必须是序列化的数组
 	public function save_deck($_uid, $_tname_key,$_data) {
 		$tname = $this->save_deck_map[$_tname_key];
+		if(!is_string($_data)){
+			$_data = serialize($_data);
+		}
 		if($tname){
 			$result = $this->save($_uid, $tname, $_data);
 		}else{

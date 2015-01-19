@@ -7,12 +7,19 @@ class CardList
       _cb _e,_d
 
   saveDeck:(_param,_cb)->
-    address =  'apis/user/user_cards/save_deck'
-    LLApi.setAddress address
+    tnamePre = 'deck'
+    param =
+      fn:2002
+      param:
+        uid  :_param.uid
+        token:_param.token
+        data :_param.deck
+        #约定
+        name:tnamePre + _param.spot
+        type:'save_deck'
 
-    LLApi.request 'post',_param,(_e,_d)->
-      _cb _e,_d
-
+    LLApi.request 'get',param,(_error,_data)->
+      _cb _error,_data
 
 
 LLApi.CardList = new CardList()

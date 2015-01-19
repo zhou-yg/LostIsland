@@ -61,7 +61,7 @@
           };
         })();
         btnToClick = (function() {
-          var add, isWaitUpdate, min, updateBtn, updateBtnDisplayClass, updateToServer;
+          var add, afterUpdate, isWaitUpdate, min, updateBtn, updateBtnDisplayClass, updateToServer, waitToUpdate;
           isWaitUpdate = false;
           updateBtn = _.q('.list .hr');
           updateBtnDisplayClass = ' hr-to-btn';
@@ -81,46 +81,43 @@
             return _results;
           };
           add = function(_cid) {
-            var i, v, _i, _len, _ref, _results;
+            var i, v, _i, _len, _ref;
             _ref = curDeck.deck;
-            _results = [];
             for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
               v = _ref[i];
               if (v === _cid && curDeck.deck[i + 1] !== _cid) {
                 curDeck.deck.splice(i, 0, _cid);
-                break;
-              } else {
-                _results.push(void 0);
+                return;
               }
             }
-            return _results;
+            return curDeck.deck.push(_cid);
           };
-          ({
-            waitToUpdate: function() {
-              if (isWaitUpdate) {
+          waitToUpdate = function() {
+            if (isWaitUpdate) {
 
-              } else {
-                isWaitUpdate = true;
-                updateBtn.className = updateBtn.className + updateBtnDisplayClass;
-                return _.on(updateBtn, 'click', function() {
-                  return updateToServer();
-                });
-              }
-            },
-            afterUpdate: function() {
-              if (isWaitUpdate) {
-                isWaitUpdate = false;
-                return updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
-              }
+            } else {
+              isWaitUpdate = true;
+              return updateBtn.className = updateBtn.className + updateBtnDisplayClass;
             }
-          });
+          };
+          afterUpdate = function() {
+            if (isWaitUpdate) {
+              isWaitUpdate = false;
+              return updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
+            }
+          };
           updateToServer = function() {
             var param;
             param = {
               uid: global.user.userId,
-              sessionToken: global.user.sessionToken,
-              cards: JSON.stringify(deck)
+              token: global.user.sessionToken,
+              deck: {
+                hero: curDeck.hero,
+                deck: curDeck.deck
+              },
+              spot: curDeck.spot
             };
+            console.log(param);
             return LLApi.CardList.saveDeck(param, function(_e, _d) {
               console.log('save deck return', _d);
               if (typeof _d === 'string') {
@@ -131,15 +128,19 @@
               }
             });
           };
+          _.on(updateBtn, 'click', function() {
+            return updateToServer();
+          });
           return {
-            changeDeckDelete: function(_cid) {
+            deleteCard: function(_cid) {
               min(_cid);
               return waitToUpdate();
             },
-            changeDeckAdd: function(_cid) {
+            addToCard: function(_cid) {
               add(_cid);
               return waitToUpdate();
-            }
+            },
+            addToDeck: function(_deck) {}
           };
         })();
         return (function() {
@@ -160,11 +161,13 @@
               domSpotMap[s] = deckP;
             }
             set = function() {
-              var deckOne, _j, _len1, _results;
+              var deckOne, spotName, _j, _len1, _results;
               _results = [];
               for (i = _j = 0, _len1 = allDecks.length; _j < _len1; i = ++_j) {
                 deckOne = allDecks[i];
-                _results.push(deckSpotDomMap[deckSpotNames[i]] = deckOne);
+                spotName = deckSpotNames[i];
+                deckOne.spot = spotName;
+                _results.push(deckSpotDomMap[spotName] = deckOne);
               }
               return _results;
             };
@@ -363,18 +366,18 @@
               }
               cid = target.getAttribute(cardDomIndexName);
               target.remove();
-              return btnToClick.changeDeckDelete(cid);
+              return btnToClick.deleteCard(cid);
             });
             _.on(allCardDom, 'click', function(_e) {
               var cardIndex, tar;
               tar = _e.target.parentNode;
               if (tar.nodeName === 'LI' && curDeck.deck.length < CARD_NUM_MAX) {
                 cardIndex = tar.getAttribute(cardDomIndexName);
-                btnToClick.changeDeckAdd(cardIndex);
+                btnToClick.addToCard(cardIndex);
                 return displayCurrentDeck();
               }
             });
-            return _.on(allDecksDom, 'click', function(_e) {
+            _.on(allDecksDom, 'click', function(_e) {
               var clickedDeck, spot, tar;
               tar = _e.target;
               spot = tar.getAttribute('spot');

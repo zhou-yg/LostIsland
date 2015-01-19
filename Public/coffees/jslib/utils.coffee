@@ -38,8 +38,11 @@ class Util
         _dom.style[k] = v
 
   addClass:(_dom,_className)->
-    _dom.className += ' ' + _className
+    domClass = _dom.className
+    if -1 is domClass.indexOf _className
+      _dom.className += ' ' + _className
     return this
+
   removeClass:(_dom,_className)->
     _dom.className += ' '
     _className += ' '

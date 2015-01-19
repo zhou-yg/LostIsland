@@ -4,6 +4,7 @@
   LLApi = (function() {
     function LLApi() {
       this.timeotMax = 20 * 1000;
+      this.apiAddress = 'apis/route/';
     }
 
     LLApi.prototype.init = function() {

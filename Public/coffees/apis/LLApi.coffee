@@ -1,6 +1,7 @@
 class  LLApi
   constructor:->
     @timeotMax = 20*1000
+    @apiAddress = 'apis/route/'
 
   init:->
     @timeotMax = 20*1000
