@@ -13,7 +13,7 @@
 	<style>
 	</style>
 	<body>
-		<?= form_open_multipart('upload/do_upload');?>
+		<?php echo form_open_multipart('sys/card_console/upload'); ?>
 		<input type="file" name="userfile" size="20" />
 
 		<br />

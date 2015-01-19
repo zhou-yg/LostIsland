@@ -51,6 +51,8 @@
     text-align: center;
 
     overflow: hidden;
+
+    cursor: pointer;
 }
 .list .hr-to-btn{
     height: 30px;
