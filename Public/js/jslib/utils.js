@@ -5,6 +5,7 @@
   Util = (function() {
     function Util() {
       this.curDom = null;
+      this.prototype;
     }
 
     Util.prototype.q = function(_selector, _paraent) {
@@ -23,53 +24,18 @@
       }
     };
 
-    Util.prototype.find = function(_parent, _selector) {
-      var node;
-      if (_parent instanceof HTMLElement) {
-        node = this.q(_selector, _parent);
-        return node;
+    Util.prototype.domHooks = function(_arguments) {
+      if (_arguments[0] === void 0) {
+        return _arguments[0] = this.curDom;
+      } else if (typeof _arguments[0] === 'string') {
+        _arguments[0] = this.q(_arguments[0]);
+        return this.curDom = _arguments[0];
       }
-      return _parent;
-    };
-
-    Util.prototype.css = function(_dom, _styleName, _value) {
-      var k, transStr, v, _results;
-      transStr = /-([\w])/;
-      _styleName = _styleName.replace(transStr, function(_all, _second) {
-        return _second.toUpperCase();
-      });
-      if (_value === void 0) {
-        return _dom.style[_styleName];
-      } else if (_value && typeof _styleName === 'string') {
-        return _dom.style[_styleName] = _value;
-      } else if (this.isObject(_styleName)) {
-        _results = [];
-        for (k in _styleName) {
-          v = _styleName[k];
-          _results.push(_dom.style[k] = v);
-        }
-        return _results;
-      }
-    };
-
-    Util.prototype.addClass = function(_dom, _className) {
-      var domClass;
-      domClass = _dom.className;
-      if (-1 === domClass.indexOf(_className)) {
-        _dom.className += ' ' + _className;
-      }
-      return this;
-    };
-
-    Util.prototype.removeClass = function(_dom, _className) {
-      _dom.className += ' ';
-      _className += ' ';
-      _dom.className = _dom.className.replace(_className, '');
-      return this;
     };
 
     Util.prototype.on = function(_dom, _type, _cb) {
       var typeArr, typeOne, _i, _j, _len, _len1, _results, _results1;
+      this.domHooks(arguments);
       typeArr = _type.split(' ');
       if (_dom.addEventListener) {
         _results = [];
@@ -88,8 +54,70 @@
       }
     };
 
+    Util.prototype.find = function(_parent, _selector) {
+      var node;
+      this.domHooks(arguments);
+      if (_parent instanceof HTMLElement) {
+        node = this.q(_selector, _parent);
+        return node;
+      }
+      return _parent;
+    };
+
+    Util.prototype.css = function(_dom, _styleName, _value) {
+      var k, transStr, v;
+      this.domHooks(arguments);
+      transStr = /-([\w])/;
+      _styleName = _styleName.replace(transStr, function(_all, _second) {
+        return _second.toUpperCase();
+      });
+      if (_value === void 0) {
+        return _dom.style[_styleName];
+      } else if (_value && typeof _styleName === 'string') {
+        _dom.style[_styleName] = _value;
+      } else if (this.isObject(_styleName)) {
+        for (k in _styleName) {
+          v = _styleName[k];
+          _dom.style[k] = v;
+        }
+      }
+      return this;
+    };
+
+    Util.prototype.addClass = function(_dom, _className) {
+      var domClass, domOne, _i, _len;
+      this.domHooks(arguments);
+      if (!_dom.length) {
+        _dom = [_dom];
+      }
+      for (_i = 0, _len = _dom.length; _i < _len; _i++) {
+        domOne = _dom[_i];
+        domClass = domOne.className;
+        if (-1 === domClass.indexOf(_className)) {
+          domOne.className += ' ' + _className;
+        }
+      }
+      return this;
+    };
+
+    Util.prototype.removeClass = function(_dom, _className) {
+      var domOne, _i, _len;
+      this.domHooks(arguments);
+      if (!_dom.length) {
+        _dom = [_dom];
+      }
+      _className += ' ';
+      for (_i = 0, _len = _dom.length; _i < _len; _i++) {
+        domOne = _dom[_i];
+        domOne.className += ' ';
+        domOne.className = domOne.className.replace(_className, '').replace(/\s$/, '');
+      }
+      return this;
+    };
+
     Util.prototype.hide = function(_dom) {
       var d, _i, _len, _results;
+      this.domHooks(arguments);
       _dom = Array.apply(Array, arguments);
       _results = [];
       for (_i = 0, _len = _dom.length; _i < _len; _i++) {
@@ -101,6 +129,7 @@
 
     Util.prototype.show = function(_dom) {
       var d, _i, _len, _results;
+      this.domHooks(arguments);
       _dom = Array.apply(Array, arguments);
       _results = [];
       for (_i = 0, _len = _dom.length; _i < _len; _i++) {
@@ -111,6 +140,7 @@
     };
 
     Util.prototype.text = function(_dom, _text) {
+      this.domHooks(arguments);
       return _dom.innerText = _text;
     };
 

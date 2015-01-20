@@ -19,7 +19,7 @@ class Util
     #链式调用
     if _arguments[0] is undefined
       _arguments[0] = @curDom
-    #临时调用一个dom
+    #临时调用，一个dom
     else if typeof _arguments[0] is 'string'
       _arguments[0] = @q(_arguments[0])
       @curDom = _arguments[0]
@@ -40,6 +40,7 @@ class Util
       node = @q _selector,_parent
       return node
     return _parent
+
   css: (_dom, _styleName, _value)->
     @domHooks(arguments)
     transStr = /-([\w])/
@@ -52,28 +53,41 @@ class Util
     else if @.isObject _styleName
       for k,v of _styleName
         _dom.style[k] = v
+    return this
+
   addClass:(_dom,_className)->
     @domHooks(arguments)
-    domClass = _dom.className
-    if -1 is domClass.indexOf _className
-      _dom.className += ' ' + _className
+    if !_dom.length
+      _dom = [_dom]
+    for domOne in _dom
+      domClass = domOne.className
+      if -1 is domClass.indexOf _className
+        domOne.className += ' ' + _className
     return this
+
   removeClass:(_dom,_className)->
     @domHooks(arguments)
-    _dom.className += ' '
+    if !_dom.length
+      _dom = [_dom]
     _className += ' '
-    _dom.className = _dom.className.replace _className,''
+    for domOne in _dom
+      domOne.className += ' '
+      domOne.className = domOne.className.replace _className,''
+                                    .replace /\s$/,''
     return this
+
   hide: (_dom) ->
     @domHooks(arguments)
     _dom = Array.apply Array,arguments
     for d in _dom
       d.style.display = 'none'
+
   show: (_dom)->
     @domHooks(arguments)
     _dom = Array.apply Array,arguments
     for d in _dom
       d.style.display = 'block'
+
   text:(_dom,_text)->
     @domHooks(arguments)
     _dom.innerText = _text

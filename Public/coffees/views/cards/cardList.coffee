@@ -7,6 +7,7 @@
 CARD_NUM_MAX = 10
 #set click event
 _.on window, 'load', ->
+
   myDeckDom = _.q '.my-deck'
   allDecksDom = _.q '.all-decks'
   allCardDom = _.q '.all-cards-list'
@@ -24,12 +25,19 @@ _.on window, 'load', ->
 
   do ->
     if global.myCards
+      DECKS_ADD_STATE = 1
+      DECKS_DELETE_STATE = 2
+
       indexPre = cardFactory.indexPre
 
       deckOneTmp = _.q '#deck-one-tmp'
       cardOneTmp = _.q '#card-one-tmp'
       heroOneTmp = _.q '#hero-one-tmp'
       currentNum = 0
+
+      #记录当前的decks栏的状态
+      #添加 或 删除
+      decksEditState = DECKS_ADD_STATE
 
       #store the different cardObject because of different cardId
       getCardObjByCache = do ->
@@ -39,6 +47,9 @@ _.on window, 'load', ->
         return (_cardIndex,_type)->
           cache = {}
           fn = ''
+
+          if !_cardIndex
+            return null
 
           if _type is 'card' or !_type
             cache = cardObjCache
@@ -117,6 +128,23 @@ _.on window, 'load', ->
           addToDeck:(_deck)->
 
         }
+      pressToDelete = do ->
+        isShake = false
+        spots = allDecksDom.children
+        decksHammer = new Hammer(allDecksDom)
+
+        decksHammer.on 'press',(_ev)->
+          console.log 'press on decksDom'
+          if !isShake
+            isShake = true
+            _.addClass spots,'deck-one-shake'
+
+        #点击其他地方，取消抖动
+        _.on window,'mousedown',(e)->
+          if isShake
+            isShake = false
+
+          _.removeClass spots,'deck-one-shake'
       #fill
       do ->
         cardDomIndexName = 'cardIndex'
@@ -181,22 +209,22 @@ _.on window, 'load', ->
           deckSpots = allDecksDom.children
           deckCurStyle = 'deck-one-cur'
 
-          setHero = (_heroObj,_isCur,_i)->
-            deckDom = deckSpots[_i]
+          setHero = (_deckDom,_heroObj,_isCur)->
             if _isCur
-              _.addClass deckDom,deckCurStyle
+              _.addClass _deckDom,deckCurStyle
             else
-              _.removeClass deckDom,deckCurStyle
+              _.removeClass _deckDom,deckCurStyle
 
             heroImg = cardFactory.heroAvatarPre + _heroObj.img
-            _.css deckDom,'backgroundImage','url('+heroImg+')'
+            _.css _deckDom,'backgroundImage','url('+heroImg+')'
 
-          for deckOne,i in allDecks
+          for deckDom,i in deckSpots
+            deckOne = allDecks[i] || {}
             heroObj = getCardObjByCache deckOne.hero,'hero'
             if heroObj
-              setHero heroObj,deckOne.cur,i
+              setHero deckDom,heroObj,deckOne.cur
 
-        #填充:拥有的所有卡牌
+        #填充:拥有的all cards
         displayAllCards = ->
           allCardDom.innerHTML = ''
           insertIntoAllDiv = (_cardObj,_cardIndex)->
@@ -240,12 +268,12 @@ _.on window, 'load', ->
             if heroObj
               insertIntoAllHero heroObj
 
-        buildNewDeck = do ->
+        deckBuilder = do ->
           BUILDER_BEF = 'before'
           ON_BUILDING = 'onBuilding'
           BUILDER_END = 'end'
 
-          buildState = null
+          buildState = BUILDER_END
           isSet = false
 
           allHeroesBg = _.q '.all-heroes-bg'
@@ -284,12 +312,16 @@ _.on window, 'load', ->
 
           return {
             build:(_tar)->
-              console.log 'start build new'
-              buildState = BUILDER_BEF
-
-              show()
-            end:->
-
+              if buildState is BUILDER_END
+                console.log 'start build new'
+                buildState = BUILDER_BEF
+                show()
+              else
+                console.log 'to be building'
+            buildEnd:()->
+              buildState = BUILDER_END
+            remove:(_tar)->
+              console.log _tar
           }
 
         displayCurrentDeck()
@@ -332,7 +364,9 @@ _.on window, 'load', ->
 
               displayCurrentDeck()
               displayAllDecks()
-            else
-              buildNewDeck.build(tar)
+            else if decksEditState is DECKS_ADD_STATE
+              deckBuilder.build tar
+            else if decksEditState is DECKS_DELETE_STATE
+              deckBuilder.remove tar
 
           return

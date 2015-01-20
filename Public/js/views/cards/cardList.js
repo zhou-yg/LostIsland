@@ -26,13 +26,16 @@
     allCards = allCards.concat();
     allHeroes = allHeroes.concat();
     return (function() {
-      var btnToClick, cardOneTmp, currentNum, deckOneTmp, getCardObjByCache, heroOneTmp, indexPre;
+      var DECKS_ADD_STATE, DECKS_DELETE_STATE, btnToClick, cardOneTmp, currentNum, deckOneTmp, decksEditState, getCardObjByCache, heroOneTmp, indexPre, pressToDelete;
       if (global.myCards) {
+        DECKS_ADD_STATE = 1;
+        DECKS_DELETE_STATE = 2;
         indexPre = cardFactory.indexPre;
         deckOneTmp = _.q('#deck-one-tmp');
         cardOneTmp = _.q('#card-one-tmp');
         heroOneTmp = _.q('#hero-one-tmp');
         currentNum = 0;
+        decksEditState = DECKS_ADD_STATE;
         getCardObjByCache = (function() {
           var cardObjCache, heroObjCache;
           cardObjCache = {};
@@ -41,6 +44,9 @@
             var cache, fn, result;
             cache = {};
             fn = '';
+            if (!_cardIndex) {
+              return null;
+            }
             if (_type === 'card' || !_type) {
               cache = cardObjCache;
               fn = 'getCardByCid';
@@ -143,8 +149,27 @@
             addToDeck: function(_deck) {}
           };
         })();
+        pressToDelete = (function() {
+          var decksHammer, isShake, spots;
+          isShake = false;
+          spots = allDecksDom.children;
+          decksHammer = new Hammer(allDecksDom);
+          decksHammer.on('press', function(_ev) {
+            console.log('press on decksDom');
+            if (!isShake) {
+              isShake = true;
+              return _.addClass(spots, 'deck-one-shake');
+            }
+          });
+          return _.on(window, 'mousedown', function(e) {
+            if (isShake) {
+              isShake = false;
+            }
+            return _.removeClass(spots, 'deck-one-shake');
+          });
+        })();
         return (function() {
-          var buildNewDeck, cardDomIndexName, decksStateCache, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, heroDomIndexName;
+          var cardDomIndexName, deckBuilder, decksStateCache, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, heroDomIndexName;
           cardDomIndexName = 'cardIndex';
           heroDomIndexName = 'heroIndex';
           decksStateCache = (function() {
@@ -222,26 +247,26 @@
             return _results;
           };
           displayAllDecks = function() {
-            var deckCurStyle, deckOne, deckSpots, heroObj, i, setHero, _i, _len, _results;
+            var deckCurStyle, deckDom, deckOne, deckSpots, heroObj, i, setHero, _i, _len, _results;
             deckSpots = allDecksDom.children;
             deckCurStyle = 'deck-one-cur';
-            setHero = function(_heroObj, _isCur, _i) {
-              var deckDom, heroImg;
-              deckDom = deckSpots[_i];
+            setHero = function(_deckDom, _heroObj, _isCur) {
+              var heroImg;
               if (_isCur) {
-                _.addClass(deckDom, deckCurStyle);
+                _.addClass(_deckDom, deckCurStyle);
               } else {
-                _.removeClass(deckDom, deckCurStyle);
+                _.removeClass(_deckDom, deckCurStyle);
               }
               heroImg = cardFactory.heroAvatarPre + _heroObj.img;
-              return _.css(deckDom, 'backgroundImage', 'url(' + heroImg + ')');
+              return _.css(_deckDom, 'backgroundImage', 'url(' + heroImg + ')');
             };
             _results = [];
-            for (i = _i = 0, _len = allDecks.length; _i < _len; i = ++_i) {
-              deckOne = allDecks[i];
+            for (i = _i = 0, _len = deckSpots.length; _i < _len; i = ++_i) {
+              deckDom = deckSpots[i];
+              deckOne = allDecks[i] || {};
               heroObj = getCardObjByCache(deckOne.hero, 'hero');
               if (heroObj) {
-                _results.push(setHero(heroObj, deckOne.cur, i));
+                _results.push(setHero(deckDom, heroObj, deckOne.cur));
               } else {
                 _results.push(void 0);
               }
@@ -301,12 +326,12 @@
             }
             return _results;
           };
-          buildNewDeck = (function() {
+          deckBuilder = (function() {
             var BUILDER_BEF, BUILDER_END, ON_BUILDING, allHeroUl, allHeroesBg, buildState, hide, isSet, resetDeck, show;
             BUILDER_BEF = 'before';
             ON_BUILDING = 'onBuilding';
             BUILDER_END = 'end';
-            buildState = null;
+            buildState = BUILDER_END;
             isSet = false;
             allHeroesBg = _.q('.all-heroes-bg');
             allHeroUl = _.q('.all-heroes-list');
@@ -346,11 +371,20 @@
             };
             return {
               build: function(_tar) {
-                console.log('start build new');
-                buildState = BUILDER_BEF;
-                return show();
+                if (buildState === BUILDER_END) {
+                  console.log('start build new');
+                  buildState = BUILDER_BEF;
+                  return show();
+                } else {
+                  return console.log('to be building');
+                }
               },
-              end: function() {}
+              buildEnd: function() {
+                return buildState = BUILDER_END;
+              },
+              remove: function(_tar) {
+                return console.log(_tar);
+              }
             };
           })();
           displayCurrentDeck();
@@ -391,8 +425,10 @@
                 curDeck = clickedDeck;
                 displayCurrentDeck();
                 return displayAllDecks();
-              } else {
-                return buildNewDeck.build(tar);
+              } else if (decksEditState === DECKS_ADD_STATE) {
+                return deckBuilder.build(tar);
+              } else if (decksEditState === DECKS_DELETE_STATE) {
+                return deckBuilder.remove(tar);
               }
             });
           })();
