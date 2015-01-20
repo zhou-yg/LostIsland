@@ -53,24 +53,73 @@ class CI_Upload {
 	public $client_name				= '';
 
 	protected $_file_name_override	= '';
+	//这里是拓展的配置，2维数组
+	protected $configs = null;
 
+	protected $queue_i = 0;
+	protected $queue_len = 0;
+    /**完成所有的上传动作后，存储的文件处理信息
+     * 如果上传动作只做了一次，那么结果跟data()方法一致
+	 * 反之，这是一个二维数组
+     */
+	private $all_data = array();
 	/**
 	 * Constructor
 	 *
 	 * @access	public
 	 */
-	public function __construct($props = array())
+	public function __construct($_configs = array())
 	{
-		if (count($props) > 0)
+		if(count($_configs) >0){
+			
+			
+			$this->configs = $_configs;
+			$this->queue_len = count($_configs);
+		}
+		/*
+		if ($props && count($props) > 0)
 		{
 			$this->initialize($props);
 		}
-
+		*/
 		log_message('debug', "Upload Class Initialized");
 	}
-
 	// --------------------------------------------------------------------
+	/**
+	 * 适配，使其支持多文件上传
+	 * 
+	 * $_isloop 决定是否一次性执行处理完所有的文件，默认运行一次处理一个文件上传
+	 */
+	public function upload_handle($_isloop = false){
+		$result = TRUE;
+		if($_isloop){
+			foreach ($this->configs as $index => $config) {
+				if($config['field']){
 
+					$this->initialize($config);
+					$result = $this->do_upload($config['field']);
+					$this->data_handle();
+
+				}else{
+					$result = FALSE;
+				}
+			}
+		}else{
+			if($this->queue_i<$this->queue_len){
+				$config = $this->configs[$this->queue_i++];
+				if($config['field']){
+
+					$this->initialize($config);
+					$result = $this->do_upload($config['field']);
+					$this->all_data = $this->data();
+					
+				}else{
+					$result = FALSE;
+				}
+			}
+		}
+		return $result;
+	}
 	/**
 	 * Initialize preferences
 	 *
@@ -84,7 +133,7 @@ class CI_Upload {
 							'max_width'			=> 0,
 							'max_height'		=> 0,
 							'max_filename'		=> 0,
-							'allowed_types'		=> "",
+							'allowed_types'		=> "*",//使其默认支持所有
 							'file_temp'			=> "",
 							'file_name'			=> "",
 							'orig_name'			=> "",
@@ -106,7 +155,6 @@ class CI_Upload {
 							'temp_prefix'		=> "temp_file_",
 							'client_name'		=> ''
 						);
-
 
 		foreach ($defaults as $key => $val)
 		{
@@ -142,8 +190,7 @@ class CI_Upload {
 	 */
 	public function do_upload($field = 'userfile')
 	{
-
-	// Is $_FILES[$field] set? If not, no reason to continue.
+		// Is $_FILES[$field] set? If not, no reason to continue.
 		if ( ! isset($_FILES[$field]))
 		{
 			$this->set_error('upload_no_file_selected');
@@ -331,7 +378,18 @@ class CI_Upload {
 	}
 
 	// --------------------------------------------------------------------
-
+	/**
+	 * 在上传流程做完后，缓存本次上传的文件信息
+	 */
+	public function data_handle(){
+		array_push($this->all_data,$this->data());
+	}
+	/**
+	 * 所有的处理信息
+	 */
+	public function all_data(){
+		return $this->all_data;
+	}
 	/**
 	 * Finalized Data Array
 	 *
