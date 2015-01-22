@@ -19,6 +19,9 @@
     allCardDom = _.q('.all-cards-list');
     allHeroesDom = _.q('.all-heroes-list');
     allDecks = global.myCards.deck;
+    allDecks = allDecks.filter(function(el) {
+      return el;
+    });
     curDeck = allDecks[0];
     curDeck.cur = true;
     allCards = global.myCards.allCard;
@@ -26,7 +29,7 @@
     allCards = allCards.concat();
     allHeroes = allHeroes.concat();
     return (function() {
-      var DECKS_ADD_STATE, DECKS_DELETE_STATE, btnToClick, cardOneTmp, currentNum, deckOneTmp, decksEditState, getCardObjByCache, heroOneTmp, indexPre, pressToDelete;
+      var DECKS_ADD_STATE, DECKS_DELETE_STATE, cardOneTmp, currentNum, deckOneTmp, decksEditState, decksStateCache, getCardObjByCache, heroOneTmp, indexPre, pressToDelete;
       if (global.myCards) {
         DECKS_ADD_STATE = 1;
         DECKS_DELETE_STATE = 2;
@@ -66,87 +69,53 @@
             return result;
           };
         })();
-        btnToClick = (function() {
-          var add, afterUpdate, isWaitUpdate, min, updateBtn, updateBtnDisplayClass, updateToServer, waitToUpdate;
-          isWaitUpdate = false;
-          updateBtn = _.q('.list .hr');
-          updateBtnDisplayClass = ' hr-to-btn';
-          min = function(_cid) {
-            var i, v, _i, _len, _ref, _results;
-            _ref = curDeck.deck;
+        decksStateCache = (function() {
+          var children, deckP, deckSpotAttr, deckSpotDomMap, deckSpotNames, domSpotMap, i, s, set, _i, _len;
+          deckSpotAttr = 'spot';
+          deckSpotNames = ['a', 'b', 'c', 'd'];
+          deckSpotDomMap = {};
+          domSpotMap = {};
+          children = allDecksDom.children;
+          for (i = _i = 0, _len = children.length; _i < _len; i = ++_i) {
+            deckP = children[i];
+            s = deckSpotNames[i];
+            deckP.setAttribute(deckSpotAttr, s);
+            domSpotMap[s] = deckP;
+          }
+          set = function() {
+            var deckOne, spotName, _j, _len1, _results;
             _results = [];
-            for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-              v = _ref[i];
-              if (v === _cid) {
-                curDeck.deck.splice(i, 1);
-                break;
-              } else {
-                _results.push(void 0);
+            for (i = _j = 0, _len1 = deckSpotNames.length; _j < _len1; i = ++_j) {
+              spotName = deckSpotNames[i];
+              deckOne = allDecks[i];
+              if (deckOne) {
+                deckOne.spot = spotName;
               }
+              _results.push(deckSpotDomMap[spotName] = deckOne);
             }
             return _results;
           };
-          add = function(_cid) {
-            var i, v, _i, _len, _ref;
-            _ref = curDeck.deck;
-            for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-              v = _ref[i];
-              if (v === _cid && curDeck.deck[i + 1] !== _cid) {
-                curDeck.deck.splice(i, 0, _cid);
-                return;
-              }
-            }
-            return curDeck.deck.push(_cid);
-          };
-          waitToUpdate = function() {
-            if (isWaitUpdate) {
-
-            } else {
-              isWaitUpdate = true;
-              return updateBtn.className = updateBtn.className + updateBtnDisplayClass;
-            }
-          };
-          afterUpdate = function() {
-            if (isWaitUpdate) {
-              isWaitUpdate = false;
-              return updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
-            }
-          };
-          updateToServer = function() {
-            var param;
-            param = {
-              uid: global.user.userId,
-              token: global.user.sessionToken,
-              deck: {
-                hero: curDeck.hero,
-                deck: curDeck.deck
-              },
-              spot: curDeck.spot
-            };
-            console.log(param);
-            return LLApi.CardList.saveDeck(param, function(_e, _d) {
-              console.log('save deck return', _d);
-              if (typeof _d === 'string') {
-                _d = JSON.parse(_d);
-              }
-              if (_d.result === 'true' || _d.result === true) {
-                return afterUpdate();
-              }
-            });
-          };
-          _.on(updateBtn, 'click', function() {
-            return updateToServer();
-          });
+          set();
           return {
-            deleteCard: function(_cid) {
-              min(_cid);
-              return waitToUpdate();
+            deckBySpot: function(_deckSpot) {
+              return deckSpotDomMap[_deckSpot];
             },
-            addToCard: function(_cid) {
-              add(_cid);
-              return waitToUpdate();
+            undefSpot: function() {
+              var curSpots, spot, _j, _len1;
+              curSpots = [];
+              for (s in deckSpotDomMap) {
+                curSpots.push(s);
+              }
+              for (_j = 0, _len1 = deckSpotNames.length; _j < _len1; _j++) {
+                spot = deckSpotNames[_j];
+                if (!(__indexOf.call(curSpots, spot) >= 0)) {
+                  return domSpotMap[spot];
+                }
+              }
             },
-            addToDeck: function(_deck) {}
+            refresh: function() {
+              return set();
+            }
           };
         })();
         pressToDelete = (function() {
@@ -158,64 +127,212 @@
             console.log('press on decksDom');
             if (!isShake) {
               isShake = true;
+              decksEditState = DECKS_DELETE_STATE;
               return _.addClass(spots, 'deck-one-shake');
             }
           });
           return _.on(window, 'mousedown', function(e) {
             if (isShake) {
               isShake = false;
+              decksEditState = DECKS_ADD_STATE;
             }
             return _.removeClass(spots, 'deck-one-shake');
           });
         })();
         return (function() {
-          var cardDomIndexName, deckBuilder, decksStateCache, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, heroDomIndexName;
+          var btnToClick, cardDomIndexName, deckBuilder, displayAllCards, displayAllDecks, displayAllHeroes, displayCurrentDeck, heroDomIndexName;
           cardDomIndexName = 'cardIndex';
           heroDomIndexName = 'heroIndex';
-          decksStateCache = (function() {
-            var children, deckP, deckSpotAttr, deckSpotDomMap, deckSpotNames, domSpotMap, i, s, set, _i, _len;
-            deckSpotAttr = 'spot';
-            deckSpotNames = ['a', 'b', 'c', 'd'];
-            deckSpotDomMap = {};
-            domSpotMap = {};
-            children = allDecksDom.children;
-            for (i = _i = 0, _len = children.length; _i < _len; i = ++_i) {
-              deckP = children[i];
-              s = deckSpotNames[i];
-              deckP.setAttribute(deckSpotAttr, s);
-              domSpotMap[s] = deckP;
-            }
-            set = function() {
-              var deckOne, spotName, _j, _len1, _results;
+          btnToClick = (function() {
+            var add, afterUpdate, isWaitUpdate, min, updateBtn, updateBtnDisplayClass, updateToServer, waitToUpdate;
+            isWaitUpdate = false;
+            updateBtn = _.q('.list .hr');
+            updateBtnDisplayClass = ' hr-to-btn';
+            min = function(_cid) {
+              var i, v, _i, _len, _ref, _results;
+              _ref = curDeck.deck;
               _results = [];
-              for (i = _j = 0, _len1 = allDecks.length; _j < _len1; i = ++_j) {
-                deckOne = allDecks[i];
-                spotName = deckSpotNames[i];
-                deckOne.spot = spotName;
-                _results.push(deckSpotDomMap[spotName] = deckOne);
+              for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+                v = _ref[i];
+                if (v === _cid) {
+                  curDeck.deck.splice(i, 1);
+                  break;
+                } else {
+                  _results.push(void 0);
+                }
               }
               return _results;
             };
-            set();
+            add = function(_cid) {
+              var i, v, _i, _len, _ref;
+              _ref = curDeck.deck;
+              for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+                v = _ref[i];
+                if (v === _cid && curDeck.deck[i + 1] !== _cid) {
+                  curDeck.deck.splice(i, 0, _cid);
+                  return;
+                }
+              }
+              return curDeck.deck.push(_cid);
+            };
+            waitToUpdate = function() {
+              if (isWaitUpdate) {
+
+              } else {
+                isWaitUpdate = true;
+                return updateBtn.className = updateBtn.className + updateBtnDisplayClass;
+              }
+            };
+            afterUpdate = function() {
+              if (isWaitUpdate) {
+                isWaitUpdate = false;
+                deckBuilder.buildEnd();
+                return updateBtn.className = updateBtn.className.replace(updateBtnDisplayClass, '');
+              }
+            };
+            updateToServer = function() {
+              var param;
+              param = {
+                uid: global.user.userId,
+                token: global.user.sessionToken,
+                deck: {
+                  hero: curDeck.hero,
+                  deck: curDeck.deck
+                },
+                spot: curDeck.spot
+              };
+              console.log(param);
+              return LLApi.CardList.saveCards(param, function(_e, _d) {
+                console.log('save deck return', _d);
+                if (typeof _d === 'string') {
+                  _d = JSON.parse(_d);
+                }
+                if (_d.result === 'true' || _d.result === true) {
+                  return afterUpdate();
+                }
+              });
+            };
+            _.on(updateBtn, 'click', function() {
+              return updateToServer();
+            });
             return {
-              deckBySpot: function(_deckSpot) {
-                return deckSpotDomMap[_deckSpot];
+              deleteCard: function(_cid) {
+                min(_cid);
+                return waitToUpdate();
               },
-              undefSpot: function() {
-                var curSpots, spot, _j, _len1;
-                curSpots = [];
-                for (s in deckSpotDomMap) {
-                  curSpots.push(s);
-                }
-                for (_j = 0, _len1 = deckSpotNames.length; _j < _len1; _j++) {
-                  spot = deckSpotNames[_j];
-                  if (!(__indexOf.call(curSpots, spot) >= 0)) {
-                    return domSpotMap[spot];
+              addToCard: function(_cid) {
+                add(_cid);
+                return waitToUpdate();
+              },
+              addToDeck: function(_deck) {}
+            };
+          })();
+          deckBuilder = (function() {
+            var BUILDER_BEF, BUILDER_END, ON_BUILDING, allHeroUl, allHeroesBg, buildState, deleteUpdateToServer, hideHeroSelect, isSet, removeInDecks, resetDeck, showHeroSelect;
+            BUILDER_BEF = 'before';
+            ON_BUILDING = 'onBuilding';
+            BUILDER_END = 'end';
+            buildState = BUILDER_END;
+            isSet = false;
+            allHeroesBg = _.q('.all-heroes-bg');
+            allHeroUl = _.q('.all-heroes-list');
+            resetDeck = function(_heroIndex) {
+              curDeck.cur = false;
+              curDeck = {
+                hero: _heroIndex,
+                deck: [],
+                cur: true
+              };
+              allDecks.push(curDeck);
+              decksStateCache.refresh();
+              displayCurrentDeck();
+              return displayAllDecks();
+            };
+            removeInDecks = function(_deck) {
+              var deck, i, _i, _len, _results;
+              _results = [];
+              for (i = _i = 0, _len = allDecks.length; _i < _len; i = ++_i) {
+                deck = allDecks[i];
+                if (deck === _deck) {
+                  allDecks.splice(i, 1);
+                  if (allDecks[i]) {
+                    curDeck = allDecks[i];
+                    curDeck.cur = true;
+                  } else if (allDecks[i - 1]) {
+                    curDeck = allDecks[i - 1];
+                    curDeck.cur = true;
+                  } else {
+                    curDeck = null;
                   }
+                  console.log(allDecks);
+                  break;
+                } else {
+                  _results.push(void 0);
+                }
+              }
+              return _results;
+            };
+            deleteUpdateToServer = function(_spot) {
+              var param;
+              param = {
+                uid: global.user.userId,
+                token: global.user.sessionToken,
+                spot: _spot
+              };
+              return LLApi.CardList.deleteDeck(param, function(_e, _d) {
+                console.log('save deck return', _d);
+                if (typeof _d === 'string') {
+                  _d = JSON.parse(_d);
+                }
+                if (_d.result === 'true' || _d.result === true) {
+                  return console.log(_d);
+                }
+              });
+            };
+            showHeroSelect = function() {
+              _.show(allHeroesBg, allHeroUl);
+              if (!isSet) {
+                isSet = true;
+                _.on(allHeroesBg, 'click', function(_e) {
+                  return hideHeroSelect();
+                });
+                return _.on(allHeroUl, 'click', function(_e) {
+                  var heroIndex, tar;
+                  tar = _e.target.parentNode;
+                  if (tar.nodeName === 'LI') {
+                    heroIndex = tar.getAttribute(heroDomIndexName);
+                    resetDeck(heroIndex);
+                    buildState = ON_BUILDING;
+                    return hideHeroSelect();
+                  }
+                });
+              }
+            };
+            hideHeroSelect = function() {
+              return _.hide(allHeroesBg, allHeroUl);
+            };
+            return {
+              build: function(_tar) {
+                if (buildState === BUILDER_END) {
+                  console.log('start build new');
+                  buildState = BUILDER_BEF;
+                  return showHeroSelect();
+                } else {
+                  return console.log('to be building');
                 }
               },
-              refresh: function() {
-                return set();
+              buildEnd: function() {
+                return buildState = BUILDER_END;
+              },
+              remove: function(_target) {
+                var deck, spot;
+                spot = _target.getAttribute('spot');
+                deck = decksStateCache.deckBySpot(spot);
+                removeInDecks(deck);
+                decksStateCache.refresh();
+                deleteUpdateToServer(spot);
+                displayCurrentDeck();
+                return displayAllDecks();
               }
             };
           })();
@@ -233,23 +350,29 @@
               _.css(nodeBg, 'backgroundImage', 'url(' + imgUrl + ')');
               return myDeckDom.appendChild(node);
             };
-            _ref = curDeck.deck;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              cardIndex = _ref[_i];
-              cardObj = getCardObjByCache(cardIndex);
-              if (cardObj) {
-                _results.push(insertIntoMyDeckDiv(cardObj));
-              } else {
-                _results.push(void 0);
+            if (curDeck) {
+              _ref = curDeck.deck;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                cardIndex = _ref[_i];
+                cardObj = getCardObjByCache(cardIndex);
+                if (cardObj) {
+                  _results.push(insertIntoMyDeckDiv(cardObj));
+                } else {
+                  _results.push(void 0);
+                }
               }
+              return _results;
             }
-            return _results;
           };
           displayAllDecks = function() {
-            var deckCurStyle, deckDom, deckOne, deckSpots, heroObj, i, setHero, _i, _len, _results;
+            var clearSpot, deckCurStyle, deckDom, deckOne, deckSpots, heroObj, i, setHero, _i, _len, _results;
             deckSpots = allDecksDom.children;
             deckCurStyle = 'deck-one-cur';
+            clearSpot = function(_deckDom) {
+              _.css(_deckDom, 'backgroundImage', '');
+              return _.removeClass(_deckDom, deckCurStyle);
+            };
             setHero = function(_deckDom, _heroObj, _isCur) {
               var heroImg;
               if (_isCur) {
@@ -268,7 +391,7 @@
               if (heroObj) {
                 _results.push(setHero(deckDom, heroObj, deckOne.cur));
               } else {
-                _results.push(void 0);
+                _results.push(clearSpot(deckDom));
               }
             }
             return _results;
@@ -326,67 +449,6 @@
             }
             return _results;
           };
-          deckBuilder = (function() {
-            var BUILDER_BEF, BUILDER_END, ON_BUILDING, allHeroUl, allHeroesBg, buildState, hide, isSet, resetDeck, show;
-            BUILDER_BEF = 'before';
-            ON_BUILDING = 'onBuilding';
-            BUILDER_END = 'end';
-            buildState = BUILDER_END;
-            isSet = false;
-            allHeroesBg = _.q('.all-heroes-bg');
-            allHeroUl = _.q('.all-heroes-list');
-            resetDeck = function(_heroIndex) {
-              curDeck.cur = false;
-              curDeck = {
-                hero: _heroIndex,
-                deck: [],
-                cur: true
-              };
-              allDecks.push(curDeck);
-              decksStateCache.refresh();
-              displayCurrentDeck();
-              return displayAllDecks();
-            };
-            show = function() {
-              _.show(allHeroesBg, allHeroUl);
-              if (!isSet) {
-                isSet = true;
-                _.on(allHeroesBg, 'click', function(_e) {
-                  return hide();
-                });
-                return _.on(allHeroUl, 'click', function(_e) {
-                  var heroIndex, tar;
-                  tar = _e.target.parentNode;
-                  if (tar.nodeName === 'LI') {
-                    heroIndex = tar.getAttribute(heroDomIndexName);
-                    resetDeck(heroIndex);
-                    buildState = ON_BUILDING;
-                    return hide();
-                  }
-                });
-              }
-            };
-            hide = function() {
-              return _.hide(allHeroesBg, allHeroUl);
-            };
-            return {
-              build: function(_tar) {
-                if (buildState === BUILDER_END) {
-                  console.log('start build new');
-                  buildState = BUILDER_BEF;
-                  return show();
-                } else {
-                  return console.log('to be building');
-                }
-              },
-              buildEnd: function() {
-                return buildState = BUILDER_END;
-              },
-              remove: function(_tar) {
-                return console.log(_tar);
-              }
-            };
-          })();
           displayCurrentDeck();
           displayAllDecks();
           displayAllCards();
@@ -411,24 +473,26 @@
                 return displayCurrentDeck();
               }
             });
-            _.on(allDecksDom, 'click', function(_e) {
-              var clickedDeck, spot, tar;
-              tar = _e.target;
-              spot = tar.getAttribute('spot');
+            return _.on(allDecksDom, 'mousedown', function(_e) {
+              var clickedDeck, spot, target;
+              target = _e.target;
+              spot = target.getAttribute('spot');
               if (!spot) {
                 return;
               }
-              clickedDeck = decksStateCache.deckBySpot(spot);
-              if (clickedDeck) {
-                curDeck.cur = false;
-                clickedDeck.cur = true;
-                curDeck = clickedDeck;
-                displayCurrentDeck();
-                return displayAllDecks();
-              } else if (decksEditState === DECKS_ADD_STATE) {
-                return deckBuilder.build(tar);
+              if (decksEditState === DECKS_ADD_STATE) {
+                clickedDeck = decksStateCache.deckBySpot(spot);
+                if (clickedDeck) {
+                  curDeck.cur = false;
+                  clickedDeck.cur = true;
+                  curDeck = clickedDeck;
+                  displayCurrentDeck();
+                  displayAllDecks();
+                } else {
+                  deckBuilder.build(target);
+                }
               } else if (decksEditState === DECKS_DELETE_STATE) {
-                return deckBuilder.remove(tar);
+                deckBuilder.remove(target);
               }
             });
           })();

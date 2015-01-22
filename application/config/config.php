@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']='http://10.0.1.82:9000/lostisland/';
+$config['base_url']='http://lostisland/';
 
 /*
 |--------------------------------------------------------------------------

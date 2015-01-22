@@ -14,8 +14,12 @@ _.on window, 'load', ->
   allHeroesDom = _.q '.all-heroes-list'
 
   allDecks = global.myCards.deck
+  allDecks = allDecks.filter (el)->
+    return el
+
   curDeck = allDecks[0]
   curDeck.cur = true
+
 
   allCards  = global.myCards.allCard
   allHeroes = global.myCards.allHero
@@ -66,68 +70,42 @@ _.on window, 'load', ->
           else
             console.error 'can not find the cardObj by the Index'
           return result
+        #---------------------decksStateCache---------------------
+      decksStateCache =  do ->
+        deckSpotAttr = 'spot'
+        deckSpotNames = ['a','b','c','d']
 
-      #btn to update
-      btnToClick = do ->
-        isWaitUpdate = false
+        deckSpotDomMap = {}
+        domSpotMap = {}
 
-        updateBtn = _.q '.list .hr'
-        updateBtnDisplayClass = ' hr-to-btn'
+        children = allDecksDom.children
+        for deckP,i in children
+          s = deckSpotNames[i]
+          deckP.setAttribute deckSpotAttr,s
+          domSpotMap[s] = deckP
 
-        min = (_cid)->
-          for v,i in curDeck.deck
-            if v is _cid
-              curDeck.deck.splice i,1
-              break;
-
-        add = (_cid)->
-          for v,i in curDeck.deck
-            if v is _cid and curDeck.deck[i+1] isnt _cid
-              curDeck.deck.splice i,0,_cid
-              return;
-          curDeck.deck.push _cid
-
-        waitToUpdate = ->
-          if isWaitUpdate
-          else
-            isWaitUpdate = true
-            updateBtn.className = updateBtn.className + updateBtnDisplayClass
-
-        afterUpdate = ->
-          if isWaitUpdate
-            isWaitUpdate = false
-            updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
-
-        updateToServer = ->
-          param =
-            uid:global.user.userId
-            token:global.user.sessionToken
-            deck:
-              hero:curDeck.hero
-              deck:curDeck.deck
-            spot:curDeck.spot
-
-          console.log param
-          LLApi.CardList.saveDeck param,(_e,_d)->
-            console.log 'save deck return',_d
-            if typeof _d is 'string'
-              _d = JSON.parse _d;
-            if _d.result is 'true' or _d.result is true
-              afterUpdate()
-
-        _.on updateBtn,'click',->
-          updateToServer()
-
+        set = ->
+          for spotName,i in deckSpotNames
+            deckOne = allDecks[i]
+            if deckOne then deckOne.spot = spotName
+            deckSpotDomMap[spotName] = deckOne
+        set()
         return {
-          deleteCard : (_cid)->
-            min _cid
-            waitToUpdate();
-          addToCard : (_cid)->
-            add _cid
-            waitToUpdate();
-          addToDeck:(_deck)->
-
+        #返回对应的dom
+        deckBySpot:(_deckSpot)->
+          return deckSpotDomMap[_deckSpot]
+        #则返回最近最空的插槽
+        undefSpot:->
+          curSpots = []
+          for s of deckSpotDomMap
+            curSpots.push s
+          for spot in deckSpotNames
+            if !(spot in curSpots)
+              return domSpotMap[spot]
+        refresh:->
+          set()
         }
+      #---------------------pressToDelete---------------------
       pressToDelete = do ->
         isShake = false
         spots = allDecksDom.children
@@ -137,52 +115,179 @@ _.on window, 'load', ->
           console.log 'press on decksDom'
           if !isShake
             isShake = true
+            decksEditState = DECKS_DELETE_STATE
             _.addClass spots,'deck-one-shake'
 
         #点击其他地方，取消抖动
         _.on window,'mousedown',(e)->
           if isShake
             isShake = false
-
+            decksEditState = DECKS_ADD_STATE
           _.removeClass spots,'deck-one-shake'
+
+      ############################################
       #fill
       do ->
         cardDomIndexName = 'cardIndex'
         heroDomIndexName = 'heroIndex'
+        #btn to update
+        #---------------------btnToClick---------------------
+        btnToClick = do ->
+          isWaitUpdate = false
 
-        decksStateCache =  do ->
-          deckSpotAttr = 'spot'
-          deckSpotNames = ['a','b','c','d']
+          updateBtn = _.q '.list .hr'
+          updateBtnDisplayClass = ' hr-to-btn'
 
-          deckSpotDomMap = {}
-          domSpotMap = {}
+          min = (_cid)->
+            for v,i in curDeck.deck
+              if v is _cid
+                curDeck.deck.splice i,1
+                break;
 
-          children = allDecksDom.children
-          for deckP,i in children
-            s = deckSpotNames[i]
-            deckP.setAttribute deckSpotAttr,s
-            domSpotMap[s] = deckP
+          add = (_cid)->
+            for v,i in curDeck.deck
+              if v is _cid and curDeck.deck[i+1] isnt _cid
+                curDeck.deck.splice i,0,_cid
+                return;
+            curDeck.deck.push _cid
 
-          set = ->
-            for deckOne,i in allDecks
-              spotName = deckSpotNames[i]
-              deckOne.spot = spotName
-              deckSpotDomMap[spotName] = deckOne
-          set()
+          waitToUpdate = ->
+            if isWaitUpdate
+            else
+              isWaitUpdate = true
+              updateBtn.className = updateBtn.className + updateBtnDisplayClass
+
+          afterUpdate = ->
+            if isWaitUpdate
+              isWaitUpdate = false
+              deckBuilder.buildEnd()
+              updateBtn.className = updateBtn.className.replace updateBtnDisplayClass,''
+
+          updateToServer = ->
+            param =
+              uid:global.user.userId
+              token:global.user.sessionToken
+              deck:
+                hero:curDeck.hero
+                deck:curDeck.deck
+              spot:curDeck.spot
+
+            console.log param
+            LLApi.CardList.saveCards param,(_e,_d)->
+              console.log 'save deck return',_d
+              if typeof _d is 'string'
+                _d = JSON.parse _d;
+              if _d.result is 'true' or _d.result is true
+                afterUpdate()
+
+          _.on updateBtn,'click',->
+            updateToServer()
+
           return {
-            #返回对应的dom
-            deckBySpot:(_deckSpot)->
-                return deckSpotDomMap[_deckSpot]
-            #则返回最近最空的插槽
-            undefSpot:->
-              curSpots = []
-              for s of deckSpotDomMap
-                curSpots.push s
-              for spot in deckSpotNames
-                if !(spot in curSpots)
-                  return domSpotMap[spot]
-            refresh:->
-              set()
+          deleteCard : (_cid)->
+            min _cid
+            waitToUpdate();
+          addToCard : (_cid)->
+            add _cid
+            waitToUpdate();
+          addToDeck:(_deck)->
+
+          }
+        #---------------------deckBuilder---------------------
+        deckBuilder = do ->
+          BUILDER_BEF = 'before'
+          ON_BUILDING = 'onBuilding'
+          BUILDER_END = 'end'
+
+          buildState = BUILDER_END
+          isSet = false
+
+          allHeroesBg = _.q '.all-heroes-bg'
+          allHeroUl = _.q '.all-heroes-list'
+
+          resetDeck = (_heroIndex)->
+            curDeck.cur = false
+            curDeck =
+              hero:_heroIndex
+              deck:[]
+              cur:true
+            allDecks.push curDeck
+
+            decksStateCache.refresh()
+            displayCurrentDeck()
+            displayAllDecks()
+
+          removeInDecks = (_deck)->
+            for deck,i in allDecks
+              if deck is _deck
+                allDecks.splice i,1
+                if allDecks[i]
+                  curDeck = allDecks[i]
+                  curDeck.cur = true
+                else if allDecks[i-1]
+                  curDeck = allDecks[i-1]
+                  curDeck.cur = true
+                else
+                  curDeck = null
+
+                console.log allDecks
+                break;
+
+
+          deleteUpdateToServer = (_spot)->
+            param =
+              uid:global.user.userId
+              token:global.user.sessionToken
+              spot:_spot
+
+            LLApi.CardList.deleteDeck param,(_e,_d)->
+              console.log 'save deck return',_d
+              if typeof _d is 'string'
+                _d = JSON.parse _d;
+              if _d.result is 'true' or _d.result is true
+                console.log _d
+
+
+          showHeroSelect = ->
+            _.show allHeroesBg,allHeroUl
+            if !isSet
+              isSet = true
+              _.on allHeroesBg,'click',(_e)->
+                hideHeroSelect()
+              _.on allHeroUl,'click',(_e)->
+                tar = _e.target.parentNode
+
+                if tar.nodeName is 'LI'
+                  heroIndex = tar.getAttribute heroDomIndexName
+                  resetDeck(heroIndex)
+
+                  buildState = ON_BUILDING
+                  hideHeroSelect()
+
+          hideHeroSelect = ->
+            _.hide allHeroesBg,allHeroUl
+
+          return {
+            build:(_tar)->
+              if buildState is BUILDER_END
+                console.log 'start build new'
+                buildState = BUILDER_BEF
+                showHeroSelect()
+              else
+                console.log 'to be building'
+            buildEnd:()->
+              buildState = BUILDER_END
+            remove:(_target)->
+              spot = _target.getAttribute 'spot'
+              deck = decksStateCache.deckBySpot spot
+              #从所有中移除
+              removeInDecks deck
+              decksStateCache.refresh()
+              #从数据库清除
+              deleteUpdateToServer spot
+              #render
+              displayCurrentDeck()
+              displayAllDecks()
           }
         #填充:当前的deck的构成
         displayCurrentDeck = ->
@@ -200,14 +305,19 @@ _.on window, 'load', ->
 
             myDeckDom.appendChild node
 
-          for cardIndex in curDeck.deck
-            cardObj = getCardObjByCache cardIndex
-            if cardObj
-              insertIntoMyDeckDiv cardObj
+          if curDeck
+            for cardIndex in curDeck.deck
+              cardObj = getCardObjByCache cardIndex
+              if cardObj
+                insertIntoMyDeckDiv cardObj
         #填充:所有的deck
         displayAllDecks = ->
           deckSpots = allDecksDom.children
           deckCurStyle = 'deck-one-cur'
+
+          clearSpot = (_deckDom)->
+            _.css _deckDom,'backgroundImage',''
+            _.removeClass _deckDom,deckCurStyle
 
           setHero = (_deckDom,_heroObj,_isCur)->
             if _isCur
@@ -223,6 +333,8 @@ _.on window, 'load', ->
             heroObj = getCardObjByCache deckOne.hero,'hero'
             if heroObj
               setHero deckDom,heroObj,deckOne.cur
+            else
+              clearSpot deckDom
 
         #填充:拥有的all cards
         displayAllCards = ->
@@ -268,62 +380,6 @@ _.on window, 'load', ->
             if heroObj
               insertIntoAllHero heroObj
 
-        deckBuilder = do ->
-          BUILDER_BEF = 'before'
-          ON_BUILDING = 'onBuilding'
-          BUILDER_END = 'end'
-
-          buildState = BUILDER_END
-          isSet = false
-
-          allHeroesBg = _.q '.all-heroes-bg'
-          allHeroUl = _.q '.all-heroes-list'
-
-          resetDeck = (_heroIndex)->
-            curDeck.cur = false
-            curDeck =
-              hero:_heroIndex
-              deck:[]
-              cur:true
-            allDecks.push curDeck
-
-            decksStateCache.refresh()
-            displayCurrentDeck()
-            displayAllDecks()
-
-          show = ->
-            _.show allHeroesBg,allHeroUl
-            if !isSet
-              isSet = true
-              _.on allHeroesBg,'click',(_e)->
-                hide()
-              _.on allHeroUl,'click',(_e)->
-                tar = _e.target.parentNode
-
-                if tar.nodeName is 'LI'
-                  heroIndex = tar.getAttribute heroDomIndexName
-                  resetDeck(heroIndex)
-
-                  buildState = ON_BUILDING
-                  hide()
-
-          hide = ->
-            _.hide allHeroesBg,allHeroUl
-
-          return {
-            build:(_tar)->
-              if buildState is BUILDER_END
-                console.log 'start build new'
-                buildState = BUILDER_BEF
-                show()
-              else
-                console.log 'to be building'
-            buildEnd:()->
-              buildState = BUILDER_END
-            remove:(_tar)->
-              console.log _tar
-          }
-
         displayCurrentDeck()
         displayAllDecks()
         displayAllCards()
@@ -349,24 +405,25 @@ _.on window, 'load', ->
 
                 displayCurrentDeck()
 
-          _.on allDecksDom,'click',(_e)->
-            tar = _e.target
-            spot = tar.getAttribute 'spot'
+          _.on allDecksDom,'mousedown',(_e)->
+            target = _e.target
+            spot = target.getAttribute 'spot'
             if !spot
               return
 
-            clickedDeck = decksStateCache.deckBySpot spot
-            #已经存在?则展示:构建
-            if clickedDeck
-              curDeck.cur = false;
-              clickedDeck.cur = true
-              curDeck = clickedDeck
+            #当前状态
+            #已经存在?展示:构建
+            if decksEditState is DECKS_ADD_STATE
+              clickedDeck = decksStateCache.deckBySpot spot
+              if clickedDeck
+                curDeck.cur = false;
+                clickedDeck.cur = true
+                curDeck = clickedDeck
 
-              displayCurrentDeck()
-              displayAllDecks()
-            else if decksEditState is DECKS_ADD_STATE
-              deckBuilder.build tar
+                displayCurrentDeck()
+                displayAllDecks()
+              else
+                deckBuilder.build target
             else if decksEditState is DECKS_DELETE_STATE
-              deckBuilder.remove tar
-
-          return
+              deckBuilder.remove target
+            return

@@ -73,7 +73,7 @@
       });
       if (_value === void 0) {
         return _dom.style[_styleName];
-      } else if (_value && typeof _styleName === 'string') {
+      } else if (_value && typeof _styleName === 'string' || _value === '') {
         _dom.style[_styleName] = _value;
       } else if (this.isObject(_styleName)) {
         for (k in _styleName) {

@@ -48,7 +48,7 @@ class Util
       return _second.toUpperCase()
     if _value is undefined
       return _dom.style[_styleName]
-    else if _value and typeof _styleName is 'string'
+    else if _value and typeof _styleName is 'string' or _value is ''
       _dom.style[_styleName] = _value
     else if @.isObject _styleName
       for k,v of _styleName

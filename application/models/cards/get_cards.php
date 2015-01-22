@@ -40,7 +40,6 @@ class Get_cards extends CI_Model {
 		$uid = $_param->uid;
 		$type = $_param->type;
 		$result = null;
-
 		if($session_token === $this->session->userdata('sessionToken')){
 			switch($type){
 				case 'save_deck':
@@ -150,7 +149,9 @@ class Get_cards extends CI_Model {
 	//存入的必须是序列化的数组
 	public function save_deck($_uid, $_tname_key,$_data) {
 		$tname = $this->save_deck_map[$_tname_key];
-		if(!is_string($_data)){
+		if($_data == 'null'){
+			$_data = '';
+		}else if(!is_string($_data)){
 			$_data = serialize($_data);
 		}
 		if($tname){
