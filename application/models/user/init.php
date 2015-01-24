@@ -38,22 +38,27 @@ class Init extends CI_Model {
 		
 		if($insert_user_basic_result){
 			$last_uid = $this->db->insert_id();
-			
-			$init_card_ids_arr = $this->user_config->get_init_card_ids();
-			$init_card_ids_str = serialize($init_card_ids_arr);
-
+			//初始化时，拥有的所有card
 			$init_all_card_ids_arr = $this->user_config->get_init_all_card_ids();
 			$init_all_card_ids_str = serialize($init_all_card_ids_arr);
-
+			//初始化时，拥有的所有hero
 			$init_all_hero_ids_arr = $this->user_config->get_init_all_hero_ids();
 			$init_all_hero_ids_str = serialize($init_all_hero_ids_arr);
+			//初始化时，拥有的所有deck
+			$init_all_deck = array();
+
+			$init_card_ids_arr = $this->user_config->get_init_card_ids();
+			$init_all_deck[0] = $init_card_ids_arr;
+			
+			$init_all_decks_str = serialize($init_all_deck);
 
 			$insert_data_arr = array(
 				'id' => null,
 				'uid'=> $last_uid,
 				'all_heroes' =>	$init_all_hero_ids_str,
 				'all_cards'  => $init_all_card_ids_str,
-				'deck_cards' => $init_card_ids_str,
+				'all_decks'  => $init_all_decks_str, 
+				'deck_cards' =>  null,
 				'deck_cards_2' => null,
 				'deck_cards_3' => null,
 				'deck_cards_4' => null,
@@ -71,7 +76,6 @@ class Init extends CI_Model {
 				return FALSE;
 			}
 		}else{
-			var_dump();
 			return FALSE;
 		}		
 	}

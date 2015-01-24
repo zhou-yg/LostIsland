@@ -20,7 +20,9 @@ class Battle_center extends CI_Controller {
 		if($clientToken && $userToken){
 			$this->load->model('user/login');
 			$loginResult = $this->login->check_login($clientToken,$userToken);
-			
+
+			var_dump($loginResult);
+
 			if ($loginResult) {
 				$this->load->helper('url');
 				$this->load->view('battle/initial.html', $loginResult);

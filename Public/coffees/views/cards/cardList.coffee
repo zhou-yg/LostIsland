@@ -14,8 +14,9 @@ _.on window, 'load', ->
   allHeroesDom = _.q '.all-heroes-list'
 
   allDecks = global.myCards.deck
-  allDecks = allDecks.filter (el)->
-    return el
+  allDecks = allDecks.filter (el,_i)->
+    if !el then el ={}
+    return _i<=3
 
   curDeck = allDecks[0]
   curDeck.cur = true
@@ -79,15 +80,16 @@ _.on window, 'load', ->
         domSpotMap = {}
 
         children = allDecksDom.children
-        for deckP,i in children
+        for deckPositionDom,i in children
           s = deckSpotNames[i]
-          deckP.setAttribute deckSpotAttr,s
-          domSpotMap[s] = deckP
+          deckPositionDom.setAttribute deckSpotAttr,s
+          domSpotMap[s] = deckPositionDom
 
         set = ->
           for spotName,i in deckSpotNames
             deckOne = allDecks[i]
-            if deckOne then deckOne.spot = spotName
+            if deckOne
+              deckOne.spot = spotName
             deckSpotDomMap[spotName] = deckOne
         set()
         return {
@@ -125,7 +127,7 @@ _.on window, 'load', ->
             decksEditState = DECKS_ADD_STATE
           _.removeClass spots,'deck-one-shake'
 
-      ############################################
+      ###########################################################
       #fill
       do ->
         cardDomIndexName = 'cardIndex'

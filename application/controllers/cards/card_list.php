@@ -15,16 +15,16 @@ class Card_list extends CI_Controller {
 				$this->load->model('cards/get_cards');
 				$deck_result_array = $this->get_cards->get_deck($uid);
 				$all_result_array = $this->get_cards->get_all($uid);
-
+		
 				if ($deck_result_array['result'] && $all_result_array['result']) {
 					$all_result_array = $all_result_array['data'];
 
 					$cards_arr = array(
 						'uid' => $uid, 
 						'sessionToken' => $sessionToken, 
-						'my_decks' => $deck_result_array['data'], 
-						'all_cards' => $all_result_array['cards'],
-						'all_heroes' => $all_result_array['heroes']
+						'my_decks' => json_encode($deck_result_array['data']), 
+						'all_cards' => json_encode($all_result_array['cards']),
+						'all_heroes' => json_encode($all_result_array['heroes'])
 					);
 					$this->load->helper('url');
 					$this->load->view('cards/cardList.html', $cards_arr);
