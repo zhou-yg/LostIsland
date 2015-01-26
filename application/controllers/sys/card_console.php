@@ -31,8 +31,9 @@ class Card_console extends CI_Controller {
 	public function create_card(){
 		$this->load->library('upload');
 		$this->load->helper('form');
-		$this->load->view('sys/createCard.php');
+		$this->load->view('sys/createCard.html');
 	}
+	//接收多个上传文件
 	public function upload(){
 		$config = array();
 		
