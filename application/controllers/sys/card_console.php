@@ -9,14 +9,12 @@ class Card_console extends CI_Controller {
 		'character',
 		'normal',
 		'select',
-		'hero'
 	);
 	private $cards_path_arr = array(
 		'Public/images/cards/battleAvatar/',
 		'Public/images/cards/character_main/',
 		'Public/images/cards/normalAvatar/',
 		'Public/images/cards/select_list',
-		'Public/images/hero/'
 	);
 	private $cards_path_config = array();
 
@@ -35,8 +33,12 @@ class Card_console extends CI_Controller {
 	}
 	//接收多个上传文件
 	public function upload(){
-		$config = array();
+			
+		$card_name = $this->input->get('card_name');
+		$atk = $this->input->get('atk');
+		$hp  = $this->input->get('hp');
 		
+		$config = array();
 		for($i=0,$len=count($this->img_field_arr);$i<$len;$i++){
 			array_push($config,array(
 				'field'       => $this->img_field_arr[$i],

@@ -21,11 +21,17 @@
 		<!--
 		<form action="http://localhost:9000/phps/files.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		-->
-			<input type="file" name="battle" size="20">
-			<input type="file" name="character" size="20">
-			<input type="file" name="normal" size="20">
-			<input type="file" name="select" size="20">
-			<input type="submit" value="upload">
+			name:<input type="text" name="card_name" >
+			atk:<input type="number" name="atk">
+			hp: <input type="number" name="hp"/>
+			<hr/>
+			battle:   <input type="file" name="battle" >
+			character:<input type="file" name="character" >
+			normal:   <input type="file" name="normal" >
+			select:   <input type="file" name="select" >
+			<hr/>
+			<br>
+			<input type="submit" value="上传">
 		</form>
 	</body>
 	<script src="<?=base_url() ?>Public/js/cards/cardConfigObjList.js"></script>

@@ -72,7 +72,6 @@ class CI_Upload {
 	{
 		if(count($_configs) >0){
 			
-			
 			$this->configs = $_configs;
 			$this->queue_len = count($_configs);
 		}
