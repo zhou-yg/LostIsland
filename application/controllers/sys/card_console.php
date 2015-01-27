@@ -31,7 +31,7 @@ class Card_console extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->view('sys/createCard.html');
 	}
-	//接收多个上传文件
+	//接收多个上传文件和相关参数,用于生成新卡
 	public function upload(){
 			
 		$card_name = $this->input->get('card_name');
