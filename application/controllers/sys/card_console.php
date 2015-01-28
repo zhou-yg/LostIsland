@@ -33,24 +33,40 @@ class Card_console extends CI_Controller {
 	}
 	//接收多个上传文件和相关参数,用于生成新卡
 	public function upload(){
-			
-		$card_name = $this->input->get('card_name');
-		$atk = $this->input->get('atk');
-		$hp  = $this->input->get('hp');
 		
-		$config = array();
+		$saber_msg = array();
+			
+		$card_name = $this->input->post('card_name');
+		$atk = $this->input->post('atk');
+		$hp  = $this->input->post('hp');
+		
+		$saber_msg['card_name'] = $card_name;
+		$saber_msg['atk'] = $atk;
+		$saber_msg['hp'] = $hp;
+		
+		$up_config = array();
 		for($i=0,$len=count($this->img_field_arr);$i<$len;$i++){
-			array_push($config,array(
+			array_push($up_config,array(
 				'field'       => $this->img_field_arr[$i],
 				'upload_path' => $this->cards_path_arr[$i]
 			));
 		}
-		$this->load->library('upload',$config);
+		$this->load->library('upload',$up_config);
 
-		if($this->upload->upload_handle(true)){
-			var_dump($this->upload->data());
-		}else{
-			var_dump($this->upload->display_errors());
+		if(!$this->upload->upload_handle(true)){
+			$this->upload->display_errors();
 		}
+		$all_updata = $this->upload->all_data();
+		$tmp_arr = $all_updata[0];
+		$saber_msg['normalAvatar'] = $tmp_arr['file_name'];
+		$tmp_arr = $all_updata[1];
+		$saber_msg['select_list'] = $tmp_arr['file_name'];
+		$tmp_arr = $all_updata[2];
+		$saber_msg['character_main'] = $tmp_arr['file_name'];
+		$tmp_arr = $all_updata[3];
+		$saber_msg['battleAvatar'] = $tmp_arr['file_name'];
+				
+		$this->load->model('cards/saber_obj');
+		$this->saber_obj->create($saber_msg);
 	}
 }

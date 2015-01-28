@@ -224,6 +224,5 @@ class Get_cards extends CI_Model {
 		
 		return array('result' => $result, 'data' => $data);
 	}
-	
 }
 ?>
