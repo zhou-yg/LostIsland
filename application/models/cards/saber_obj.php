@@ -39,8 +39,8 @@ class Saber_obj extends CI_Model{
 		$saber_msg = array();
 			
 		$card_name = $this->input->post('card_name');
-		$atk = $this->input->post('atk');
-		$hp  = $this->input->post('hp');
+		$atk       = $this->input->post('atk');
+		$hp        = $this->input->post('hp');
 		
 		$saber_msg['name'] = $card_name;
 		$saber_msg['atk'] = intval($atk);
@@ -48,10 +48,6 @@ class Saber_obj extends CI_Model{
 		
 		$carddir_name = $this->carddir_pre.$this->create_card_dir().'/';
 		$carddir_path = $this->cardImg_file_path_pre.$carddir_name;
-		
-		var_dump($this->cardImg_file_path_pre);
-		var_dump($carddir_name);
-		var_dump($carddir_path);		
 		
 		if(!file_exists($carddir_path)){
 			$mkdir_result = mkdir($carddir_path);
@@ -144,8 +140,11 @@ class Saber_obj extends CI_Model{
 			'data' => $data
 		);
 	}
-	public function delete(){
-		
+	//card_saber表的主键id
+	public function update($_card_index){
+	}
+	//card_saber表的主键id
+	public function delete($_card_index){
 	}
 }
 ?>

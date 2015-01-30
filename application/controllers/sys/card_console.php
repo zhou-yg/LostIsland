@@ -20,10 +20,18 @@ class Card_console extends CI_Controller {
 		$this->load->view('sys/createCard.html');
 	}
 	//接收多个上传文件和相关参数,用于生成新卡
+	//如果带有id，则更新
 	public function upload(){
 		$this->load->model('cards/saber_obj');
-
-		$result = $this->saber_obj->create();
+		
+		$card_index = $this->input->post('card_index');
+		$card_index = intval($card_index);
+		
+		if($card_index){
+			$result = $this->saber_obj->update($card_index);
+		}else{
+			$result = $this->saber_obj->create();
+		}
 		
 		var_dump($result);
 	}
