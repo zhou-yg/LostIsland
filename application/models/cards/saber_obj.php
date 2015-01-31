@@ -32,7 +32,7 @@ class Saber_obj extends CI_Model{
 	/*
 	 * 获取，新卡专属文件夹的名称序号
 	 * 
-	 * /
+	 */
 	private function create_card_dir(){
 		$card_index = $this->db->count_all($this->saber_tname);
 		return $card_index + 1;
