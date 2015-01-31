@@ -29,7 +29,10 @@ class Saber_obj extends CI_Model{
         parent::__construct();
 		$this->load->database();
     }
-	//获取，新卡专属文件夹的名称序号
+	/*
+	 * 获取，新卡专属文件夹的名称序号
+	 * 
+	 * /
 	private function create_card_dir(){
 		$card_index = $this->db->count_all($this->saber_tname);
 		return $card_index + 1;
@@ -74,9 +77,11 @@ class Saber_obj extends CI_Model{
 
 		return $saber_msg;		
 	}
-	/*	验证该卡的专属文件夹是否存在,
+	/*
+	 * 验证该卡的专属文件夹是否存在,
 	 * 如果是update操作(带有$_cardIndex)，则不创建，false
-	 * 如果是create操作，则创建，
+	 * 如果是create操作，则创建
+	 * 
 	 */
 	private function carddir_exists($_cardIndex = null){
 		if($_cardIndex){
