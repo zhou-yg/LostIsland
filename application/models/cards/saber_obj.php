@@ -34,6 +34,7 @@ class Saber_obj extends CI_Model{
 		$card_index = $this->db->count_all($this->saber_tname);
 		return $card_index + 1;
 	}
+	//处理图片上传，并获取相关信息
 	public function cardImg_upload(){
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 		$saber_msg = array();
