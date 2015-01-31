@@ -96,7 +96,7 @@ class CI_Upload {
 				if($config['field']){
 
 					$this->initialize($config);
-					$result = $this->do_upload($config['field']);
+					$this->do_upload($config['field']);
 					$this->data_handle();
 
 				}else{
@@ -192,7 +192,7 @@ class CI_Upload {
 		// Is $_FILES[$field] set? If not, no reason to continue.
 		if ( ! isset($_FILES[$field]))
 		{
-			$this->set_error('upload_no_file_selected');
+			//$this->set_error('upload_no_file_selected');
 			return FALSE;
 		}
 
