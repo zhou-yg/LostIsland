@@ -2,8 +2,13 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class Card_list extends CI_Controller {
 
+class Card_list extends CI_Controller {
+	/*
+	 * 载入cardList配置
+	 * 链接跳转至此 uid,sessionToken
+	 * 
+	 */
 	public function index() {
 		$uid = $this->session->userdata('uid');
 		$sessionToken = $this->session->userdata('sessionToken');
@@ -17,8 +22,8 @@ class Card_list extends CI_Controller {
 				$all_result_array = $this->get_cards->get_all($uid);
 		
 				if ($deck_result_array['result'] && $all_result_array['result']) {
-					$all_result_array = $all_result_array['data'];
 
+					$all_result_array = $all_result_array['data'];
 					$cards_arr = array(
 						'uid' => $uid, 
 						'sessionToken' => $sessionToken, 
@@ -29,6 +34,7 @@ class Card_list extends CI_Controller {
 					$this->load->helper('url');
 					$this->load->view('cards/cardList.html', $cards_arr);
 					$this->load->view('sys/console.html');
+
 				} else {
 					show_error($deck_result_array['data'] . '<br>' . $all_result_array['data'], 500, 'forbidden');
 				}

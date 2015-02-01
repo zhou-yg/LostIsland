@@ -9,6 +9,11 @@ class Battle_center extends CI_Controller {
 			 		'index' => 'Battle_center'
 			 	)));
 	}
+	/*
+	 * battle 初始化界面 
+	 * 跳转到此 uid,sessionToken
+	 * 或登录至此,clientToken,userToken
+	 */
 	public function initial(){
 
 		$clientToken = $this->input->post('clientToken');
@@ -45,6 +50,7 @@ class Battle_center extends CI_Controller {
 				'sessionToken' => $sessionToken
 			);
 
+			//控制台
 			$this->load->helper('url');
 			$this->load->view('battle/initial.html', $result);
 			$this->load->view('sys/console.html');
