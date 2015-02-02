@@ -10,8 +10,12 @@ class Card_list extends CI_Controller {
 	 * 
 	 */
 	public function index() {
+		
 		$uid = $this->session->userdata('uid');
 		$sessionToken = $this->session->userdata('sessionToken');
+
+		$this->api_models = include APPPATH.'config/'.'/model_map.php';
+		
 
 		if ($uid && $sessionToken) {
 

@@ -1,23 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Route extends CI_Controller {
-
-	private $api_model_key = array(
-		1000,
-		1001,
-		1002,
-		1003,
-		2001,
-		2002
-	);
-	private $api_model_paths = array(
-		'encry/sec_key',
-		'user/init',
-		'user/login',
-		'user/message',
-		'cards/card_config',
-		'cards/get_cards'
-	);
+	//模块 编号映射
 	private $api_models = array();
 
 	private $normal_name = 'loaded_model';
@@ -27,10 +11,7 @@ class Route extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-		for($i=0,$len = count($this->api_model_key);$i<$len;$i++){
-			$key = $this->api_model_key[$i];
-			$this->api_models[$key] = $this->api_model_paths[$i];
-		}
+		$this->api_models = include APPPATH.'config/'.'/model_map.php';
     }
 	/*
 	 *  api入口
