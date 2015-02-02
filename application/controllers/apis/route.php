@@ -36,10 +36,9 @@ class Route extends CI_Controller {
 			$param = json_decode($param);
 		}
 		
-		if(in_array($fn, $this->api_model_key)){
-			$normal_name = $this->normal_name;
-			$model_path = $this->api_models[$fn];
-
+		$normal_name = $this->normal_name;
+		$model_path = $this->api_models[$fn];
+		if($model_path){
 			$this->load->model($model_path,$normal_name);
 
 			$result = $this->$normal_name->set_param($param);

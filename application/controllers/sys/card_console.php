@@ -4,12 +4,21 @@ if (!defined('BASEPATH'))
 
 class Card_console extends CI_Controller {
 
+	private $upModelName = 'saber_obj';
+
 	private $cards_path_config = array();
+
+	private $model_map = array();
 
     function __construct()
     {
         parent::__construct();
+		
 		$this->load->helper('url');
+		
+		$this->model_map = include MODEL_MAP;
+		
+		
     }
 	public function all_card() {
 		$this->load->view('sys/allCardsDisplay.html');
@@ -27,7 +36,7 @@ class Card_console extends CI_Controller {
 	//如果带有id，则更新
 	public function upload(){
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-		$this->load->model('cards/saber_obj');
+		$this->load->model($this->model_map[$this->upModelName]);
 		
 		$card_index = $this->input->post('card_index');
 		$card_index = intval($card_index);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-01-26 15:01:49
+-- Generation Time: 2015-02-02 14:19:29
 -- 服务器版本： 5.6.22
 -- PHP Version: 5.5.14
 
@@ -56,14 +56,15 @@ CREATE TABLE IF NOT EXISTS `card_saber` (
   `atk` int(2) NOT NULL,
   `hp` int(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- 转存表中的数据 `card_saber`
 --
 
 INSERT INTO `card_saber` (`id`, `name`, `normalAvatar`, `select_list`, `character_main`, `battleAvatar`, `atk`, `hp`) VALUES
-(1, '默认', 'normalAvatar/card_3_5.png', 'select_list/card_1_4.png', 'character_main/card_4_1.png', 'battleAvatar/card_1_2.png', 3, 7);
+(1, '默认', 'card1/normalAvatar/card_3_5.png', 'card1/select_list/card_1_4.png', 'card1/character_main/card_4_1.png', 'card1/battleAvatar/card_1_2.png', 3, 7),
+(2, 'name', 'card2/battleAvatar/panda49.jpg', 'card2/character_main/panda49.png', 'card2/normalAvatar/panda49.jpg', 'card2/select_list/panda49.jpg', 12, 4);
 
 -- --------------------------------------------------------
 

@@ -174,7 +174,6 @@ if (defined('ENVIRONMENT'))
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
@@ -190,6 +189,7 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
+	define('MODEL_MAP', APPPATH.'config/model_map.php');
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
