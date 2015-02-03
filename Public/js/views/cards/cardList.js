@@ -19,8 +19,11 @@
     allCardDom = _.q('.all-cards-list');
     allHeroesDom = _.q('.all-heroes-list');
     allDecks = global.myCards.deck;
-    allDecks = allDecks.filter(function(el) {
-      return el;
+    allDecks = allDecks.filter(function(el, _i) {
+      if (!el) {
+        el = {};
+      }
+      return _i <= 3;
     });
     curDeck = allDecks[0];
     curDeck.cur = true;
@@ -70,17 +73,17 @@
           };
         })();
         decksStateCache = (function() {
-          var children, deckP, deckSpotAttr, deckSpotDomMap, deckSpotNames, domSpotMap, i, s, set, _i, _len;
+          var children, deckPositionDom, deckSpotAttr, deckSpotDomMap, deckSpotNames, domSpotMap, i, s, set, _i, _len;
           deckSpotAttr = 'spot';
           deckSpotNames = ['a', 'b', 'c', 'd'];
           deckSpotDomMap = {};
           domSpotMap = {};
           children = allDecksDom.children;
           for (i = _i = 0, _len = children.length; _i < _len; i = ++_i) {
-            deckP = children[i];
+            deckPositionDom = children[i];
             s = deckSpotNames[i];
-            deckP.setAttribute(deckSpotAttr, s);
-            domSpotMap[s] = deckP;
+            deckPositionDom.setAttribute(deckSpotAttr, s);
+            domSpotMap[s] = deckPositionDom;
           }
           set = function() {
             var deckOne, spotName, _j, _len1, _results;
