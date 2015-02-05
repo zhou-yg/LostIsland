@@ -20,8 +20,8 @@
     allHeroesDom = _.q('.all-heroes-list');
     allDecks = global.myCards.deck;
     allDecks = allDecks.filter(function(el, _i) {
-      if (!el) {
-        el = {};
+      if (el === 'null') {
+        return false;
       }
       return _i <= 3;
     });
@@ -282,8 +282,8 @@
                 token: global.user.sessionToken,
                 spot: _spot
               };
+              console.log(param);
               return LLApi.CardList.deleteDeck(param, function(_e, _d) {
-                console.log('save deck return', _d);
                 if (typeof _d === 'string') {
                   _d = JSON.parse(_d);
                 }

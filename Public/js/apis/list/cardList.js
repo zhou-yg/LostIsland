@@ -35,7 +35,7 @@
         param: {
           uid: _param.uid,
           token: _param.token,
-          data: 'null',
+          data: null,
           name: tnamePre + _param.spot,
           type: 'save_deck'
         }

@@ -6,6 +6,8 @@ class Get_cards extends CI_Model {
 	private $cache_uid;
 
 	private $cards_one;
+	
+	private $max_deck_len = 4;
 
 	private $save_deck_map = array(
 		'deck1' =>'deck_cards',	
@@ -68,7 +70,6 @@ class Get_cards extends CI_Model {
 				'data' => 'token illegal'
 			);
 		}
-		
 		if(!$result){
 			$result = array(
 				'result' => FALSE
@@ -81,19 +82,31 @@ class Get_cards extends CI_Model {
 	public function save_deck($_uid, $_index_key,$_data) {
 		$tindex = $this->save_deck_map[$_index_key];
 		$all_decks = $this->get_deck($_uid);
-
+		$handle_all_decks = array();
+		
 		if($all_decks['result']){
 			$all_decks = $all_decks['data'];
 
-			if($_data == 'null'){
-				$_data = '';
-			}else if(is_object($_data)){
-				$_data = get_object_vars($_data);
+			if(!is_object($_data)){
+				$_data = null;
 			}
-
+			
 			if(is_int($tindex) && $tindex>=0 && $tindex<4){
-				$all_decks[$tindex] = $_data;
-				$all_decks = serialize($all_decks);
+
+
+				for($i=0,$len=$this->max_deck_len;$i<$len;$i++){
+					//当前的存储节点
+					if($i == $tindex){
+						$tmp_data = $_data;
+					}else{
+						$tmp_data = isset($all_decks[$i])?$all_decks[$i]:null;
+					}
+					if($tmp_data){
+						$handle_all_decks[] = $tmp_data;
+					}
+				}
+
+				$all_decks = serialize($handle_all_decks);
 				return $this->save($_uid, 'all_decks', $all_decks);
 
 			}else{

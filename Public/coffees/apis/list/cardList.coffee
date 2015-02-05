@@ -14,6 +14,7 @@ class CardList
         #约定
         name:tnamePre + _param.spot
         type:'save_deck'
+
     @send param,_cb
     return this
 
@@ -24,7 +25,7 @@ class CardList
       param:
         uid  :_param.uid
         token:_param.token
-        data :'null'
+        data :null
         #约定
         name:tnamePre+_param.spot
         type:'save_deck'

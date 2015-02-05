@@ -21,6 +21,11 @@
       serverAd: 'http://192.168.2.1/',
       battleServerAd: 'http://192.168.2.1:1337',
       baseUrl: 'http://192.168.2.1/index.php/'
+    },
+    android:{
+      serverAd: 'http://192.168.1.104/',
+      battleServerAd: 'http://192.168.2.1:1337',
+      baseUrl: 'http://192.168.1.104/index.php/'
     }
   };
 

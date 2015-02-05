@@ -15,7 +15,6 @@ _.on window, 'load', ->
 
   allDecks = global.myCards.deck
   allDecks = allDecks.filter (el,_i)->
-    if !el then el ={}
     return _i<=3
 
   curDeck = allDecks[0]
@@ -242,8 +241,8 @@ _.on window, 'load', ->
               token:global.user.sessionToken
               spot:_spot
 
+            console.log param
             LLApi.CardList.deleteDeck param,(_e,_d)->
-              console.log 'save deck return',_d
               if typeof _d is 'string'
                 _d = JSON.parse _d;
               if _d.result is 'true' or _d.result is true
