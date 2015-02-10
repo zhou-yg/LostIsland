@@ -7,8 +7,27 @@
  */
 
 (function() {
-  var CARD_NUM_MAX,
+  var CARD_NUM_MAX, print,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  print = function(arr) {
+    var b, d, v, _i, _len, _results;
+    b = _.q('body');
+    _results = [];
+    for (_i = 0, _len = arr.length; _i < _len; _i++) {
+      v = arr[_i];
+      d = document.createElement('div');
+      d.innerText = v;
+      _results.push(b.insertBefore(d, b.childNodes[0]));
+    }
+    return _results;
+  };
+
+  setTimeout(function() {
+    print([document.body.clientHeight, document.body.clientWidth]);
+    print(['----']);
+    return print([window.screen.height]);
+  }, 100);
 
   CARD_NUM_MAX = 10;
 
@@ -20,9 +39,6 @@
     allHeroesDom = _.q('.all-heroes-list');
     allDecks = global.myCards.deck;
     allDecks = allDecks.filter(function(el, _i) {
-      if (el === 'null') {
-        return false;
-      }
       return _i <= 3;
     });
     curDeck = allDecks[0];

@@ -4,6 +4,20 @@
     all:[]
   }
 ###
+print = (arr)->
+  b = _.q 'body'
+
+  for v in arr
+    d = document.createElement('div')
+    d.innerText = v
+    b.insertBefore d,b.childNodes[0]
+
+setTimeout ->
+  print [document.body.clientHeight,document.body.clientWidth]
+  print ['----']
+  print [window.screen.height]
+,100
+
 CARD_NUM_MAX = 10
 #set click event
 _.on window, 'load', ->

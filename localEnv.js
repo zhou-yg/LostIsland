@@ -26,10 +26,15 @@
       serverAd: 'http://192.168.1.104/',
       battleServerAd: 'http://192.168.2.1:1337',
       baseUrl: 'http://192.168.1.104/index.php/'
+    },
+    android2:{
+      serverAd: 'http://192.168.2.14/',
+      battleServerAd: 'http://192.168.2.14:1337',
+      baseUrl: 'http://192.168.2.14/index.php/'
     }
   };
 
-  server = serverConfig.mac;
+  server = serverConfig.android2;
 
   cardConfigUrl = 'apis/route?fn=2001&param={"type":"saber"}';
   heroConfigUrl = 'apis/route?fn=2001&param={"type":"hero"}';
