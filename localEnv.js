@@ -34,7 +34,7 @@
     }
   };
 
-  server = serverConfig.android2;
+  server = serverConfig.mac;
 
   cardConfigUrl = 'apis/route?fn=2001&param={"type":"saber"}';
   heroConfigUrl = 'apis/route?fn=2001&param={"type":"hero"}';

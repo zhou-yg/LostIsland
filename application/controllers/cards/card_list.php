@@ -21,7 +21,7 @@ class Card_list extends CI_Controller {
 		$this->api_models = include MODEL_MAP;
 
 		if ($uid && $sessionToken) {
-			if ($sessionToken === $this->session->userdata('sessionToken')) {
+			if ($sessionToken == $this->session->userdata('sessionToken')) {
 
 				foreach ($this->needModel as $index => $modelMap) {
 					$this->load->model($this->api_models[$modelMap]);

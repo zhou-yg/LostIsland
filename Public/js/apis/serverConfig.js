@@ -1,1 +1,1 @@
-LLApi.setServerPre("http://192.168.2.14/index.php/");
+LLApi.setServerPre("http://lostisland/index.php/");
