@@ -35,12 +35,12 @@ class Battle_center extends CI_Controller {
 			$this->load->model($this->api_models[$this->userModel1]);
 			
 			$loginResult = $this->login->check_login($clientToken,$userToken);
-
+			
 			if ($loginResult) {
 					
 				$this->load->helper('url');
 				$this->load->view('battle/initial.html', $loginResult);
-				$this->load->view('sys/console.html');
+//				$this->load->view('sys/console.html');
 				
 			} else {
 				show_error('not exist', 404, 'forbidden');

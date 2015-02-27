@@ -4,60 +4,86 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>battle initial</title>
-    <script src="<?=base_url()?>/Public/js/cards/cardConfigObjList.js"></script>
-    <script src="<?=base_url()?>/Public/js/cards/heroConfigObjList.js"></script>
-    <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
-    <script src="<?=base_url()?>/Public/js/jslib/utils.js"></script>
-    <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>Public/css/normalize.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/common.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
+
 </head>
 <body>
 <div class="prepare-ui">
+    <!--
     <div class="personal">
         <div class="hero">
-
         </div>
-        <div class="record">
-            <div class="record-icon">
-                <div class="record-win">
-                    0
-                    <span></span>
-                </div>
-                <div class="record-lose">
-                    0
-                    <span></span>
-                </div>
-            </div>
-        </div>
+        <ul class="record">
+            <li class="record-one">
+                <span>等级:</span>
+                <span>青铜1</span>
+            </li>
+            <li class="record-one">
+                <span>胜场:</span>
+                <span>100</span>
+            </li>
+            <li class="record-one">
+                <span>胜率:</span>
+                <span>66.7%</span>
+            </li>
+        </ul>
     </div>
-    <hr class="split-line"/>
-    <ul class="personal-deck">
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-        <li class="deck-one"></li>
-    </ul>
+    <section class="behind-cards">
+        <h3>底牌</h3>
+        <hr class="h-line"/>
+        <ul class="cards">
+            <li>
+            </li>
+            <li>
+            </li>
+            <li>
+            </li>
+            <li>
+            </li>
+        </ul>
+    </section>
+    <section class="behind-cards">
+        <h3>当前</h3>
+        <hr class="h-line"/>
+        <ul class="cards">
+            <li>
+            </li>
+            <li>
+            </li>
+            <li>
+            </li>
+            <li>
+            </li>
+            <li>
+            </li>
+        </ul>
+    </section>
     <div class="start-battle">
-
     </div>
+    -->
 </div>
 </body>
 <script>
     (function(_window){
         _window.userMsg = {
                 'uid':'<?= $uid ?>',
-                'myDeckIds':<?= $my_deck ?>,
                 'sessionToken':'<?= $sessionToken ?>'
                 };
         })(this);
 </script>
+<!-- config -->
+<script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
+<script src="<?=base_url()?>/Public/js/chess/chessConfigObjList.js"></script>
+<!-- lib -->
 <script src="<?= base_url() ?>Public/js/jslib/sails.io.js"></script>
-<script src="<?=base_url()?>/Public/js/cards/cardObject.js"></script>
-<script src="<?=base_url()?>/Public/js/cards/heroObject.js"></script>
-<script src="<?=base_url()?>/Public/js/cards/cardFactory.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/underscore-min.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/backbone-min.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/react.js"></script>
+<!-- chess -->
+<script src="<?=base_url()?>/Public/js/chess/chessObject.js"></script>
+<script src="<?=base_url()?>/Public/js/chess/chessFactory.js"></script>
+<!--  -->
 <script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
 </html>

@@ -1,1 +1,0 @@
-var battleServerAd = "http://localhost:1337";

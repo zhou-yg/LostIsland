@@ -1,0 +1,1 @@
+var chessConfigObjList={chess1:{name:"xiang",img:"chess/chess35.png",},chess2:{name:"ju",img:"chess/chess35.png",},chess3:{name:"bing",img:"chess/chess35.png",},chess4:{name:"jiang",img:"chess/chess35.png",},chess5:{name:"pao",img:"chess/chess35.png",},chess6:{name:"ma",img:"chess/chess35.png",},};var chessImgPre = "http://lostisland/Public/images/";

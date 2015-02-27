@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-02-02 14:19:29
+-- Generation Time: 2015-02-24 12:17:33
 -- 服务器版本： 5.6.22
 -- PHP Version: 5.5.14
 
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `card_saber` (
   `select_list` varchar(256) CHARACTER SET utf8 NOT NULL,
   `character_main` varchar(256) CHARACTER SET utf8 NOT NULL,
   `battleAvatar` varchar(256) CHARACTER SET utf8 NOT NULL,
+  `type` varchar(4) NOT NULL,
   `atk` int(2) NOT NULL,
   `hp` int(2) NOT NULL,
   PRIMARY KEY (`id`)
@@ -62,9 +63,9 @@ CREATE TABLE IF NOT EXISTS `card_saber` (
 -- 转存表中的数据 `card_saber`
 --
 
-INSERT INTO `card_saber` (`id`, `name`, `normalAvatar`, `select_list`, `character_main`, `battleAvatar`, `atk`, `hp`) VALUES
-(1, '默认', 'card1/normalAvatar/card_3_5.png', 'card1/select_list/card_1_4.png', 'card1/character_main/card_4_1.png', 'card1/battleAvatar/card_1_2.png', 3, 7),
-(2, 'name', 'card2/battleAvatar/panda49.jpg', 'card2/character_main/panda49.png', 'card2/normalAvatar/panda49.jpg', 'card2/select_list/panda49.jpg', 12, 4);
+INSERT INTO `card_saber` (`id`, `name`, `normalAvatar`, `select_list`, `character_main`, `battleAvatar`, `type`, `atk`, `hp`) VALUES
+(1, '默认', 'card1/normalAvatar/card_3_5.png', 'card1/select_list/card_1_4.png', 'card1/character_main/card_4_1.png', 'card1/battleAvatar/card_1_2.png', 's', 3, 7),
+(2, 'name', 'card2/battleAvatar/panda49.jpg', 'card2/character_main/panda49.png', 'card2/normalAvatar/panda49.jpg', 'card2/select_list/panda49.jpg', 'j', 12, 4);
 
 -- --------------------------------------------------------
 
@@ -126,11 +127,10 @@ CREATE TABLE IF NOT EXISTS `user_cards` (
 --
 
 INSERT INTO `user_cards` (`id`, `uid`, `all_heroes`, `all_cards`, `all_decks`, `deck_cards`, `deck_cards_2`, `deck_cards_3`, `deck_cards_4`, `deck_cards_5`, `deck_cards_6`, `deck_cards_7`, `deck_cards_8`) VALUES
-(6, 15, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'Array', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 16, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'a:3:{s:6:"result";b:1;s:4:"data";a:2:{s:5:"cards";s:9:"["card1"]";s:6:"heroes";s:9:"["hero1"]";}i:1;s:75:"O:8:"stdClass":2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:1:{i:0;s:5:"card1";}}";}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (9, 18, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'a:3:{s:5:"cards";s:9:"["card1"]";s:6:"heroes";s:9:"["hero1"]";i:1;s:91:"O:8:"stdClass":2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:2:{i:0;s:5:"card1";i:1;s:5:"card1";}}";}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (10, 19, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'a:1:{i:0;a:2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:10:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";i:4;s:5:"card1";i:5;s:5:"card1";i:6;s:5:"card1";i:7;s:5:"card1";i:8;s:5:"card1";i:9;s:5:"card1";}}}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 20, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'a:4:{i:0;a:2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:1:{i:0;s:5:"card1";}}i:1;s:0:"";i:2;a:2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:3:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";}}i:3;a:2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:4:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";}}}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(11, 20, 'a:1:{i:0;s:5:"hero1";}', 'a:1:{i:0;s:5:"card1";}', 'a:3:{i:0;O:8:"stdClass":2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:4:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";}}i:1;O:8:"stdClass":2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:4:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";}}i:2;O:8:"stdClass":2:{s:4:"hero";s:5:"hero1";s:4:"deck";a:4:{i:0;s:5:"card1";i:1;s:5:"card1";i:2;s:5:"card1";i:3;s:5:"card1";}}}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
