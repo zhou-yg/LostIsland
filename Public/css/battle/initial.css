@@ -60,9 +60,9 @@
     top: 12px;
 }
 .behind-cards .cards{
-    margin-top: 5px;
     width: 100%;
-    overflow: hidden;
+    padding-bottom: 30%;
+    position: relative;
 }
 .behind-cards .cards li{
     background-color: #C8C8C8;
@@ -70,14 +70,48 @@
     width: 18%;
     padding-top: 25%;
 
-    float: left;
+    position: absolute;
+    top: 10%;
+    left: 0;
 }
 /*-----------------------*/
 .prepare-ui .start-battle{
+    box-sizing: border-box;
     background-color: #E2CC9C;
-    height: 60px;
-    position: absolute;
-    left: 2%;
-    right: 2%;
-    bottom: 5px;
+    padding: 5px;
+    width: 100%;
+    height: 40px;
+}
+.prepare-ui .start-battle li a{
+    color: #474747;
+    text-decoration: none;
+}
+.prepare-ui .start-battle li.center{
+    background-color: #fff;
+    width: 28%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    float: left;
+}
+.prepare-ui .start-battle li.left{
+    background-color: #fff;
+    margin-right: 1%;
+    width: 17%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 13px;
+    float: left;
+}
+.prepare-ui .start-battle li.right{
+    background-color: #fff;
+    margin-left: 1%;
+    width: 17%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 13px;
+    float: left;
 }
