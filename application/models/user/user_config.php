@@ -9,6 +9,15 @@ class User_config extends CI_Model {
 	private $init_all_cards = array('card1'); //len = 1
 	private $init_all_heroes = array('hero1'); //len = 1
 		
+	private $init_chesses = array(
+		'chess1',
+		'chess2',
+		'chess3',
+		'chess4',
+		'chess5',
+		'chess6'
+	);
+	
     function __construct()
     {
         parent::__construct();
@@ -24,6 +33,9 @@ class User_config extends CI_Model {
 	}
 	public function get_init_all_hero_ids(){
 		return $this->init_all_heroes;
+	}
+	public function get_init_chesses(){
+		return $this->init_chesses;
 	}
 }
 ?>

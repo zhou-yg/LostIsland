@@ -3,7 +3,7 @@
 /**
  * 获取chess的数据
  */
-class Chess extends CI_Model {
+class Chess_lib extends CI_Model {
 	
 	private $chessTname = 'card_chess';
 	

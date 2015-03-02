@@ -1,11 +1,29 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, PrepareUiClass, RecordPanelClass, cc, ce, prepareUiDom, screenWidth;
+  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1Dom, cards1List, cards2Dom, cards2List, cc, ce, chessListOne, chessListTwo, footerDom, headerDom, personPanel, screenWidth;
 
   ce = React.createElement;
 
   cc = React.createClass;
 
   screenWidth = window.screen.width;
+
+  cards1List = [
+    {
+      name: '帅'
+    }, {
+      name: '相'
+    }, {
+      name: '车'
+    }
+  ];
+
+  cards2List = [
+    {
+      name: '兵'
+    }
+  ];
+
+  window.cardsAllArr = [cards1List, cards2List];
 
   HeroPanelClass = cc({
     render: function() {
@@ -57,79 +75,86 @@
 
   ChessListClass = cc({
     getInitialState: function() {
-      var chessMap, perLeft, sWidth;
+      var chessList, chessListIn, perLeft, sWidth;
       sWidth = screenWidth * 0.96;
       perLeft = sWidth * 0.2;
-      chessMap = this.props.chessMap;
-      chessMap.chessList = chessMap.chessList.map(function(chessOne, i) {
+      chessListIn = this.props.chessMap.chessListIn;
+      chessList = cardsAllArr[chessListIn];
+      chessList.forEach(function(chessOne, i) {
         if (typeof chessOne !== 'object') {
           chessOne = {};
         }
-        chessOne.key = 'chessLi' + i;
-        chessOne.ox = perLeft * i;
-        chessOne.oy = 10;
-        chessOne.x = chessOne.ox + 'px';
-        chessOne.y = chessOne.oy + 'px';
+        chessOne.key = 'chessLi' + chessListIn + i;
         return chessOne;
       });
       return {
-        chessMap: chessMap,
-        touchesXY: {
-          x: 0,
-          y: 0
-        }
+        name: this.props.chessMap.name,
+        chessList: chessList,
+        perLeft: perLeft,
+        top: 10,
+        isEdit: false,
+        ulClass: ['cards', 'cards-edit']
       };
     },
-    touchOnChess: function(ev) {
-      var firstTouch;
-      firstTouch = ev.nativeEvent.touches[0];
-      ev.target.style.zIndex = 10;
+    changeState: function() {
       return this.setState({
-        touchesXY: {
-          x: firstTouch.clientX,
-          y: firstTouch.clientY
-        }
+        isEdit: !this.state.isEdit
       });
     },
-    moveOnChess: function(ev) {
-      var chessMap, chessOne, current, firstTouch, i, key, startXY, target, _i, _len, _ref;
-      target = ev.target;
-      key = ev.dispatchMarker.match(/[\w]*$/);
+    touchOnChess: function(rev) {
+      var cards, chessList, chessOne, chessOne2, i, isChange, isEdit, j, key, _i, _j, _k, _len, _len1, _len2;
+      isEdit = this.state.isEdit;
+      if (!isEdit) {
+        return;
+      }
+      key = rev.dispatchMarker.match(/[\w]*[\d]$/);
       key = key[0];
-      chessMap = this.state.chessMap;
-      startXY = this.state.touchesXY;
-      firstTouch = ev.nativeEvent.touches[0];
-      firstTouch = {
-        x: firstTouch.clientX,
-        y: firstTouch.clientY
-      };
-      _ref = chessMap.chessList;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        chessOne = _ref[i];
+      chessList = this.state.chessList;
+      console.log('before', cardsAllArr);
+      for (i = _i = 0, _len = chessList.length; _i < _len; i = ++_i) {
+        chessOne = chessList[i];
         if (chessOne.key === key) {
-          current = chessOne;
+          isChange = false;
+          for (_j = 0, _len1 = cardsAllArr.length; _j < _len1; _j++) {
+            cards = cardsAllArr[_j];
+            for (j = _k = 0, _len2 = cards.length; _k < _len2; j = ++_k) {
+              chessOne2 = cards[j];
+              if (chessOne2.isSelected && chessOne2.key !== key) {
+                chessOne2.isSelected = false;
+                cards[j] = chessOne;
+                chessList[i] = chessOne2;
+                isChange = true;
+                console.log('change', cardsAllArr);
+                break;
+              }
+            }
+          }
+          if (!isChange) {
+            chessOne.isSelected = !chessOne.isSelected;
+            console.log('mark', cardsAllArr);
+          }
           break;
         }
       }
-      current.x = current.ox + (firstTouch.x - startXY.x) + 'px';
-      current.y = current.oy + (firstTouch.y - startXY.y) + 'px';
-      target.style.left = current.x;
-      return target.style.top = current.y;
+      chessListOne.forceUpdate();
+      return chessListTwo.forceUpdate();
     },
-    leaveChess: function() {
-      return console.log('touchend');
-    },
+    moveOnChess: function(rev) {},
+    leaveChess: function(rev) {},
     render: function() {
-      var chessMap, that;
-      chessMap = this.props.chessMap;
+      var chessList, perLeft, that, top, ulClass;
+      chessList = this.state.chessList;
       that = this;
+      ulClass = this.state.ulClass[+this.state.isEdit];
+      perLeft = this.state.perLeft;
+      top = this.state.top;
       return ce('section', {
         className: 'behind-cards'
-      }, ce('h3', {}, chessMap.name), ce('hr', {
+      }, ce('h3', {}, this.state.name), ce('hr', {
         className: 'h-line'
       }, null), ce('ul', {
-        className: 'cards'
-      }, chessMap.chessList.map(function(chess, i) {
+        className: ulClass
+      }, chessList.map(function(chess, i) {
         var bgImg;
         bgImg = chess.img;
         if (bgImg) {
@@ -140,22 +165,32 @@
             onTouchEnd: that.leaveChess,
             style: {
               backgroundImage: bgImg,
-              top: chess.y,
-              left: chess.x
+              top: top,
+              left: perLeft * i + 'px'
             },
             key: chess.key
-          });
+          }, ce('div', {
+            className: 'selected',
+            style: {
+              display: chess.isSelected ? 'block' : 'none'
+            }
+          }));
         } else {
           return ce('li', {
             onTouchStart: that.touchOnChess,
             onTouchMove: that.moveOnChess,
             onTouchEnd: that.leaveChess,
             style: {
-              top: chess.y,
-              left: chess.x
+              top: top,
+              left: perLeft * i + 'px'
             },
             key: chess.key
-          }, null);
+          }, ce('div', {
+            className: 'selected',
+            style: {
+              display: chess.isSelected ? 'block' : 'none'
+            }
+          }, i));
         }
       })));
     }
@@ -163,53 +198,94 @@
 
   BottomOpBarClass = cc({
     getInitialState: function() {
-      return {};
+      return {
+        bottomList: [],
+        normalList: [
+          {
+            className: 'left',
+            name: 'list',
+            label: '排行榜'
+          }, {
+            className: 'left',
+            name: 'none',
+            label: '无'
+          }, {
+            className: 'center',
+            name: 'match',
+            label: '匹配'
+          }, {
+            className: 'right',
+            name: 'setting',
+            label: '设置'
+          }, {
+            className: 'right',
+            name: 'edit',
+            label: '编辑'
+          }
+        ],
+        onEditingList: [
+          {
+            className: 'right',
+            name: 'submit',
+            label: '确定'
+          }
+        ],
+        isEdit: false
+      };
+    },
+    edit: function() {
+      chessListOne.changeState();
+      chessListTwo.changeState();
+      return this.setState({
+        isEdit: !this.state.isEdit
+      });
+    },
+    cancel: function() {
+      return this.edit();
+    },
+    submit: function() {
+      return this.edit();
     },
     render: function() {
+      var currentList, that;
+      currentList = !this.state.isEdit ? this.state.normalList : this.state.onEditingList;
+      that = this;
       return ce('ul', {
         className: 'start-battle'
-      }, ce('li', {
-        className: 'left'
-      }, ce('a', {
-        href: '#'
-      }, '排行榜')), ce('li', {
-        className: 'left'
-      }, ce('a', {
-        href: '#'
-      }, '无')), ce('li', {
-        className: 'center'
-      }, ce('a', {
-        href: '#'
-      }, '匹配')), ce('li', {
-        className: 'right'
-      }, ce('a', {
-        href: '#'
-      }, '编辑')), ce('li', {
-        className: 'right'
-      }, ce('a', {
-        href: '#'
-      }, '设置')));
+      }, currentList.map(function(liOne, i) {
+        return ce('li', {
+          className: liOne.className,
+          onClick: that[liOne.name],
+          key: 'bottomLi' + i
+        }, liOne.label);
+      }));
     }
   });
 
-  PrepareUiClass = cc({
-    render: function() {
-      return ce('div', {}, ce(PersonalBoxClass), ce(ChessListClass, {
-        chessMap: {
-          name: '表1',
-          chessList: [1, 2, 3]
-        }
-      }), ce(ChessListClass, {
-        chessMap: {
-          name: '表2',
-          chessList: [1, 2, 3]
-        }
-      }), ce(BottomOpBarClass, {}));
+  headerDom = document.getElementById('header');
+
+  cards1Dom = document.getElementById('cards1');
+
+  cards2Dom = document.getElementById('cards2');
+
+  footerDom = document.getElementById('footer');
+
+  personPanel = React.render(ce(PersonalBoxClass), headerDom);
+
+  chessListOne = React.render(ce(ChessListClass, {
+    chessMap: {
+      name: '出战',
+      chessListIn: 0
     }
-  });
+  }), cards1Dom);
 
-  prepareUiDom = document.querySelector('.prepare-ui');
+  chessListTwo = React.render(ce(ChessListClass, {
+    chessMap: {
+      name: '伏兵',
+      chessListIn: 1
+    }
+  }), cards2Dom);
 
-  React.render(ce(PrepareUiClass), prepareUiDom);
+  React.render(ce(BottomOpBarClass), footerDom);
 
 }).call(this);

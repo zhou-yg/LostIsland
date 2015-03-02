@@ -11,58 +11,69 @@
 </head>
 <body>
 <div class="prepare-ui">
-    <!--
-    <div class="personal">
-        <div class="hero">
+    <header id="header">
+        <!--
+        <div class="personal">
+            <div class="hero">
+            </div>
+            <ul class="record">
+                <li class="record-one">
+                    <span>等级:</span>
+                    <span>青铜1</span>
+                </li>
+                <li class="record-one">
+                    <span>胜场:</span>
+                    <span>100</span>
+                </li>
+                <li class="record-one">
+                    <span>胜率:</span>
+                    <span>66.7%</span>
+                </li>
+            </ul>
         </div>
-        <ul class="record">
-            <li class="record-one">
-                <span>等级:</span>
-                <span>青铜1</span>
-            </li>
-            <li class="record-one">
-                <span>胜场:</span>
-                <span>100</span>
-            </li>
-            <li class="record-one">
-                <span>胜率:</span>
-                <span>66.7%</span>
-            </li>
-        </ul>
+        -->
+    </header>
+    <div id="cards1">
+        <!--
+        <section class="behind-cards">
+            <h3>底牌</h3>
+            <hr class="h-line"/>
+            <ul class="cards">
+                <li>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+            </ul>
+        </section>
+        -->
     </div>
-    <section class="behind-cards">
-        <h3>底牌</h3>
-        <hr class="h-line"/>
-        <ul class="cards">
-            <li>
-            </li>
-            <li>
-            </li>
-            <li>
-            </li>
-            <li>
-            </li>
-        </ul>
-    </section>
-    <section class="behind-cards">
-        <h3>当前</h3>
-        <hr class="h-line"/>
-        <ul class="cards">
-            <li>
-            </li>
-            <li>
-            </li>
-            <li>
-            </li>
-            <li>
-            </li>
-            <li>
-            </li>
-        </ul>
-    </section>
-    <div class="start-battle">
+    <div id="cards2">
+        <!--
+        <section class="behind-cards">
+            <h3>当前</h3>
+            <hr class="h-line"/>
+            <ul class="cards">
+                <li>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+                <li>
+                </li>
+            </ul>
+        </section>
+        -->
     </div>
-    -->
+    <footer id="footer">
+        <!-- -->
+    </footer>
 </div>
 </body>
 <script>
@@ -77,8 +88,7 @@
 <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
 <script src="<?=base_url()?>/Public/js/chess/chessConfigObjList.js"></script>
 <!-- lib -->
-<script src="<?= base_url() ?>Public/js/jslib/underscore-min.js"></script>
-<script src="<?= base_url() ?>Public/js/jslib/backbone-min.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/utils.js"></script>
 <script src="<?= base_url() ?>Public/js/jslib/react.js"></script>
 <!-- chess -->
 <script src="<?=base_url()?>/Public/js/chess/chessObject.js"></script>

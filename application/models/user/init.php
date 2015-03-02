@@ -4,6 +4,8 @@ class Init extends CI_Model {
 	private $user_list_tname = 'user_list';
 	private $user_card_tname = 'user_cards';
 
+	private $user_chess_tname = 'user_chess';
+
     function __construct()
     {
         parent::__construct();
@@ -29,6 +31,7 @@ class Init extends CI_Model {
 		
 		$user_list_tname = $this->user_list_tname;
 		$user_cards_tname = $this->user_card_tname;
+		$user_chess_tname = $this->user_chess_tname;
 				
 		$chacter = $this->user_config->get_defualt_character_img();
 		
@@ -70,7 +73,19 @@ class Init extends CI_Model {
 			$init_user_cards_sql = $this->db->insert_string($user_cards_tname,$insert_data_arr); 
 			$init_cards_query_result = $this->db->simple_query($init_user_cards_sql);
 			
-			if($init_cards_query_result){
+			//拥有的chess
+			$init_chesses = $this->user_config->get_init_chesses();
+			$init_chess_str = serialize($init_chesses);
+			
+			$insert_chess_arr = array(
+				'id' => null,
+				'uid' => $last_uid,
+				'chess_arr' => $init_chess_str
+			);
+			$insert_chess_sql = $this->db->insert_string($user_chess_tname,$insert_chess_arr);
+			$init_chess_query_result = $this->db->simple_query($insert_chess_sql);
+			
+			if($init_cards_query_result && $init_chess_query_result){
 				return TRUE;
 			}else{
 				return FALSE;

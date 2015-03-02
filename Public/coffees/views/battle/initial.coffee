@@ -1,7 +1,19 @@
 ce = React.createElement
 cc = React.createClass
-
 screenWidth = window.screen.width
+
+cards1List = [{
+  name:'帅'
+},{
+  name:'相'
+},{
+  name:'车'
+}]
+cards2List = [{
+  name:'兵'
+}]
+
+window.cardsAllArr = [cards1List,cards2List]
 
 HeroPanelClass = cc {
   render:->
@@ -44,68 +56,71 @@ ChessListClass = cc {
   getInitialState:->
     sWidth = screenWidth*0.96
     perLeft = sWidth * 0.2
-    chessMap = @props.chessMap
-    chessMap.chessList = chessMap.chessList.map (chessOne,i)->
+    chessListIn = @props.chessMap.chessListIn
+    chessList = cardsAllArr[chessListIn]
+    chessList.forEach (chessOne,i)->
       if typeof chessOne isnt 'object'
         chessOne = {}
-      chessOne.key = 'chessLi'+i
-      chessOne.ox = perLeft*i
-      chessOne.oy = 10
-      chessOne.x = chessOne.ox + 'px'
-      chessOne.y = chessOne.oy + 'px'
+      chessOne.key = 'chessLi'+chessListIn+i
       return chessOne
     {
-      chessMap:chessMap
-      touchesXY:{
-        x:0
-        y:0
-      }
+      name:@props.chessMap.name
+      chessList:chessList
+      perLeft:perLeft
+      top:10
+      isEdit:false
+      ulClass:['cards','cards-edit']
     }
-  touchOnChess:(ev)->
-    firstTouch = ev.nativeEvent.touches[0]
-    ev.target.style.zIndex = 10
-
+  changeState:->
     @setState {
-      touchesXY:
-        x:firstTouch.clientX
-        y:firstTouch.clientY
+      isEdit:!@state.isEdit
     }
-  moveOnChess:(ev)->
-    target = ev.target
-    key    = ev.dispatchMarker.match /[\w]*$/
-    key    = key[0]
+  touchOnChess:(rev)->
+    isEdit = @state.isEdit
+    if !isEdit
+      return
 
-    chessMap = @state.chessMap
+    key = rev.dispatchMarker.match /[\w]*[\d]$/
+    key = key[0]
+    chessList = @state.chessList
 
-    startXY = @state.touchesXY
-
-    firstTouch = ev.nativeEvent.touches[0]
-    firstTouch = {
-      x:firstTouch.clientX
-      y:firstTouch.clientY
-    }
-    for chessOne,i in chessMap.chessList
+    console.log 'before',cardsAllArr
+    for chessOne,i in chessList
       if chessOne.key is key
-        current = chessOne
+        #标记 或者 调换
+        isChange = false
+        for cards in cardsAllArr
+          for chessOne2,j in cards
+            if chessOne2.isSelected and chessOne2.key isnt key
+              chessOne2.isSelected = false
+              cards[j] = chessOne
+              chessList[i] = chessOne2
+              isChange = true
+              console.log 'change',cardsAllArr
+              break
+        if !isChange
+          chessOne.isSelected = !chessOne.isSelected
+          console.log 'mark',cardsAllArr
         break
 
-    current.x = current.ox + (firstTouch.x - startXY.x ) + 'px'
-    current.y = current.oy + (firstTouch.y - startXY.y ) + 'px'
+    chessListOne.forceUpdate()
+    chessListTwo.forceUpdate()
 
-    target.style.left = current.x
-    target.style.top  = current.y
-
-  leaveChess:->
-    console.log 'touchend'
+  moveOnChess:(rev)->
+  leaveChess:(rev)->
 
   render:->
-    chessMap = @props.chessMap
+    chessList = @state.chessList
     that = this
+    ulClass = @state.ulClass[+@state.isEdit]
+    perLeft = @state.perLeft
+    top     = @state.top
+
     ce 'section',{ className:'behind-cards' },
-      (ce 'h3',{}, chessMap.name )
+      (ce 'h3',{}, @state.name )
       (ce 'hr',{ className:'h-line'},null )
-      (ce 'ul',{ className:'cards' },
-        chessMap.chessList.map (chess,i)->
+      (ce 'ul',{ className:ulClass },
+        chessList.map (chess,i)->
           bgImg = chess.img
           if bgImg
             bgImg = chessFactory.chessAvatarPre + bgImg
@@ -115,71 +130,108 @@ ChessListClass = cc {
               onTouchEnd:that.leaveChess
               style:{
                 backgroundImage:bgImg
-                top:chess.y
-                left:chess.x
+                top:top
+                left:perLeft*i + 'px'
               }
               key:chess.key
-            }
+            },(ce 'div',{
+              className:'selected'
+              style:{
+                display:if chess.isSelected then 'block' else 'none'
+              }
+            })
           else
             return ce 'li',{
               onTouchStart:that.touchOnChess
               onTouchMove:that.moveOnChess
               onTouchEnd:that.leaveChess
               style:{
-                top:chess.y
-                left:chess.x
+                top:top
+                left:perLeft*i + 'px'
               }
               key:chess.key
-            },null
+            },(ce 'div',{
+              className:'selected'
+              style:{
+                display:if chess.isSelected then 'block' else 'none'
+              }
+            },i)
       )
 }
-
 BottomOpBarClass = cc {
   getInitialState:->
-    {}
-  render:->
-    ce 'ul',{ className:'start-battle' },
-      (ce 'li',{ className:'left' },
-        (ce 'a',{href:'#list'},'排行榜')
-      )
-      (ce 'li',{ className:'left' },
-        (ce 'a',{href:'#'},'无')
-      )
-      (ce 'li',{ className:'center' },
-        (ce 'a',{href:'#match'},'匹配')
-      )
-      (ce 'li',{ className:'right' },
-        (ce 'a',{href:'#edit'},'编辑')
-      )
-      (ce 'li',{ className:'right' },
-        (ce 'a',{href:'#setting'},'设置')
-      )
-}
-
-PrepareUiClass = cc {
-  render:->
-    ce 'div',{},
-      (ce PersonalBoxClass )
-      (ce ChessListClass,{ chessMap:{ name:'表1',chessList:[1,2,3] } } )
-      (ce ChessListClass,{ chessMap:{ name:'表2',chessList:[1,2,3] } } )
-      (ce BottomOpBarClass,{} )
-}
-
-BottomOpRoute = Backbone.Route.extend {
-  routes:{
-    'list':'list'
-    'match':'match'
-    'edit':'edit'
-    'setting':'setting'
-  }
-  list:->
-  match:->
+    {
+      bottomList:[]
+      normalList:[{
+        className:'left'
+        name:'list'
+        label:'排行榜'
+      },{
+        className:'left'
+        name:'none'
+        label:'无'
+      },{
+        className:'center'
+        name:'match'
+        label:'匹配'
+      },{
+        className:'right'
+        name:'setting'
+        label:'设置'
+      },{
+        className:'right'
+        name:'edit'
+        label:'编辑'
+      }]
+      onEditingList:[{
+        className:'right'
+        name:'submit'
+        label:'确定'
+      }]
+      isEdit:false
+    }
   edit:->
-  setting:->
+    chessListOne.changeState()
+    chessListTwo.changeState()
+    @setState {
+      isEdit:!@state.isEdit
+    }
+  cancel:->
+    @edit()
+  submit:->
+    @edit()
+
+  render:->
+    currentList = if !@state.isEdit then @state.normalList else @state.onEditingList
+    that = this
+
+    ce 'ul',{ className:'start-battle' },
+      currentList.map (liOne,i)->
+        (ce 'li',{
+          className:liOne.className
+          onClick:that[liOne.name]
+          key:'bottomLi'+i
+        },liOne.label)
 }
 
-prepareUiDom = document.querySelector '.prepare-ui'
+headerDom = document.getElementById('header')
+cards1Dom = document.getElementById('cards1')
+cards2Dom = document.getElementById('cards2')
+footerDom = document.getElementById('footer')
+
+personPanel = React.render(
+  ce PersonalBoxClass
+  headerDom
+)
+chessListOne = React.render(
+  (ce ChessListClass,{ chessMap:{ name:'出战',chessListIn:0 } } )
+  cards1Dom
+)
+chessListTwo = React.render(
+  (ce ChessListClass,{ chessMap:{ name:'伏兵',chessListIn:1 } } )
+  cards2Dom
+)
 React.render(
-  ce PrepareUiClass
-  prepareUiDom
+  ce BottomOpBarClass
+  footerDom
 )

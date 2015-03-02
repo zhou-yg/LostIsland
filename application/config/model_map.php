@@ -8,7 +8,8 @@ $model_map = array(
 	1003 => 'user/message', 
 	2001 => 'cards/card_config', 
 	2002 => 'cards/get_cards',
-	3001 => 'chess/chess',
+	3001 => 'chess/chess_lib',
+	3002 => 'chess/chess_user',
 	//---------------别名---------------
 	'sec_key'      => 'encry/sec_key', 
 	'user_init'    => 'user/init', 
