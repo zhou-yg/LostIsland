@@ -2,16 +2,12 @@ ce = React.createElement
 cc = React.createClass
 screenWidth = window.screen.width
 
-cards1List = [{
-  name:'帅'
-},{
-  name:'相'
-},{
-  name:'车'
-}]
-cards2List = [{
-  name:'兵'
-}]
+
+chessObjArr = userMsg.chess.map (chessIn)->
+  return chessFactory.getChessByCid(chessIn)
+
+cards1List = chessObjArr.slice(0,5)
+cards2List = chessObjArr.slice(5)
 
 window.cardsAllArr = [cards1List,cards2List]
 
@@ -24,7 +20,7 @@ RecordPanelClass = cc {
     {
       level:{
         name:'等级:'
-        num:'青铜1'
+        num:'1'
       },
       records:[{
         pre:'胜场:'
@@ -84,7 +80,6 @@ ChessListClass = cc {
     key = key[0]
     chessList = @state.chessList
 
-    console.log 'before',cardsAllArr
     for chessOne,i in chessList
       if chessOne.key is key
         #标记 或者 调换
@@ -129,7 +124,7 @@ ChessListClass = cc {
               onTouchMove:that.moveOnChess
               onTouchEnd:that.leaveChess
               style:{
-                backgroundImage:bgImg
+                backgroundImage:'url('+bgImg+')'
                 top:top
                 left:perLeft*i + 'px'
               }
@@ -193,6 +188,18 @@ BottomOpBarClass = cc {
   edit:->
     chessListOne.changeState()
     chessListTwo.changeState()
+
+    isEdit = !@state.isEdit
+    if !isEdit
+      LLApi.Chess.saveChess({
+        uid:userMsg.uid
+        token:userMsg.token
+        chess:cardsAllArr[0].concat(cardsAllArr[1]).map((chessObj)-> return chessObj.cid)
+      },(err,data)->
+        console.log err,data
+      );
+
+
     @setState {
       isEdit:!@state.isEdit
     }
@@ -224,11 +231,11 @@ personPanel = React.render(
   headerDom
 )
 chessListOne = React.render(
-  (ce ChessListClass,{ chessMap:{ name:'出战',chessListIn:0 } } )
+  (ce ChessListClass,{ chessMap:{ name:'表1',chessListIn:0 } } )
   cards1Dom
 )
 chessListTwo = React.render(
-  (ce ChessListClass,{ chessMap:{ name:'伏兵',chessListIn:1 } } )
+  (ce ChessListClass,{ chessMap:{ name:'表2',chessListIn:1 } } )
   cards2Dom
 )
 React.render(

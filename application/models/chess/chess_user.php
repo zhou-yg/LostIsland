@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * fn = 3001
  */
 class Chess_user extends CI_Model {
 	
@@ -20,16 +20,20 @@ class Chess_user extends CI_Model {
 	 */
 	 public function set_param($param){
 	 	$result = TRUE;
-		$type = 'type';
 		$data = null;
-				
-		if(property_exists($param, $type)){
-			$type = $param->type;
-			$uid  = $param->uid;		
+
+		$type = 'type';
+		$uid = 'uid';
+		
+		if(isset($param[$type])){
+
+			$type = $param[$type];
+			$uid  = $param[$uid];		
+
 			if($type == 'get'){
-				$result = $this->get($uid);
+				$data = $this->get($uid);
 			}else if($type == 'save'){
-				$chess = $param->chess;
+				$chess = $param['chess'];
 				$result = $this->save($uid,$chess);
 			}
 		}else{
@@ -52,12 +56,23 @@ class Chess_user extends CI_Model {
 			
 			$resultArray = $queryChessResult->result_array();
 			$data = $resultArray[0];
+			$data = unserialize($data['chess_arr']);
 		}else{
 			$data = 'select chess_arr null';
 		}
+		return $data;
 	}
-	public function save(){
+	public function save($uid,$chessArr){
+		$userChessTname = $this->userChessTname;
 		
+		$sqlArr = array(
+			'chess_arr' => serialize($chessArr)
+		);
+		$where = "uid = $uid";
+		$updateSql = $this->db->update_string($userChessTname,$sqlArr,$where);
+		
+		$updateSqlQueryResult = $this->db->simple_query($updateSql);
+		return $updateSqlQueryResult;
 	}
 }
 

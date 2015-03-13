@@ -1,5 +1,5 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1Dom, cards1List, cards2Dom, cards2List, cc, ce, chessListOne, chessListTwo, footerDom, headerDom, personPanel, screenWidth;
+  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1Dom, cards1List, cards2Dom, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, footerDom, headerDom, personPanel, screenWidth;
 
   ce = React.createElement;
 
@@ -7,21 +7,13 @@
 
   screenWidth = window.screen.width;
 
-  cards1List = [
-    {
-      name: '帅'
-    }, {
-      name: '相'
-    }, {
-      name: '车'
-    }
-  ];
+  chessObjArr = userMsg.chess.map(function(chessIn) {
+    return chessFactory.getChessByCid(chessIn);
+  });
 
-  cards2List = [
-    {
-      name: '兵'
-    }
-  ];
+  cards1List = chessObjArr.slice(0, 5);
+
+  cards2List = chessObjArr.slice(5);
 
   window.cardsAllArr = [cards1List, cards2List];
 
@@ -38,7 +30,7 @@
       return {
         level: {
           name: '等级:',
-          num: '青铜1'
+          num: '1'
         },
         records: [
           {
@@ -110,7 +102,6 @@
       key = rev.dispatchMarker.match(/[\w]*[\d]$/);
       key = key[0];
       chessList = this.state.chessList;
-      console.log('before', cardsAllArr);
       for (i = _i = 0, _len = chessList.length; _i < _len; i = ++_i) {
         chessOne = chessList[i];
         if (chessOne.key === key) {
@@ -164,7 +155,7 @@
             onTouchMove: that.moveOnChess,
             onTouchEnd: that.leaveChess,
             style: {
-              backgroundImage: bgImg,
+              backgroundImage: 'url(' + bgImg + ')',
               top: top,
               left: perLeft * i + 'px'
             },
@@ -234,8 +225,21 @@
       };
     },
     edit: function() {
+      var isEdit;
       chessListOne.changeState();
       chessListTwo.changeState();
+      isEdit = !this.state.isEdit;
+      if (!isEdit) {
+        LLApi.Chess.saveChess({
+          uid: userMsg.uid,
+          token: userMsg.token,
+          chess: cardsAllArr[0].concat(cardsAllArr[1]).map(function(chessObj) {
+            return chessObj.cid;
+          })
+        }, function(err, data) {
+          return console.log(err, data);
+        });
+      }
       return this.setState({
         isEdit: !this.state.isEdit
       });
@@ -274,14 +278,14 @@
 
   chessListOne = React.render(ce(ChessListClass, {
     chessMap: {
-      name: '出战',
+      name: '表1',
       chessListIn: 0
     }
   }), cards1Dom);
 
   chessListTwo = React.render(ce(ChessListClass, {
     chessMap: {
-      name: '伏兵',
+      name: '表2',
       chessListIn: 1
     }
   }), cards2Dom);

@@ -1,11 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/**
+ * fn = 3002
+ */
 class Battle_center extends CI_Controller {
 	
 	private $userModel1 = 'user_login';
 	private $userModel2 = array(
-			'card_op',
-			'user_message'
+			'user/message',
+			'chess/chess_user'
 	);
 	
 	public function index()
@@ -14,7 +16,6 @@ class Battle_center extends CI_Controller {
 			 ->set_output(json_encode(array(
 			 		'index' => 'Battle_center'
 			 	)));
-		
 	}
 	/*
 	 * battle 初始化界面 
@@ -25,47 +26,56 @@ class Battle_center extends CI_Controller {
 
 		$this->api_models = include MODEL_MAP;
 
-		$clientToken = $this->input->post('clientToken');
-		$userToken = $this->input->post('userToken');
+//		$uid = $this->input->get('uid');
 
 		$uid = $this->session->userdata('uid');
 		$sessionToken = $this->session->userdata('sessionToken');
-
+		
+		$result = null;
+		
 		if($clientToken && $userToken){
 			$this->load->model($this->api_models[$this->userModel1]);
 			
 			$loginResult = $this->login->check_login($clientToken,$userToken);
-			
 			if ($loginResult) {
-					
-				$this->load->helper('url');
-				$this->load->view('battle/initial.html', $loginResult);
-//				$this->load->view('sys/console.html');
-				
+
+				$uid = $loginResult['uid'];
+				$sessionToken = $loginResult['sessionToken'];
+
 			} else {
 				show_error('not exist', 404, 'forbidden');
 			}
-		} else if ($uid && $sessionToken) {
+		}
+		if ($uid && $sessionToken) {
 			
 			foreach ($this->userModel2 as $index => $modelName) {
 				$this->load->model($modelName);
 			}
 
-			$cards_result_array = $this->get_cards->get_deck($uid);
+			$chess_result_array = $this->chess_user->set_param(array(
+				'type'=>'get',
+				'uid' => $uid
+			));
 			$user_message_array = $this->message->get_basic($uid);
 			
 			$result = array(
-				'uid'      	   => $user_message_array['data']['id'],
+				'uid'      	   => $uid,
 				'nickname'     => $user_message_array['data']['username'],
-				'character'    => $user_message_array['data']['character'],
-				'my_deck'      => $cards_result_array['data'],
+				'chesses'      => json_encode($chess_result_array['data']),
 				'sessionToken' => $sessionToken
 			);
-
+			
+			$this->session->set_userdata(array(
+				'uid' => $uid,
+				'sessionToken' => $sessionToken
+			));
+		}
+		if($result){
 			//控制台
 			$this->load->helper('url');
 			$this->load->view('battle/initial.html', $result);
-			$this->load->view('sys/console.html');
+			//$this->load->view('sys/console.html');
+
 		}else{
 			show_error('no token no session', 404, 'forbidden');
 		}

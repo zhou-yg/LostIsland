@@ -57,6 +57,7 @@
       }
       if (_method === 'get') {
         url = this.serverPre + this.apiAddress + '?' + data;
+        console.log(url);
         this.get(url, _callback);
       }
       if (_method === 'post') {

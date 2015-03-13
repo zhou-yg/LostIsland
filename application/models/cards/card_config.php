@@ -25,7 +25,7 @@ class Card_config extends CI_Model {
 	 * );
 	 */
 	public function set_param($_param){
-		$type = $_param->type;
+		$type = $_param['type'];
 		$result = TRUE;
 		$data = null;
 		$js = null;

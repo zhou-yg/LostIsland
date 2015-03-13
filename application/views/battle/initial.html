@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/normalize.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/common.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
-
 </head>
 <body>
 <div class="prepare-ui">
@@ -80,10 +79,16 @@
     (function(_window){
         _window.userMsg = {
                 'uid':'<?= $uid ?>',
-                'sessionToken':'<?= $sessionToken ?>'
+                'token':'<?= $sessionToken ?>',
+                'chess':'<?= $chesses ?>'
                 };
+        _window.userMsg.chess = JSON.parse(_window.userMsg.chess);
         })(this);
 </script>
+<!-- api -->
+<script src="<?=base_url()?>/Public/js/apis/LLApi.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/serverConfig.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/chessList.js"></script>
 <!-- config -->
 <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
 <script src="<?=base_url()?>/Public/js/chess/chessConfigObjList.js"></script>

@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * fn = 3001
  * 获取chess的数据
  */
 class Chess_lib extends CI_Model {
@@ -23,8 +24,8 @@ class Chess_lib extends CI_Model {
 		$type = 'type';
 		$data = null;
 				
-		if(property_exists($param, $type)){
-			$type = $param->type;
+		if(isset($param[$type])){
+			$type = $param['type'];
 			
 			if($type == 'arr'){
 				$data = $this->getChessConfigArr();

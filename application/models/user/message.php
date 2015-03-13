@@ -9,7 +9,7 @@ class Message extends CI_Model {
         parent::__construct();
     }
 	public function set_param($_param){
-		$uid = $_param->uid;
+		$uid = $_param['uid'];
 		return $this->get_basic($uid);
 	}
 	public function get_basic($_uid){

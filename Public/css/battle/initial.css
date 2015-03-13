@@ -67,6 +67,8 @@
 }
 
 .behind-cards .cards li{
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
     background-color: #C8C8C8;
     margin: 0 1%;
     width: 18%;
@@ -77,6 +79,8 @@
     left: 0;
 }
 .behind-cards .cards-edit li{
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
     background-color: #C8C8C8;
     margin: 0 1%;
     width: 18%;
