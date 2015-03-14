@@ -32,4 +32,6 @@ class CardList
     @send param,_cb
     return this
 
+
+
 LLApi.CardList = new CardList()

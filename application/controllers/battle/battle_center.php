@@ -4,12 +4,6 @@
  */
 class Battle_center extends CI_Controller {
 	
-	private $userModel1 = 'user_login';
-	private $userModel2 = array(
-			'user/message',
-			'chess/chess_user'
-	);
-	
 	public function index()
 	{
 		$this->output
@@ -26,18 +20,24 @@ class Battle_center extends CI_Controller {
 
 		$this->api_models = include MODEL_MAP;
 
-//		$uid = $this->input->get('uid');
+		//用户id
+		$uid = $this->input->get('uid');
+		//秘钥id
+		$token = $this->input->get('token');
 
-		$uid = $this->session->userdata('uid');
+		$sessionUid = $this->session->userdata('uid');
 		$sessionToken = $this->session->userdata('sessionToken');
 		
-		$result = null;
+		$uidAndToken = null;
 		
-		if($clientToken && $userToken){
-			$this->load->model($this->api_models[$this->userModel1]);
+		if($uid && $token){
+			$uidAndToken = TRUE;
+			$this->load->model('user/login');
 			
-			$loginResult = $this->login->check_login($clientToken,$userToken);
-			if ($loginResult) {
+			$tokenCheck  = $this->login->check_token($token);
+			$loginResult = $this->login->check_login($uid);
+			
+			if ($uid && $loginResult) {
 
 				$uid = $loginResult['uid'];
 				$sessionToken = $loginResult['sessionToken'];
@@ -48,9 +48,8 @@ class Battle_center extends CI_Controller {
 		}
 		if ($uid && $sessionToken) {
 			
-			foreach ($this->userModel2 as $index => $modelName) {
-				$this->load->model($modelName);
-			}
+			$this->load->model('user/message');
+			$this->load->model('chess/chess_user');
 
 			$chess_result_array = $this->chess_user->set_param(array(
 				'type'=>'get',
@@ -70,14 +69,14 @@ class Battle_center extends CI_Controller {
 				'sessionToken' => $sessionToken
 			));
 		}
-		if($result){
+		if($uidAndToken){
 			//控制台
 			$this->load->helper('url');
 			$this->load->view('battle/initial.html', $result);
 			//$this->load->view('sys/console.html');
 
 		}else{
-			show_error('no token no session', 404, 'forbidden');
+			show_error('no token no uid', 404, 'forbidden');
 		}
 	}
 }

@@ -1,35 +1,34 @@
 (function() {
-  var Chess;
-
-  Chess = (function() {
-    function Chess() {}
-
-    Chess.prototype.send = function(_param, _cb) {
-      return LLApi.request('get', _param, function(_error, _data) {
-        return _cb(_error, _data);
-      });
-    };
-
-    Chess.prototype.saveChess = function(_param, _cb) {
-      var param, tnamePre;
-      tnamePre = 'deck';
-      param = {
-        fn: 3002,
-        param: {
-          type: 'save',
-          uid: _param.uid,
-          token: _param.token,
-          chess: _param.chess
-        }
+  (function(parent, Child) {
+    Child.prototype = parent;
+    return parent[Child.cn] = new Child;
+  })(LLApi, (function(className) {
+    var myClass;
+    myClass = function() {
+      this.send = function(_param, _cb) {
+        this.request('get', _param, function(_error, _data) {
+          return _cb(_error, _data);
+        });
+        return this;
       };
-      this.send(param, _cb);
+      this.saveChess = function(_param, _cb) {
+        var param;
+        param = {
+          fn: 3002,
+          param: {
+            type: 'save',
+            uid: _param.uid,
+            token: _param.token,
+            chess: _param.chess
+          }
+        };
+        this.send(param, _cb);
+        return this;
+      };
       return this;
     };
-
-    return Chess;
-
-  })();
-
-  LLApi.Chess = new Chess();
+    myClass.cn = className;
+    return myClass;
+  })('Chess'));
 
 }).call(this);

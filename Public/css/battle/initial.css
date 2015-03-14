@@ -1,4 +1,4 @@
-.prepare-ui{
+#prepare-ui{
     padding: 2%;
 }
 .split-line{
@@ -7,12 +7,12 @@
     height: 2px;
 
 }
-.prepare-ui .personal{
+#prepare-ui .personal{
     background-color: #eef2ed;
     width: 100%;
     padding-bottom: 49%;
 }
-.personal .hero{
+#prepare-ui .personal .hero{
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-color: #e1b1b4;
@@ -21,26 +21,26 @@
     padding-top: 49%;
     float: left;
 }
-.personal .record{
+#prepare-ui .personal .record{
     background-color: #d9d9ee;
     margin-left: 1%;
     width: 49%;
     float: right;
 }
-.record .record-one{
+#prepare-ui .record .record-one{
     background-color: #9EBAF5;
     width: 100%;
 
     position: relative;
 }
 /*------------------------*/
-.behind-cards{
+#prepare-ui .behind-cards{
     box-sizing: border-box;
     margin: 10px 0;
     width: 100%;
     position: relative;
 }
-.behind-cards h3{
+#prepare-ui .behind-cards h3{
     background-color: #CACACA;
     width: 3em;
     height: 1.5em;
@@ -51,7 +51,7 @@
     z-index: 1;
     position: relative;
 }
-.behind-cards .h-line{
+#prepare-ui .behind-cards .h-line{
     box-sizing: border-box;
     background-color: #CACACA;
     width: 100%;
@@ -59,14 +59,14 @@
     position: absolute;
     top: 12px;
 }
-.behind-cards .cards,.behind-cards .cards-edit{
+#prepare-ui .behind-cards .cards,.behind-cards .cards-edit{
     box-sizing: border-box;
     width: 100%;
     padding-bottom: 30%;
     position: relative;
 }
 
-.behind-cards .cards li{
+#prepare-ui .behind-cards .cards li{
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
     background-color: #C8C8C8;
@@ -78,7 +78,7 @@
     top: 10%;
     left: 0;
 }
-.behind-cards .cards-edit li{
+#prepare-ui .behind-cards .cards-edit li{
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
     background-color: #C8C8C8;
@@ -93,7 +93,7 @@
     animation: shakes 0.75s linear infinite;
     -webkit-animation: shakes 0.75s linear infinite;
 }
-.behind-cards .cards-edit li .selected{
+#prepare-ui .behind-cards .cards-edit li .selected{
     background-color: green;
     width: 20px;
     height: 20px;
@@ -172,7 +172,7 @@
     }
 }
 /*-----------------------*/
-.prepare-ui .start-battle{
+#prepare-ui .start-battle{
     box-sizing: border-box;
     background-color: #E2CC9C;
     padding: 5px;
@@ -181,11 +181,11 @@
     position: relative;
     left: -2%;
 }
-.prepare-ui .start-battle li a{
+#prepare-ui .start-battle li a{
     color: #474747;
     text-decoration: none;
 }
-.prepare-ui .start-battle li.center{
+#prepare-ui .start-battle li.center{
     background-color: #fff;
     width: 28%;
     height: 30px;
@@ -194,7 +194,7 @@
     font-size: 15px;
     float: left;
 }
-.prepare-ui .start-battle li.left{
+#prepare-ui .start-battle li.left{
     background-color: #fff;
     margin-right: 1%;
     width: 17%;
@@ -204,7 +204,7 @@
     font-size: 13px;
     float: left;
 }
-.prepare-ui .start-battle li.right{
+#prepare-ui .start-battle li.right{
     background-color: #fff;
     margin-left: 1%;
     width: 17%;

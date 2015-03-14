@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
 </head>
 <body>
-<div class="prepare-ui">
+<div id="prepare-ui">
     <header id="header">
         <!--
         <div class="personal">
@@ -74,6 +74,9 @@
         <!-- -->
     </footer>
 </div>
+<div id="battle">
+
+</div>
 </body>
 <script>
     (function(_window){
@@ -98,6 +101,7 @@
 <!-- chess -->
 <script src="<?=base_url()?>/Public/js/chess/chessObject.js"></script>
 <script src="<?=base_url()?>/Public/js/chess/chessFactory.js"></script>
-<!--  -->
+<!-- js -->
 <script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
+<script src="<?= base_url() ?>Public/js/views/battle/battle.js"></script>
 </html>

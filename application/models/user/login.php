@@ -15,12 +15,18 @@ class login extends CI_Model {
 		$result = $this->check_login($client_token, $user_token);
 		return $result;
 	}
-	public function check_login($_client_token,$_user_token){
+	public function check_token($token){
+		return $this->sec_key->set_param(array(
+					'type' => 'check',
+					'token' => $token
+				));
+	}
+	public function check_login($uid,$_client_token=NULL,$_user_token=null){
 		
 		$this->load->database();
 		
 		$user_tname = $this->user_tname;
-		$check_sql = "select * from $user_tname where client_token='$_client_token' and user_token='$_user_token' ";
+		$check_sql = "select * from $user_tname where id=$uid ";
 		$check_sql_result = $this->db->query($check_sql);
 
 		if($check_sql_result->num_rows()>0){
@@ -36,18 +42,15 @@ class login extends CI_Model {
 
 			$this->session->set_userdata(array(
 				'sessionToken' => $sessionToken,
-				'uid' => $uid
+				'sessionUid' => $uid
 			));
 
 			//获取卡组
-			$this->load->model('cards/get_cards');
-			$cards_result_array = $this->get_cards->get_deck($uid);
 			
 			$userMsgArr = array(
 				'uid'          => $uid,
 				'nickname'     => $userOne['username'],
 				'character'    => $userOne['character'],
-				'my_deck'      => $cards_result_array['data'],
 				'sessionToken' => $sessionToken
 			);
 			return $userMsgArr;

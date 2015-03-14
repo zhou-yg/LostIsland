@@ -1,11 +1,9 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1Dom, cards1List, cards2Dom, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, footerDom, headerDom, personPanel, screenWidth;
+  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1List, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, personPanel, renderInitialObj;
 
   ce = React.createElement;
 
   cc = React.createClass;
-
-  screenWidth = window.screen.width;
 
   chessObjArr = userMsg.chess.map(function(chessIn) {
     return chessFactory.getChessByCid(chessIn);
@@ -68,7 +66,7 @@
   ChessListClass = cc({
     getInitialState: function() {
       var chessList, chessListIn, perLeft, sWidth;
-      sWidth = screenWidth * 0.96;
+      sWidth = window.screen.width * 0.96;
       perLeft = sWidth * 0.2;
       chessListIn = this.props.chessMap.chessListIn;
       chessList = cardsAllArr[chessListIn];
@@ -266,30 +264,34 @@
     }
   });
 
-  headerDom = document.getElementById('header');
+  personPanel = chessListOne = chessListTwo = null;
 
-  cards1Dom = document.getElementById('cards1');
+  renderInitialObj = (function() {
+    var cards1Dom, cards2Dom, footerDom, headerDom;
+    headerDom = document.getElementById('header');
+    cards1Dom = document.getElementById('cards1');
+    cards2Dom = document.getElementById('cards2');
+    footerDom = document.getElementById('footer');
+    return {
+      does: function() {
+        personPanel = React.render(ce(PersonalBoxClass), headerDom);
+        chessListOne = React.render(ce(ChessListClass, {
+          chessMap: {
+            name: '表1',
+            chessListIn: 0
+          }
+        }), cards1Dom);
+        chessListTwo = React.render(ce(ChessListClass, {
+          chessMap: {
+            name: '表2',
+            chessListIn: 1
+          }
+        }), cards2Dom);
+        return React.render(ce(BottomOpBarClass), footerDom);
+      }
+    };
+  })();
 
-  cards2Dom = document.getElementById('cards2');
-
-  footerDom = document.getElementById('footer');
-
-  personPanel = React.render(ce(PersonalBoxClass), headerDom);
-
-  chessListOne = React.render(ce(ChessListClass, {
-    chessMap: {
-      name: '表1',
-      chessListIn: 0
-    }
-  }), cards1Dom);
-
-  chessListTwo = React.render(ce(ChessListClass, {
-    chessMap: {
-      name: '表2',
-      chessListIn: 1
-    }
-  }), cards2Dom);
-
-  React.render(ce(BottomOpBarClass), footerDom);
+  renderInitialObj.does();
 
 }).call(this);

@@ -12,7 +12,7 @@ class Sec_key extends CI_Model {
 			$result = $this->create_token();
 		}
 		if($type === 'check'){
-			$token = $_param->token;
+			$token = $_param['token'];
 			$result = $this->check_token($token);
 		}
 		return array(

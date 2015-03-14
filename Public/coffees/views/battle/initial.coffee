@@ -1,7 +1,5 @@
 ce = React.createElement
 cc = React.createClass
-screenWidth = window.screen.width
-
 
 chessObjArr = userMsg.chess.map (chessIn)->
   return chessFactory.getChessByCid(chessIn)
@@ -50,7 +48,7 @@ PersonalBoxClass = cc {
 
 ChessListClass = cc {
   getInitialState:->
-    sWidth = screenWidth*0.96
+    sWidth = window.screen.width*0.96
     perLeft = sWidth * 0.2
     chessListIn = @props.chessMap.chessListIn
     chessList = cardsAllArr[chessListIn]
@@ -221,24 +219,32 @@ BottomOpBarClass = cc {
         },liOne.label)
 }
 
-headerDom = document.getElementById('header')
-cards1Dom = document.getElementById('cards1')
-cards2Dom = document.getElementById('cards2')
-footerDom = document.getElementById('footer')
+personPanel = chessListOne = chessListTwo = null;
 
-personPanel = React.render(
-  ce PersonalBoxClass
-  headerDom
-)
-chessListOne = React.render(
-  (ce ChessListClass,{ chessMap:{ name:'表1',chessListIn:0 } } )
-  cards1Dom
-)
-chessListTwo = React.render(
-  (ce ChessListClass,{ chessMap:{ name:'表2',chessListIn:1 } } )
-  cards2Dom
-)
-React.render(
-  ce BottomOpBarClass
-  footerDom
-)
+renderInitialObj = do ->
+  headerDom = document.getElementById('header')
+  cards1Dom = document.getElementById('cards1')
+  cards2Dom = document.getElementById('cards2')
+  footerDom = document.getElementById('footer')
+
+  return {
+    does:->
+      personPanel = React.render(
+        ce PersonalBoxClass
+        headerDom
+      )
+      chessListOne = React.render(
+        (ce ChessListClass,{ chessMap:{ name:'表1',chessListIn:0 } } )
+        cards1Dom
+      )
+      chessListTwo = React.render(
+        (ce ChessListClass,{ chessMap:{ name:'表2',chessListIn:1 } } )
+        cards2Dom
+      )
+      React.render(
+        ce BottomOpBarClass
+        footerDom
+      )
+  }
+
+renderInitialObj.does()
