@@ -172,7 +172,7 @@
     }
 }
 /*-----------------------*/
-#prepare-ui .start-battle{
+.bottom-ops{
     box-sizing: border-box;
     background-color: #E2CC9C;
     padding: 5px;
@@ -181,11 +181,11 @@
     position: relative;
     left: -2%;
 }
-#prepare-ui .start-battle li a{
+.bottom-ops li a{
     color: #474747;
     text-decoration: none;
 }
-#prepare-ui .start-battle li.center{
+.bottom-ops li.center{
     background-color: #fff;
     width: 28%;
     height: 30px;
@@ -194,7 +194,7 @@
     font-size: 15px;
     float: left;
 }
-#prepare-ui .start-battle li.left{
+.bottom-ops li.left{
     background-color: #fff;
     margin-right: 1%;
     width: 17%;
@@ -204,7 +204,7 @@
     font-size: 13px;
     float: left;
 }
-#prepare-ui .start-battle li.right{
+.bottom-ops li.right{
     background-color: #fff;
     margin-left: 1%;
     width: 17%;

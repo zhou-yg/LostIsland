@@ -1,5 +1,5 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1List, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, personPanel, renderInitialObj;
+  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1List, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, personPanel;
 
   ce = React.createElement;
 
@@ -253,7 +253,7 @@
       currentList = !this.state.isEdit ? this.state.normalList : this.state.onEditingList;
       that = this;
       return ce('ul', {
-        className: 'start-battle'
+        className: 'bottom-ops'
       }, currentList.map(function(liOne, i) {
         return ce('li', {
           className: liOne.className,
@@ -266,7 +266,7 @@
 
   personPanel = chessListOne = chessListTwo = null;
 
-  renderInitialObj = (function() {
+  window.renderInitialObj = (function() {
     var cards1Dom, cards2Dom, footerDom, headerDom;
     headerDom = document.getElementById('header');
     cards1Dom = document.getElementById('cards1');
@@ -291,7 +291,5 @@
       }
     };
   })();
-
-  renderInitialObj.does();
 
 }).call(this);

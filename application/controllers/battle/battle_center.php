@@ -45,6 +45,8 @@ class Battle_center extends CI_Controller {
 			} else {
 				show_error('not exist', 404, 'forbidden');
 			}
+		}else{
+			
 		}
 		if ($uid && $sessionToken) {
 			

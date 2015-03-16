@@ -210,7 +210,7 @@ BottomOpBarClass = cc {
     currentList = if !@state.isEdit then @state.normalList else @state.onEditingList
     that = this
 
-    ce 'ul',{ className:'start-battle' },
+    ce 'ul',{ className:'bottom-ops' },
       currentList.map (liOne,i)->
         (ce 'li',{
           className:liOne.className
@@ -221,7 +221,7 @@ BottomOpBarClass = cc {
 
 personPanel = chessListOne = chessListTwo = null;
 
-renderInitialObj = do ->
+window.renderInitialObj = do ->
   headerDom = document.getElementById('header')
   cards1Dom = document.getElementById('cards1')
   cards2Dom = document.getElementById('cards2')
@@ -247,4 +247,4 @@ renderInitialObj = do ->
       )
   }
 
-renderInitialObj.does()
+#renderInitialObj.does()

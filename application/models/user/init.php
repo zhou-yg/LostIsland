@@ -13,10 +13,16 @@ class Init extends CI_Model {
 		$this->load->model('encry/sec_key');
 		$this->load->model('user/user_config');
     }
+	/**
+	 * $_param = array(
+	 * 	'username',
+	 * 	'clientToken'
+	 * );
+	 */
 	public function set_param($_param){
 		$client_token = $this->input->post('clientToken');
 		$username = $this->input->post('username');
-				
+		
 		if($username && $this->sec_key->check_token($client_token)){
 			return $this->init($client_token, $username);
 		}else{

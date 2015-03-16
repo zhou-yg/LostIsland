@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/normalize.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/common.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/battle.css"/>
 </head>
 <body>
 <div id="prepare-ui">
@@ -75,7 +76,52 @@
     </footer>
 </div>
 <div id="battle">
-
+    <div id="rival-box">
+        <div class="player-img"></div>
+        <div class="player-name">player-name</div>
+        <ul class="score-dots">
+            <li class="dot-one dot-selected"></li>
+            <li class="dot-one"></li>
+            <li class="dot-one"></li>
+        </ul>
+    </div>
+    <div id="battle-field">
+        <ul class="enemy">
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+        </ul>
+        <ul class="enemy">
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+            <li class="chess-one"></li>
+        </ul>
+        <ul class="back-enemy">
+            <li class="chess-one"></li>
+        </ul>
+    </div>
+    <div id="my-box">
+        <div class="player-img"></div>
+        <div class="player-name">player-name</div>
+        <ul class="score-dots">
+            <li class="dot-one dot-selected"></li>
+            <li class="dot-one"></li>
+            <li class="dot-one"></li>
+        </ul>
+    </div>
+    <footer id="game-bottom">
+        <ul class="bottom-ops">
+            <li class="left"></li>
+            <li class="left"></li>
+            <li class="center"></li>
+            <li class="right"></li>
+            <li class="right"></li>
+        </ul>
+    </footer>
 </div>
 </body>
 <script>

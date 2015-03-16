@@ -1,2 +1,59 @@
 #battle{
+    padding: 2%;
+}
+#battle li.dot-selected{
+    background-color: #ff0000;
+}
+#battle #rival-box,#battle #my-box{
+    background-color: #f0f0f0;
+    width: 100%;
+    padding-top: 20%;
+    position: relative;
+}
+#battle .player-img{
+    background-color: #9EBAF5;
+    width: 18%;
+    padding-top: 18%;
+    position: absolute;
+    top: 5%;
+    left: 1%;
+}
+#battle .player-name{
+    font-size: 20px;
+    position: absolute;
+    left: 22%;
+    top: 5%;
+}
+#battle .score-dots{
+    width: 78%;
+    position: absolute;
+    left: 22%;
+    bottom: 5%;
+}
+#battle .dot-one{
+    background-color: #CACACA;
+    margin-right: 3%;
+    width: 30%;
+    padding-top: 5%;
+    border-radius: 5px;
+    float: left;
+}
+#battle #battle-field{
+    margin: 10px 0 10px;
+    width: 100%;
+}
+#battle .enemy,#battle .back-enemy{
+    margin: 5px 0;
+    width: 100%;
+    overflow: hidden;
+}
+#battle .chess-one{
+    background-color: #939393;
+    margin: 0 1%;
+    width: 18%;
+    padding-top: 25%;
+    float: left;
+}
+#battle #game-bottom{
+    margin-top: 10px;
 }
