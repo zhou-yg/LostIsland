@@ -1,13 +1,7 @@
+cardsAllArr = userMsg.cardsAllArr
+
 ce = React.createElement
 cc = React.createClass
-
-chessObjArr = userMsg.chess.map (chessIn)->
-  return chessFactory.getChessByCid(chessIn)
-
-cards1List = chessObjArr.slice(0,5)
-cards2List = chessObjArr.slice(5)
-
-window.cardsAllArr = [cards1List,cards2List]
 
 HeroPanelClass = cc {
   render:->
@@ -245,6 +239,7 @@ window.renderInitialObj = do ->
         ce BottomOpBarClass
         footerDom
       )
+
   }
 
 #renderInitialObj.does()

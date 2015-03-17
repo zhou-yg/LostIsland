@@ -1,19 +1,11 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cards1List, cards2List, cc, ce, chessListOne, chessListTwo, chessObjArr, personPanel;
+  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cardsAllArr, cc, ce, chessListOne, chessListTwo, personPanel;
+
+  cardsAllArr = userMsg.cardsAllArr;
 
   ce = React.createElement;
 
   cc = React.createClass;
-
-  chessObjArr = userMsg.chess.map(function(chessIn) {
-    return chessFactory.getChessByCid(chessIn);
-  });
-
-  cards1List = chessObjArr.slice(0, 5);
-
-  cards2List = chessObjArr.slice(5);
-
-  window.cardsAllArr = [cards1List, cards2List];
 
   HeroPanelClass = cc({
     render: function() {

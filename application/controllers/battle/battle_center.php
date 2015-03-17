@@ -19,7 +19,6 @@ class Battle_center extends CI_Controller {
 	public function initial(){
 
 		$this->api_models = include MODEL_MAP;
-
 		//用户id
 		$uid = $this->input->get('uid');
 		//秘钥id
