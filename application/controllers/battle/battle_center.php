@@ -73,6 +73,8 @@ class Battle_center extends CI_Controller {
 		if($uidAndToken){
 			//控制台
 			$this->load->helper('url');
+			$this->load->helper('cookie');
+			delete_cookie('ci_session');
 			$this->load->view('battle/initial.html', $result);
 			//$this->load->view('sys/console.html');
 

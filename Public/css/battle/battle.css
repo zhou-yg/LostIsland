@@ -4,7 +4,7 @@
 #battle li.dot-selected{
     background-color: #ff0000;
 }
-#battle #rival-box,#battle #my-box{
+#battle .player-box{
     background-color: #f0f0f0;
     width: 100%;
     padding-top: 20%;
@@ -41,6 +41,19 @@
 #battle #battle-field{
     margin: 10px 0 10px;
     width: 100%;
+}
+#battle .battle-river{
+    margin: 0 1%;
+    background-color: #f0f0f0;
+    height: 40px;
+}
+#battle .battle-river .endBtn{
+    margin: 5px;
+    width: 6em;
+    background-color: #999;
+    height: 30px;
+    outline: none;
+    float: right;
 }
 #battle .enemy,#battle .back-enemy{
     margin: 5px 0;

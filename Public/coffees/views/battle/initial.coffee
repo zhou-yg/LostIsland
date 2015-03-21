@@ -145,7 +145,7 @@ ChessListClass = cc {
             },i)
       )
 }
-BottomOpBarClass = cc {
+InitBottomOpBarClass = cc {
   getInitialState:->
     {
       bottomList:[]
@@ -236,7 +236,7 @@ window.renderInitialObj = do ->
         cards2Dom
       )
       React.render(
-        ce BottomOpBarClass
+        ce BottomOpBarClass,{  }
         footerDom
       )
 

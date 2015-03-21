@@ -1,5 +1,5 @@
 (function() {
-  var BottomOpBarClass, ChessListClass, HeroPanelClass, PersonalBoxClass, RecordPanelClass, cardsAllArr, cc, ce, chessListOne, chessListTwo, personPanel;
+  var ChessListClass, HeroPanelClass, InitBottomOpBarClass, PersonalBoxClass, RecordPanelClass, cardsAllArr, cc, ce, chessListOne, chessListTwo, personPanel;
 
   cardsAllArr = userMsg.cardsAllArr;
 
@@ -177,7 +177,7 @@
     }
   });
 
-  BottomOpBarClass = cc({
+  InitBottomOpBarClass = cc({
     getInitialState: function() {
       return {
         bottomList: [],
@@ -279,7 +279,7 @@
             chessListIn: 1
           }
         }), cards2Dom);
-        return React.render(ce(BottomOpBarClass), footerDom);
+        return React.render(ce(BottomOpBarClass, {}), footerDom);
       }
     };
   })();
