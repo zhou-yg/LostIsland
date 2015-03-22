@@ -40,10 +40,14 @@ class login extends CI_Model {
 			$cards_tname = $this->carsd_tname;
 			$uid = $userOne['id'];
 
+			$_SESSION['sessionToken'] = $sessionToken;
+			$_SESSION['sessionUid']   = $uid;
+			/*
 			$this->session->set_userdata(array(
 				'sessionToken' => $sessionToken,
 				'sessionUid' => $uid
 			));
+			 */
 
 			//获取卡组
 			

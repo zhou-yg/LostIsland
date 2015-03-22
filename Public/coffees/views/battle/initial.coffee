@@ -236,10 +236,9 @@ window.renderInitialObj = do ->
         cards2Dom
       )
       React.render(
-        ce BottomOpBarClass,{  }
+        ce InitBottomOpBarClass,{  }
         footerDom
       )
-
   }
 
-#renderInitialObj.does()
+renderInitialObj.does()

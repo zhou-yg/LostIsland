@@ -21,11 +21,10 @@ class Battle_center extends CI_Controller {
 		$this->api_models = include MODEL_MAP;
 		//用户id
 		$uid = $this->input->get('uid');
-		//秘钥id
+		//来自客户端的秘钥
 		$token = $this->input->get('token');
 
-		$sessionUid = $this->session->userdata('uid');
-		$sessionToken = $this->session->userdata('sessionToken');
+		session_start();
 		
 		$uidAndToken = null;
 		
@@ -65,16 +64,15 @@ class Battle_center extends CI_Controller {
 				'sessionToken' => $sessionToken
 			);
 			
-			$this->session->set_userdata(array(
-				'uid' => $uid,
-				'sessionToken' => $sessionToken
-			));
+			$_SESSION['uid'] = $uid;
+			$_SESSION['sessionToken'] = $sessionToken;
 		}
 		if($uidAndToken){
 			//控制台
 			$this->load->helper('url');
 			$this->load->helper('cookie');
 			delete_cookie('ci_session');
+			delete_cookie('PHPSESSID');
 			$this->load->view('battle/initial.html', $result);
 			//$this->load->view('sys/console.html');
 

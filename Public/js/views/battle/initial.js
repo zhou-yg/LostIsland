@@ -279,9 +279,11 @@
             chessListIn: 1
           }
         }), cards2Dom);
-        return React.render(ce(BottomOpBarClass, {}), footerDom);
+        return React.render(ce(InitBottomOpBarClass, {}), footerDom);
       }
     };
   })();
+
+  renderInitialObj.does();
 
 }).call(this);
