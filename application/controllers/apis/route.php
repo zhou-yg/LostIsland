@@ -73,10 +73,13 @@ class Route extends CI_Controller {
 		$uid = null;
 		$token = null;
 
+
 		if(isset($param['uid']) && isset($param['token'])){
-			$token  =$param['token'];
+			$token = $param['token'];
 			session_start();
-			$sessionToken = $_SESSION['sessionToken'];
+			print_r($_SESSION);		
+			$sessionToken = isset($_SESSION['sessionToken'])?$_SESSION['sessionToken']:null;
+			
 			
 			if($token == $sessionToken){
 				return TRUE;

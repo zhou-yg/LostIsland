@@ -1,18 +1,15 @@
-do (parent = LLApi,Child = do (className = 'Chess')->
+do (parent = LLApi,Child = do (className = 'Battle')->
   myClass = ->
     @send = (_param,_cb)->
+      @setPort(1337)
+      @setAddress('test/test')
       @request 'get',_param,(_error,_data)->
         _cb _error,_data
       return @
-    @saveChess = (_param,_cb)->
-      param =
-        fn:3002
-        param:
-          type:'save'
-          uid  :_param.uid
-          token:_param.token
-        #约定
-          chess :_param.chess
+    @test = (_param,_cb)->
+      param = {
+
+      }
       @send param,_cb
       return this
 

@@ -4,20 +4,38 @@
   LLApi = (function() {
     function LLApi() {
       this.timeotMax = 20 * 1000;
-      this.apiAddress = 'apis/route/';
+      this.apiAddress = 'index.php/apis/route/';
     }
 
-    LLApi.prototype.init = function() {
-      this.timeotMax = 20 * 1000;
+    LLApi.prototype.Client = function() {
+      this.apiAddress = 'index.php/apis/route/';
       return this;
     };
 
-    LLApi.prototype.setServerPre = function(_serverPre) {
-      return this.serverPre = _serverPre;
+    LLApi.prototype.WS = function() {
+      this.apiAddress = '';
+      return this;
     };
 
-    LLApi.prototype.setAddress = function(_address) {
-      return this.apiAddress = _address;
+    LLApi.prototype.setServerPre = function(serverHost) {
+      return this.serverHost = serverHost;
+    };
+
+    LLApi.prototype.setAddress = function(address) {
+      return this.apiAddress = address;
+    };
+
+    LLApi.prototype.setPort = function(port) {
+      var urlArr;
+      if (this.serverHost && port && typeof port === 'number') {
+        urlArr = this.serverHost.split('/');
+        if (urlArr[2].indexOf(':') !== -1) {
+          urlArr[2] = urlArr[2].replace(/:[\d]*/, ':' + port);
+        } else {
+          urlArr[2] += ':' + port;
+        }
+        return this.serverHost = urlArr.join('/');
+      }
     };
 
     LLApi.prototype.onReadyStateChange = function(_xhr, _callback) {
@@ -56,11 +74,11 @@
         data = '#';
       }
       if (_method === 'get') {
-        url = this.serverPre + this.apiAddress + '?' + data;
+        url = this.serverHost + this.apiAddress + '?' + data;
         this.get(url, _callback);
       }
       if (_method === 'post') {
-        url = this.serverPre + this.apiAddress;
+        url = this.serverHost + this.apiAddress;
         return this.post(url, data, _callback);
       }
     };

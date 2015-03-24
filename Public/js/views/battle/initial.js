@@ -214,13 +214,18 @@
         isEdit: false
       };
     },
+    match: function() {
+      return LLApi.WS().Battle.test({}, function(err, data) {
+        return console.log(err, data);
+      });
+    },
     edit: function() {
       var isEdit;
       chessListOne.changeState();
       chessListTwo.changeState();
       isEdit = !this.state.isEdit;
       if (!isEdit) {
-        LLApi.Chess.saveChess({
+        LLApi.Client().Chess.saveChess({
           uid: userMsg.uid,
           token: userMsg.token,
           chess: cardsAllArr[0].concat(cardsAllArr[1]).map(function(chessObj) {

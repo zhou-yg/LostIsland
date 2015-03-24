@@ -44,8 +44,8 @@ class Battle_center extends CI_Controller {
 				show_error('not exist', 404, 'forbidden');
 			}
 		}else{
-			
 		}
+		
 		if ($uid && $sessionToken) {
 			
 			$this->load->model('user/message');
@@ -64,15 +64,12 @@ class Battle_center extends CI_Controller {
 				'sessionToken' => $sessionToken
 			);
 			
-			$_SESSION['uid'] = $uid;
-			$_SESSION['sessionToken'] = $sessionToken;
 		}
 		if($uidAndToken){
 			//控制台
 			$this->load->helper('url');
 			$this->load->helper('cookie');
 			delete_cookie('ci_session');
-			delete_cookie('PHPSESSID');
 			$this->load->view('battle/initial.html', $result);
 			//$this->load->view('sys/console.html');
 

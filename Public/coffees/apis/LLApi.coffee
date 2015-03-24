@@ -1,16 +1,30 @@
 class  LLApi
   constructor:->
     @timeotMax = 20*1000
-    @apiAddress = 'apis/route/'
+    @apiAddress = 'index.php/apis/route/'
 
-  init:->
-    @timeotMax = 20*1000
+  Client:->
+    @apiAddress = 'index.php/apis/route/'
+    return this
+  WS:->
+    @apiAddress = ''
     return this
 
-  setServerPre : (_serverPre)->
-    @serverPre = _serverPre
-  setAddress : (_address)->
-    @apiAddress = _address
+  setServerPre : (serverHost)->
+    @serverHost = serverHost
+  setAddress : (address)->
+    @apiAddress = address
+  setPort:(port)->
+    if @serverHost and port and typeof port is 'number'
+      urlArr = @serverHost.split('/')
+      #['http','','192.168.2.1','']
+      if urlArr[2].indexOf(':') isnt -1
+        urlArr[2] = urlArr[2].replace(/:[\d]*/,':'+port)
+      else
+        urlArr[2] += ':'+port
+
+      @serverHost = urlArr.join('/')
+
 
   onReadyStateChange : (_xhr,_callback)->
     _xhr.onreadystatechange = ->
@@ -39,12 +53,12 @@ class  LLApi
       data = '#'
 
     if _method is 'get'
-      url = @serverPre+@apiAddress+'?'+data
+      url = @serverHost+@apiAddress+'?'+data
       @get url,_callback
     if _method is 'post'
-      url = @serverPre+@apiAddress
+      url = @serverHost+@apiAddress
       @post url,data,_callback
 
-#LLApi.prototype.init.prototype = LLApi.prototype
+
 
 window.LLApi = new LLApi()

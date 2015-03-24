@@ -177,13 +177,19 @@ InitBottomOpBarClass = cc {
       }]
       isEdit:false
     }
+  match:->
+    LLApi.WS().Battle.test {
+
+    },(err,data)->
+      console.log(err,data);
+
   edit:->
     chessListOne.changeState()
     chessListTwo.changeState()
 
     isEdit = !@state.isEdit
     if !isEdit
-      LLApi.Chess.saveChess({
+      LLApi.Client().Chess.saveChess({
         uid:userMsg.uid
         token:userMsg.token
         chess:cardsAllArr[0].concat(cardsAllArr[1]).map((chessObj)-> return chessObj.cid)
