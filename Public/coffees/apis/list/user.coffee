@@ -1,22 +1,16 @@
-do (parent = LLApi,Child = do (className = 'Battle')->
+do (parent = LLApi, Child = do (className = 'User' )->
   myClass = ->
     @send = (_param,_cb)->
-      @setPort(1337)
       @request 'get',_param,(_error,_data)->
         _cb _error,_data
       return @
-    @match = (_param,_cb)->
-      param = {}
+    @getBasic = (_param,_cb)->
+      param =
+        fn:1003
+        param:
+          uid:_param.uid
       param.uid = _param.uid
 
-      @setAddress('player/match')
-      @send param,_cb
-      return this
-
-    @display = (_param,_cb)->
-      param = {
-      }
-      @setAddress('test/display')
       @send param,_cb
       return this
 

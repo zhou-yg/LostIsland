@@ -1,7 +1,6 @@
 class  LLApi
   constructor:->
     @timeotMax = 20*1000
-    @apiAddress = 'index.php/apis/route/'
 
   Client:->
     @apiAddress = 'index.php/apis/route/'
@@ -25,12 +24,14 @@ class  LLApi
 
       @serverHost = urlArr.join('/')
 
+    return this
 
   onReadyStateChange : (_xhr,_callback)->
     _xhr.onreadystatechange = ->
       if _xhr.readyState == 4
         if _xhr.status == 200
-          _callback null,_xhr.responseText
+          resObj = JSON.parse(_xhr.responseText)
+          _callback null,resObj
 
   get:(_url,_callback)->
     xhr = if window.XMLHttpRequest then new XMLHttpRequest() else new ActiveXObject('Microsoft.XMLHTTP')
@@ -59,6 +60,7 @@ class  LLApi
       url = @serverHost+@apiAddress
       @post url,data,_callback
 
+    @port(80)
 
 
 window.LLApi = new LLApi()

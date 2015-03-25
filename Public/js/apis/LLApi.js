@@ -4,7 +4,6 @@
   LLApi = (function() {
     function LLApi() {
       this.timeotMax = 20 * 1000;
-      this.apiAddress = 'index.php/apis/route/';
     }
 
     LLApi.prototype.Client = function() {
@@ -34,15 +33,18 @@
         } else {
           urlArr[2] += ':' + port;
         }
-        return this.serverHost = urlArr.join('/');
+        this.serverHost = urlArr.join('/');
       }
+      return this;
     };
 
     LLApi.prototype.onReadyStateChange = function(_xhr, _callback) {
       return _xhr.onreadystatechange = function() {
+        var resObj;
         if (_xhr.readyState === 4) {
           if (_xhr.status === 200) {
-            return _callback(null, _xhr.responseText);
+            resObj = JSON.parse(_xhr.responseText);
+            return _callback(null, resObj);
           }
         }
       };
@@ -79,8 +81,9 @@
       }
       if (_method === 'post') {
         url = this.serverHost + this.apiAddress;
-        return this.post(url, data, _callback);
+        this.post(url, data, _callback);
       }
+      return this.port(80);
     };
 
     return LLApi;

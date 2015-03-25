@@ -1,10 +1,17 @@
 socketConnected = (url)->
   console.log 'socketConnected()'
+
+  #添加在线
   io.socket.get(url+'/addPlayer',{
     uid:userMsg.uid
   },(data)->
     console.log data
   )
+
+  #匹配成功
+  io.socket.on 'match',(msg)->
+    #{ uid:/[\d]*/ }
+    console.log msg
 
 io.socket.on 'connect',->
   socketConnected(io.sails.url)

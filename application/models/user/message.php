@@ -35,7 +35,7 @@ class Message extends CI_Model {
 				$this->user_one = $result_array[0];
 				
 				$data = $this->user_one;
-				//删除私密信息
+				//删除不必要de信息
 				unset($data['client_token']);
 				unset($data['user_token']);
 			}else{

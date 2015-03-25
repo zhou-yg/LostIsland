@@ -185,7 +185,7 @@
           {
             className: 'left',
             name: 'list',
-            label: '排行榜'
+            label: '排行'
           }, {
             className: 'left',
             name: 'none',
@@ -214,8 +214,15 @@
         isEdit: false
       };
     },
+    list: function() {
+      return LLApi.WS().Battle.display({}, function(err, data) {
+        return console.log(err, data);
+      });
+    },
     match: function() {
-      return LLApi.WS().Battle.test({}, function(err, data) {
+      return LLApi.WS().Battle.match({
+        uid: userMsg.uid
+      }, function(err, data) {
         return console.log(err, data);
       });
     },

@@ -3,10 +3,13 @@
 
   socketConnected = function(url) {
     console.log('socketConnected()');
-    return io.socket.get(url + '/addPlayer', {
+    io.socket.get(url + '/addPlayer', {
       uid: userMsg.uid
     }, function(data) {
       return console.log(data);
+    });
+    return io.socket.on('match', function(msg) {
+      return console.log(msg);
     });
   };
 

@@ -152,7 +152,7 @@ InitBottomOpBarClass = cc {
       normalList:[{
         className:'left'
         name:'list'
-        label:'排行榜'
+        label:'排行'
       },{
         className:'left'
         name:'none'
@@ -177,9 +177,15 @@ InitBottomOpBarClass = cc {
       }]
       isEdit:false
     }
-  match:->
-    LLApi.WS().Battle.test {
+  list:->
+    LLApi.WS().Battle.display {
 
+    },(err,data)->
+      console.log(err,data);
+
+  match:->
+    LLApi.WS().Battle.match {
+      uid:userMsg.uid
     },(err,data)->
       console.log(err,data);
 
