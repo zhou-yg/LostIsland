@@ -11,10 +11,10 @@
 
   userMsg.cardsAllArr = [cards1List, cards2List];
 
+  userMsg.dots = 0;
+
   userMsg.rivalMsg = {
-    avatar: '',
-    name: '',
-    winDots: 0
+    dots: 0
   };
 
 }).call(this);

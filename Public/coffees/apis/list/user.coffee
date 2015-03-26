@@ -14,6 +14,8 @@ do (parent = LLApi, Child = do (className = 'User' )->
       @send param,_cb
       return this
 
+    return this
+
   myClass.cn = className
 
   return myClass

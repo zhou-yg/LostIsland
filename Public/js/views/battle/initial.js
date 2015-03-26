@@ -105,7 +105,6 @@
                 cards[j] = chessOne;
                 chessList[i] = chessOne2;
                 isChange = true;
-                console.log('change', cardsAllArr);
                 break;
               }
             }
@@ -271,7 +270,8 @@
   personPanel = chessListOne = chessListTwo = null;
 
   window.renderInitialObj = (function() {
-    var cards1Dom, cards2Dom, footerDom, headerDom;
+    var cards1Dom, cards2Dom, footerDom, headerDom, initUiDom;
+    initUiDom = document.getElementById('prepare-ui');
     headerDom = document.getElementById('header');
     cards1Dom = document.getElementById('cards1');
     cards2Dom = document.getElementById('cards2');
@@ -291,7 +291,11 @@
             chessListIn: 1
           }
         }), cards2Dom);
-        return React.render(ce(InitBottomOpBarClass, {}), footerDom);
+        React.render(ce(InitBottomOpBarClass, {}), footerDom);
+        return initUiDom.style.display = 'block';
+      },
+      hide: function() {
+        return initUiDom.style.display = 'none';
       }
     };
   })();

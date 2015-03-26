@@ -11,7 +11,7 @@
         });
         return this;
       };
-      return this.getBasic = function(_param, _cb) {
+      this.getBasic = function(_param, _cb) {
         var param;
         param = {
           fn: 1003,
@@ -23,6 +23,7 @@
         this.send(param, _cb);
         return this;
       };
+      return this;
     };
     myClass.cn = className;
     return myClass;

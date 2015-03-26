@@ -83,7 +83,7 @@
         url = this.serverHost + this.apiAddress;
         this.post(url, data, _callback);
       }
-      return this.port(80);
+      return this.setPort(80);
     };
 
     return LLApi;

@@ -12,6 +12,18 @@ socketConnected = (url)->
   io.socket.on 'match',(msg)->
     #{ uid:/[\d]*/ }
     console.log msg
+    LLApi.Client().User.getBasic {
+      uid:msg.uid
+    },(err,data)->
+      if err
+        console.log err
+      else
+        if data.result
+          for k,v of data.data
+            userMsg.rivalMsg[k] = v
+
+      renderInitialObj.hide()
+      renderBattleObj.does()
 
 io.socket.on 'connect',->
   socketConnected(io.sails.url)
@@ -22,15 +34,21 @@ cc = React.createClass
 PlayerBoxClass = cc {
   getInitialState:->
     playerObj = @props.playerObj
-    if !playerObj.dots then playerObj.dots = new Array(3)
     {
       playerObj:playerObj
     }
   render:->
     playerObj = @state.playerObj
 
-    dotsArr = []
-    for isSelected,i in playerObj.dots
+    dotsArr = dots = []
+
+    if playerObj.dots > 0
+      for i in [1..playerObj.dots]
+        dots.push(true)
+    for i in [playerObj.dots..2]
+      dots.push(false)
+
+    for isSelected,i in dots
       className = if isSelected then 'dot-one dot-selected' else 'dot-one'
       dotsArr.push(
         ce 'li',{ className:className,key:'dot'+i }
@@ -46,17 +64,26 @@ PlayerBoxClass = cc {
 
 EnemyListClass = cc {
   getInitialState:->
-    chessList = @props.chessList
-    if !chessList then chessList = new Array(5)
+    #[5]个chessObj 或 [5]个{}
+    chessObjArr = @props.chessObjArr
     {
-      chessList:chessList
+      chessObjArr:chessObjArr
     }
   render:->
     chessList =  []
-    for chessOne,i in @state.chessList
+    for chessOne,i in @state.chessObjArr
+      styleObj = {
+        className:'chess-one'
+        key:'chessLi'+i
+        style:{}
+      }
+      if chessOne.img
+        styleObj.style.backgroundImage = 'url('+chessFactory.chessAvatarPre+chessOne.img+')'
+
       chessList.push(
-        ce 'li',{ className:'chess-one',key:'chessLi'+i}
+        ce 'li',styleObj
       )
+
     ce 'ul',{ className:'enemy' },
       chessList
 
@@ -64,15 +91,28 @@ EnemyListClass = cc {
 }
 BattleFieldClass = cc {
   getInitialState:->
-    {}
+    rivalChess = @props.rivalChess
+    myChess = @props.myChess
+
+    if !_.isArray(rivalChess)
+      rivalChess = new Array(5)
+
+    for arr in [rivalChess,myChess]
+      for chessI,i in arr
+          arr[i] = if chessI then chessFactory.getChessByCid(chessI) else {}
+
+    {
+      rivalChess:rivalChess
+      myChess:myChess
+    }
   render:->
     ce 'div', {},
-      (ce EnemyListClass )
+      (ce EnemyListClass,{ chessObjArr:@state.rivalChess } )
       (ce 'div',{ className:'battle-river' },
         ce 'button',{ className:'endBtn','end' }
       )
-      (ce EnemyListClass )
-      (ce EnemyListClass )
+      (ce EnemyListClass,{ chessObjArr:@state.myChess.slice(0,5) } )
+      (ce EnemyListClass,{ chessObjArr:@state.myChess.slice(5) })
 }
 BattleBottomOpBarClass = cc {
   getInitialState:->
@@ -100,7 +140,11 @@ BattleBottomOpBarClass = cc {
           key:'bottomLi'+i
         },liOne.label)
 }
+
+rivalPlayerPanel = battleFieldPanel = myPanel = null
+
 window.renderBattleObj = do ->
+  battleUiDom    = document.getElementById('battle')
   rivalPlayerDom = document.getElementById('rival-box')
   battleFieldDom = document.getElementById('battle-field')
   myDom          = document.getElementById('my-box')
@@ -109,20 +153,27 @@ window.renderBattleObj = do ->
   return {
     does:->
       rivalPlayerPanel = React.render(
-        (ce PlayerBoxClass,{ playerObj:{} })
+        (ce PlayerBoxClass,{ playerObj:userMsg.rivalMsg })
         rivalPlayerDom
       )
       battleFieldPanel = React.render(
-        (ce BattleFieldClass,{ } )
+        (ce BattleFieldClass,{
+          rivalChess:userMsg.rivalMsg.chess
+          myChess:userMsg.chess
+        })
         battleFieldDom
       )
       myPanel = React.render(
-        (ce PlayerBoxClass,{ playerObj:{} } )
+        (ce PlayerBoxClass,{ playerObj:userMsg } )
         myDom
       )
       React.render(
         ce BattleBottomOpBarClass,{ }
         footerDom
       )
+      battleUiDom.style.display = 'block'
+    hide:->
+      battleUiDom.style.display = 'none'
+
   }
 #renderBattleObj.does()

@@ -20,13 +20,14 @@
         this.send(param, _cb);
         return this;
       };
-      return this.display = function(_param, _cb) {
+      this.display = function(_param, _cb) {
         var param;
         param = {};
         this.setAddress('test/display');
         this.send(param, _cb);
         return this;
       };
+      return this;
     };
     myClass.cn = className;
     return myClass;

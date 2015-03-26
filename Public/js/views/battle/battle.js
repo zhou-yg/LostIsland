@@ -1,5 +1,5 @@
 (function() {
-  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, cc, ce, socketConnected;
+  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, battleFieldPanel, cc, ce, myPanel, rivalPlayerPanel, socketConnected;
 
   socketConnected = function(url) {
     console.log('socketConnected()');
@@ -9,7 +9,25 @@
       return console.log(data);
     });
     return io.socket.on('match', function(msg) {
-      return console.log(msg);
+      console.log(msg);
+      return LLApi.Client().User.getBasic({
+        uid: msg.uid
+      }, function(err, data) {
+        var k, v, _ref;
+        if (err) {
+          console.log(err);
+        } else {
+          if (data.result) {
+            _ref = data.data;
+            for (k in _ref) {
+              v = _ref[k];
+              userMsg.rivalMsg[k] = v;
+            }
+          }
+        }
+        renderInitialObj.hide();
+        return renderBattleObj.does();
+      });
     });
   };
 
@@ -25,20 +43,24 @@
     getInitialState: function() {
       var playerObj;
       playerObj = this.props.playerObj;
-      if (!playerObj.dots) {
-        playerObj.dots = new Array(3);
-      }
       return {
         playerObj: playerObj
       };
     },
     render: function() {
-      var className, dotsArr, i, isSelected, playerObj, _i, _len, _ref;
+      var className, dots, dotsArr, i, isSelected, playerObj, _i, _j, _k, _len, _ref, _ref1;
       playerObj = this.state.playerObj;
-      dotsArr = [];
-      _ref = playerObj.dots;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        isSelected = _ref[i];
+      dotsArr = dots = [];
+      if (playerObj.dots > 0) {
+        for (i = _i = 1, _ref = playerObj.dots; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+          dots.push(true);
+        }
+      }
+      for (i = _j = _ref1 = playerObj.dots; _ref1 <= 2 ? _j <= 2 : _j >= 2; i = _ref1 <= 2 ? ++_j : --_j) {
+        dots.push(false);
+      }
+      for (i = _k = 0, _len = dots.length; _k < _len; i = ++_k) {
+        isSelected = dots[i];
         className = isSelected ? 'dot-one dot-selected' : 'dot-one';
         dotsArr.push(ce('li', {
           className: className,
@@ -59,25 +81,27 @@
 
   EnemyListClass = cc({
     getInitialState: function() {
-      var chessList;
-      chessList = this.props.chessList;
-      if (!chessList) {
-        chessList = new Array(5);
-      }
+      var chessObjArr;
+      chessObjArr = this.props.chessObjArr;
       return {
-        chessList: chessList
+        chessObjArr: chessObjArr
       };
     },
     render: function() {
-      var chessList, chessOne, i, _i, _len, _ref;
+      var chessList, chessOne, i, styleObj, _i, _len, _ref;
       chessList = [];
-      _ref = this.state.chessList;
+      _ref = this.state.chessObjArr;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         chessOne = _ref[i];
-        chessList.push(ce('li', {
+        styleObj = {
           className: 'chess-one',
-          key: 'chessLi' + i
-        }));
+          key: 'chessLi' + i,
+          style: {}
+        };
+        if (chessOne.img) {
+          styleObj.style.backgroundImage = 'url(' + chessFactory.chessAvatarPre + chessOne.img + ')';
+        }
+        chessList.push(ce('li', styleObj));
       }
       return ce('ul', {
         className: 'enemy'
@@ -87,15 +111,38 @@
 
   BattleFieldClass = cc({
     getInitialState: function() {
-      return {};
+      var arr, chessI, i, myChess, rivalChess, _i, _j, _len, _len1, _ref;
+      rivalChess = this.props.rivalChess;
+      myChess = this.props.myChess;
+      if (!_.isArray(rivalChess)) {
+        rivalChess = new Array(5);
+      }
+      _ref = [rivalChess, myChess];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arr = _ref[_i];
+        for (i = _j = 0, _len1 = arr.length; _j < _len1; i = ++_j) {
+          chessI = arr[i];
+          arr[i] = chessI ? chessFactory.getChessByCid(chessI) : {};
+        }
+      }
+      return {
+        rivalChess: rivalChess,
+        myChess: myChess
+      };
     },
     render: function() {
-      return ce('div', {}, ce(EnemyListClass), ce('div', {
+      return ce('div', {}, ce(EnemyListClass, {
+        chessObjArr: this.state.rivalChess
+      }), ce('div', {
         className: 'battle-river'
       }, ce('button', {
         className: 'endBtn',
         'end': 'end'
-      })), ce(EnemyListClass), ce(EnemyListClass));
+      })), ce(EnemyListClass, {
+        chessObjArr: this.state.myChess.slice(0, 5)
+      }), ce(EnemyListClass, {
+        chessObjArr: this.state.myChess.slice(5)
+      }));
     }
   });
 
@@ -134,23 +181,32 @@
     }
   });
 
+  rivalPlayerPanel = battleFieldPanel = myPanel = null;
+
   window.renderBattleObj = (function() {
-    var battleFieldDom, footerDom, myDom, rivalPlayerDom;
+    var battleFieldDom, battleUiDom, footerDom, myDom, rivalPlayerDom;
+    battleUiDom = document.getElementById('battle');
     rivalPlayerDom = document.getElementById('rival-box');
     battleFieldDom = document.getElementById('battle-field');
     myDom = document.getElementById('my-box');
     footerDom = document.getElementById('game-bottom');
     return {
       does: function() {
-        var battleFieldPanel, myPanel, rivalPlayerPanel;
         rivalPlayerPanel = React.render(ce(PlayerBoxClass, {
-          playerObj: {}
+          playerObj: userMsg.rivalMsg
         }), rivalPlayerDom);
-        battleFieldPanel = React.render(ce(BattleFieldClass, {}), battleFieldDom);
+        battleFieldPanel = React.render(ce(BattleFieldClass, {
+          rivalChess: userMsg.rivalMsg.chess,
+          myChess: userMsg.chess
+        }), battleFieldDom);
         myPanel = React.render(ce(PlayerBoxClass, {
-          playerObj: {}
+          playerObj: userMsg
         }), myDom);
-        return React.render(ce(BattleBottomOpBarClass, {}), footerDom);
+        React.render(ce(BattleBottomOpBarClass, {}), footerDom);
+        return battleUiDom.style.display = 'block';
+      },
+      hide: function() {
+        return battleUiDom.style.display = 'none';
       }
     };
   })();

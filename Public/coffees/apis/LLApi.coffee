@@ -60,7 +60,7 @@ class  LLApi
       url = @serverHost+@apiAddress
       @post url,data,_callback
 
-    @port(80)
+    @setPort(80)
 
 
 window.LLApi = new LLApi()

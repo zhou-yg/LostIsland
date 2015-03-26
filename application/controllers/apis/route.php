@@ -22,7 +22,7 @@ class Route extends CI_Controller {
 		$parameter = $this->input->get('parameter');
 		$result = TRUE;
 		$data = null;
-		
+
 		//没有参数
 		if($parameter){
 			$parameter = json_decode($parameter,TRUE);

@@ -40,7 +40,7 @@ class Message extends CI_Model {
 				unset($data['user_token']);
 			}else{
 				$result = FALSE;
-				$data = 'data is null acording the uid';
+				$data = 'data is null according the uid';
 			}
 		}
 		return array(

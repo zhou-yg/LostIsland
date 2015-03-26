@@ -83,7 +83,7 @@ ChessListClass = cc {
               cards[j] = chessOne
               chessList[i] = chessOne2
               isChange = true
-              console.log 'change',cardsAllArr
+
               break
         if !isChange
           chessOne.isSelected = !chessOne.isSelected
@@ -203,7 +203,6 @@ InitBottomOpBarClass = cc {
         console.log err,data
       );
 
-
     @setState {
       isEdit:!@state.isEdit
     }
@@ -228,6 +227,7 @@ InitBottomOpBarClass = cc {
 personPanel = chessListOne = chessListTwo = null;
 
 window.renderInitialObj = do ->
+  initUiDom = document.getElementById('prepare-ui')
   headerDom = document.getElementById('header')
   cards1Dom = document.getElementById('cards1')
   cards2Dom = document.getElementById('cards2')
@@ -251,6 +251,9 @@ window.renderInitialObj = do ->
         ce InitBottomOpBarClass,{  }
         footerDom
       )
+      initUiDom.style.display = 'block'
+    hide:->
+      initUiDom.style.display = 'none'
   }
 
 renderInitialObj.does()
