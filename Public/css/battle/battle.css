@@ -1,5 +1,7 @@
 #battle{
+    box-sizing: border-box;
     padding: 2%;
+    position: relative;
 }
 #battle li.dot-selected{
     background-color: #ff0000;

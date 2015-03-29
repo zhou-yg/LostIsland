@@ -5,39 +5,69 @@ cc = React.createClass
 
 HeroPanelClass = cc {
   render:->
-    ce 'div',{ className:'hero' },null
+    ce 'div',{
+      className:'hero'
+      style:{
+        backgroundImage:'url('+@props.avatar+')'
+      }
+    },null
 }
 RecordPanelClass = cc {
   getInitialState:->
-    {
-      level:{
-        name:'等级:'
-        num:'1'
-      },
-      records:[{
+    {}
+  render:->
+    records = @props.records
+    records = [{
+        pre:''
+        value:records.userName
+      },{
+        pre:'等级:'
+        value:records.level
+      },{
         pre:'胜场:'
-        value:100
+        value:records.win
       },{
         pre:'胜率:'
-        value:'66.7%'
+        value:records.winRate
       }]
-    }
 
-  render:->
     ce 'ul',{ className:'record' },
-      ce 'li',{ className:'record-one' },
-        (ce 'span',{},@state.level.name )
-        (ce 'span',{},@state.level.num )
-      @state.records.map (record,i)->
+      records.map (record,i)->
         ce 'li',{ className:'record-one',key:'recordLi'+i },
           (ce 'span',{},record.pre )
           (ce 'span',{},record.value )
 }
 PersonalBoxClass = cc {
+  getInitialState:->
+    that = this
+    #获取用户信息
+    LLApi.Client().User.getBasic({
+      uid:userMsg.uid
+    },(err,returnData)->
+      data = returnData.data
+      that.setState({
+        avatar:data.character
+        userName:data.username
+        win:data.win
+        winRate:(+data.win)/((+data.win)+(+data.lose))
+      })
+    )
+    {
+      avatar:''
+      userName:''
+      level:0
+      win:0
+      winRate:0
+    }
   render:->
     ce 'div',{ className:'personal' },
-      (ce HeroPanelClass,{},null )
-      (ce RecordPanelClass,{},null )
+      (ce HeroPanelClass,{ avatar:@state.avatar },null )
+      (ce RecordPanelClass,{ records:{
+        userName:@state.userName
+        level:@state.level
+        win:@state.win
+        winRate:@state.winRate
+      }},null)
 }
 
 ChessListClass = cc {
@@ -232,6 +262,8 @@ window.renderInitialObj = do ->
   cards1Dom = document.getElementById('cards1')
   cards2Dom = document.getElementById('cards2')
   footerDom = document.getElementById('footer')
+
+  initUiDom.style.height = screen.height+'px';
 
   return {
     does:->

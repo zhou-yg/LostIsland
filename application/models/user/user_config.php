@@ -1,7 +1,7 @@
 <?php
 class User_config extends CI_Model {
 	
-	private $default_character_img = '/Public/images/character/card_1_2.png';
+	private $default_character_img = 'Public/images/character/card_1_2.png';
 	private $init_cards = array(
 		'hero' => 'hero1',
 		'deck' => array('card1','card1','card1','card1','card1','card1','card1','card1','card1','card1')//len = 10

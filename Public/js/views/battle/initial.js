@@ -10,35 +10,39 @@
   HeroPanelClass = cc({
     render: function() {
       return ce('div', {
-        className: 'hero'
+        className: 'hero',
+        style: {
+          backgroundImage: 'url(' + this.props.avatar + ')'
+        }
       }, null);
     }
   });
 
   RecordPanelClass = cc({
     getInitialState: function() {
-      return {
-        level: {
-          name: '等级:',
-          num: '1'
-        },
-        records: [
-          {
-            pre: '胜场:',
-            value: 100
-          }, {
-            pre: '胜率:',
-            value: '66.7%'
-          }
-        ]
-      };
+      return {};
     },
     render: function() {
+      var records;
+      records = this.props.records;
+      records = [
+        {
+          pre: '',
+          value: records.userName
+        }, {
+          pre: '等级:',
+          value: records.level
+        }, {
+          pre: '胜场:',
+          value: records.win
+        }, {
+          pre: '胜率:',
+          value: records.winRate
+        }
+      ];
       return ce('ul', {
         className: 'record'
-      }, ce('li', {
-        className: 'record-one'
-      }, ce('span', {}, this.state.level.name), ce('span', {}, this.state.level.num)), this.state.records.map(function(record, i) {
+      }, records.map(function(record, i) {
         return ce('li', {
           className: 'record-one',
           key: 'recordLi' + i
@@ -48,10 +52,42 @@
   });
 
   PersonalBoxClass = cc({
+    getInitialState: function() {
+      var that;
+      that = this;
+      LLApi.Client().User.getBasic({
+        uid: userMsg.uid
+      }, function(err, returnData) {
+        var data;
+        data = returnData.data;
+        return that.setState({
+          avatar: data.character,
+          userName: data.username,
+          win: data.win,
+          winRate: (+data.win) / ((+data.win) + (+data.lose))
+        });
+      });
+      return {
+        avatar: '',
+        userName: '',
+        level: 0,
+        win: 0,
+        winRate: 0
+      };
+    },
     render: function() {
       return ce('div', {
         className: 'personal'
-      }, ce(HeroPanelClass, {}, null), ce(RecordPanelClass, {}, null));
+      }, ce(HeroPanelClass, {
+        avatar: this.state.avatar
+      }, null), ce(RecordPanelClass, {
+        records: {
+          userName: this.state.userName,
+          level: this.state.level,
+          win: this.state.win,
+          winRate: this.state.winRate
+        }
+      }, null));
     }
   });
 
@@ -276,6 +312,7 @@
     cards1Dom = document.getElementById('cards1');
     cards2Dom = document.getElementById('cards2');
     footerDom = document.getElementById('footer');
+    initUiDom.style.height = screen.height + 'px';
     return {
       does: function() {
         personPanel = React.render(ce(PersonalBoxClass), headerDom);

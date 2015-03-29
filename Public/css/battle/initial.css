@@ -1,5 +1,7 @@
 #prepare-ui{
+    box-sizing: border-box;
     padding: 2%;
+    position: relative;
 }
 .split-line{
     background-color: #E2CCCC;
@@ -8,7 +10,6 @@
 
 }
 #prepare-ui .personal{
-    background-color: #eef2ed;
     width: 100%;
     padding-bottom: 49%;
 }
@@ -22,15 +23,14 @@
     float: left;
 }
 #prepare-ui .personal .record{
-    background-color: #d9d9ee;
     margin-left: 1%;
     width: 49%;
     float: right;
 }
 #prepare-ui .record .record-one{
-    background-color: #9EBAF5;
+    box-sizing: border-box;
+    padding: 5px;
     width: 100%;
-
     position: relative;
 }
 /*------------------------*/
@@ -172,6 +172,11 @@
     }
 }
 /*-----------------------*/
+#footer,#game-bottom{
+    position: absolute;
+    bottom: 0;
+    width: 96%;
+}
 .bottom-ops{
     box-sizing: border-box;
     background-color: #E2CC9C;

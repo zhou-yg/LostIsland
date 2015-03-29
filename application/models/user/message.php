@@ -7,6 +7,7 @@ class Message extends CI_Model {
 	function __construct()
     {
         parent::__construct();
+		$this->load->helper('url');
     }
 	public function set_param($_param){
 		$uid = $_param['uid'];
@@ -38,6 +39,7 @@ class Message extends CI_Model {
 				//删除不必要de信息
 				unset($data['client_token']);
 				unset($data['user_token']);
+				$data['character'] = base_url().$data['character'];
 			}else{
 				$result = FALSE;
 				$data = 'data is null according the uid';
