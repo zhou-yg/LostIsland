@@ -59,7 +59,10 @@ class Battle_center extends CI_Controller {
 			
 			$result = array(
 				'uid'      	   => $uid,
-				'nickname'     => $user_message_array['data']['username'],
+				'username'     => $user_message_array['data']['username'],
+				'character'    => $user_message_array['data']['character'],
+				'win' 		   => intval($user_message_array['data']['win']),
+				'lose'    	   => intval($user_message_array['data']['lose']),
 				'chesses'      => json_encode($chess_result_array['data']),
 				'sessionToken' => $sessionToken
 			);

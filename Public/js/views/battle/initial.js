@@ -53,39 +53,27 @@
 
   PersonalBoxClass = cc({
     getInitialState: function() {
-      var that;
+      var msg, that;
       that = this;
-      LLApi.Client().User.getBasic({
-        uid: userMsg.uid
-      }, function(err, returnData) {
-        var data;
-        data = returnData.data;
-        return that.setState({
-          avatar: data.character,
-          userName: data.username,
-          win: data.win,
-          winRate: (+data.win) / ((+data.win) + (+data.lose))
-        });
-      });
+      msg = this.props.userMsg;
+      msg.winRate = msg.win ? msg.win / (msg.win + msg.lose) : 0;
       return {
-        avatar: '',
-        userName: '',
-        level: 0,
-        win: 0,
-        winRate: 0
+        msg: msg
       };
     },
     render: function() {
+      var msg;
+      msg = this.state.msg;
       return ce('div', {
         className: 'personal'
       }, ce(HeroPanelClass, {
-        avatar: this.state.avatar
+        avatar: msg.character
       }, null), ce(RecordPanelClass, {
         records: {
-          userName: this.state.userName,
-          level: this.state.level,
-          win: this.state.win,
-          winRate: this.state.winRate
+          userName: msg.username,
+          level: msg.level,
+          win: msg.win,
+          winRate: msg.winRate
         }
       }, null));
     }
@@ -277,6 +265,11 @@
           return console.log(err, data);
         });
       }
+      cardsAllArr.forEach(function(arr) {
+        return arr.forEach(function(obj) {
+          return delete obj.isSelected;
+        });
+      });
       return this.setState({
         isEdit: !this.state.isEdit
       });
@@ -315,7 +308,9 @@
     initUiDom.style.height = screen.height + 'px';
     return {
       does: function() {
-        personPanel = React.render(ce(PersonalBoxClass), headerDom);
+        personPanel = React.render(ce(PersonalBoxClass, {
+          userMsg: Object.create(userMsg)
+        }), headerDom);
         chessListOne = React.render(ce(ChessListClass, {
           chessMap: {
             name: '表1',

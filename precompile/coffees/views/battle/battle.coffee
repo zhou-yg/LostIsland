@@ -11,7 +11,7 @@ socketConnected = (url)->
   #匹配成功
   io.socket.on 'match',(msg)->
     #{ uid:/[\d]*/ }
-    console.log msg
+    console.log '对手id':msg.uid
     LLApi.Client().User.getBasic {
       uid:msg.uid
     },(err,data)->
@@ -40,8 +40,11 @@ PlayerBoxClass = cc {
   render:->
     playerObj = @state.playerObj
 
-    dotsArr = dots = []
+    bgImageUrl = if playerObj.character then 'url('+playerObj.character+')' else ''
 
+    username = playerObj.username
+
+    dotsArr = dots = []
     if playerObj.dots > 0
       for i in [1..playerObj.dots]
         dots.push(true)
@@ -55,8 +58,12 @@ PlayerBoxClass = cc {
       )
 
     ce 'div',{ className:'player-box' },
-      (ce 'div',{ className:'player-img' })
-      (ce 'div',{ className:'player-name' },playerObj.name )
+      (ce 'div',{
+        className:'player-img'
+        style:
+          backgroundImage:bgImageUrl
+      })
+      (ce 'div',{ className:'player-name' },username )
       (ce 'ul', { className:'score-dots' },
         dotsArr
       )
@@ -86,8 +93,6 @@ EnemyListClass = cc {
 
     ce 'ul',{ className:'enemy' },
       chessList
-
-
 }
 BattleFieldClass = cc {
   getInitialState:->
@@ -106,13 +111,14 @@ BattleFieldClass = cc {
       myChess:myChess
     }
   render:->
+    myChess = @state.myChess
     ce 'div', {},
-      (ce EnemyListClass,{ chessObjArr:@state.rivalChess } )
+      (ce EnemyListClass,{ chessObjArr:@state.rivalChess })
       (ce 'div',{ className:'battle-river' },
         ce 'button',{ className:'endBtn','end' }
       )
-      (ce EnemyListClass,{ chessObjArr:@state.myChess.slice(0,5) } )
-      (ce EnemyListClass,{ chessObjArr:@state.myChess.slice(5) })
+      (ce EnemyListClass,{ allChess:myChess, chessObjArr:myChess.slice(0,5) })
+      (ce EnemyListClass,{ allChess:myChess, chessObjArr:myChess.slice(5) } )
 }
 BattleBottomOpBarClass = cc {
   getInitialState:->
@@ -150,6 +156,8 @@ window.renderBattleObj = do ->
   myDom          = document.getElementById('my-box')
   footerDom      = document.getElementById('game-bottom')
 
+  battleUiDom.style.height = screen.height+'px';
+
   return {
     does:->
       rivalPlayerPanel = React.render(
@@ -168,7 +176,7 @@ window.renderBattleObj = do ->
         myDom
       )
       React.render(
-        ce BattleBottomOpBarClass,{ }
+        ce BattleBottomOpBarClass,{}
         footerDom
       )
       battleUiDom.style.display = 'block'

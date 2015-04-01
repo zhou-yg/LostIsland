@@ -9,7 +9,9 @@
       return console.log(data);
     });
     return io.socket.on('match', function(msg) {
-      console.log(msg);
+      console.log({
+        '对手id': msg.uid
+      });
       return LLApi.Client().User.getBasic({
         uid: msg.uid
       }, function(err, data) {
@@ -48,8 +50,10 @@
       };
     },
     render: function() {
-      var className, dots, dotsArr, i, isSelected, playerObj, _i, _j, _k, _len, _ref, _ref1;
+      var bgImageUrl, className, dots, dotsArr, i, isSelected, playerObj, username, _i, _j, _k, _len, _ref, _ref1;
       playerObj = this.state.playerObj;
+      bgImageUrl = playerObj.character ? 'url(' + playerObj.character + ')' : '';
+      username = playerObj.username;
       dotsArr = dots = [];
       if (playerObj.dots > 0) {
         for (i = _i = 1, _ref = playerObj.dots; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
@@ -70,10 +74,13 @@
       return ce('div', {
         className: 'player-box'
       }, ce('div', {
-        className: 'player-img'
+        className: 'player-img',
+        style: {
+          backgroundImage: bgImageUrl
+        }
       }), ce('div', {
         className: 'player-name'
-      }, playerObj.name), ce('ul', {
+      }, username), ce('ul', {
         className: 'score-dots'
       }, dotsArr));
     }
@@ -131,6 +138,8 @@
       };
     },
     render: function() {
+      var myChess;
+      myChess = this.state.myChess;
       return ce('div', {}, ce(EnemyListClass, {
         chessObjArr: this.state.rivalChess
       }), ce('div', {
@@ -139,9 +148,11 @@
         className: 'endBtn',
         'end': 'end'
       })), ce(EnemyListClass, {
-        chessObjArr: this.state.myChess.slice(0, 5)
+        allChess: myChess,
+        chessObjArr: myChess.slice(0, 5)
       }), ce(EnemyListClass, {
-        chessObjArr: this.state.myChess.slice(5)
+        allChess: myChess,
+        chessObjArr: myChess.slice(5)
       }));
     }
   });
@@ -190,6 +201,7 @@
     battleFieldDom = document.getElementById('battle-field');
     myDom = document.getElementById('my-box');
     footerDom = document.getElementById('game-bottom');
+    battleUiDom.style.height = screen.height + 'px';
     return {
       does: function() {
         rivalPlayerPanel = React.render(ce(PlayerBoxClass, {

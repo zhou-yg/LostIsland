@@ -40,33 +40,20 @@ RecordPanelClass = cc {
 PersonalBoxClass = cc {
   getInitialState:->
     that = this
-    #获取用户信息
-    LLApi.Client().User.getBasic({
-      uid:userMsg.uid
-    },(err,returnData)->
-      data = returnData.data
-      that.setState({
-        avatar:data.character
-        userName:data.username
-        win:data.win
-        winRate:(+data.win)/((+data.win)+(+data.lose))
-      })
-    )
+    msg = @props.userMsg
+    msg.winRate = if msg.win then msg.win/(msg.win+msg.lose) else 0
     {
-      avatar:''
-      userName:''
-      level:0
-      win:0
-      winRate:0
+      msg:msg
     }
   render:->
+    msg = @state.msg
     ce 'div',{ className:'personal' },
-      (ce HeroPanelClass,{ avatar:@state.avatar },null )
+      (ce HeroPanelClass,{ avatar:msg.character },null )
       (ce RecordPanelClass,{ records:{
-        userName:@state.userName
-        level:@state.level
-        win:@state.win
-        winRate:@state.winRate
+        userName:msg.username
+        level:msg.level
+        win:msg.win
+        winRate:msg.winRate
       }},null)
 }
 
@@ -233,6 +220,10 @@ InitBottomOpBarClass = cc {
         console.log err,data
       );
 
+    cardsAllArr.forEach (arr)->
+      arr.forEach (obj)->
+        delete obj.isSelected
+
     @setState {
       isEdit:!@state.isEdit
     }
@@ -268,7 +259,9 @@ window.renderInitialObj = do ->
   return {
     does:->
       personPanel = React.render(
-        ce PersonalBoxClass
+        ce PersonalBoxClass,{
+          userMsg:Object.create(userMsg)
+        }
         headerDom
       )
       chessListOne = React.render(

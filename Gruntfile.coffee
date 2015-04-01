@@ -1,9 +1,9 @@
 module.exports = (_grunt)->
     _grunt.initConfig
       coffee:
-        filesOne:
+        files:
           expand: true,
-          cwd: 'Public/coffees/',
+          cwd: 'precompile/coffees/',
           src: ['**/*.coffee'],
           dest: 'Public/js/',
           ext: '.js'

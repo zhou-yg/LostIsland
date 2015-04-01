@@ -122,7 +122,7 @@
         </ul>
         -->
     </div>
-    <footer id="">
+    <footer id="game-bottom">
         <!--
         <ul class="bottom-ops">
             <li class="left"></li>
@@ -139,8 +139,12 @@
     (function(_window){
         _window.userMsg = {
                 'uid':'<?= $uid ?>',
+                'username':'<?= $username ?>',
+                'character':'<?= $character ?>',
                 'token':'<?= $sessionToken ?>',
-                'chess':'<?= $chesses ?>'
+                'chess':'<?= $chesses ?>',
+                'win':<?= $win ?>,
+                'lose':<?= $lose ?>,
                 };
         _window.userMsg.chess = JSON.parse(_window.userMsg.chess);
         })(this);
