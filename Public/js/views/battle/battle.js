@@ -88,27 +88,75 @@
 
   EnemyListClass = cc({
     getInitialState: function() {
-      var chessObjArr;
-      chessObjArr = this.props.chessObjArr;
+      var allChess, startLength;
+      startLength = this.props.startLength;
+      allChess = this.props.allChess;
       return {
-        chessObjArr: chessObjArr
+        startLength: startLength,
+        allChess: allChess,
+        isMy: true
       };
     },
+    clickOnChess: function(rev) {
+      var allChess, chessObj, i, isAlreadySelected, key, selectedI, t, _i, _j, _len, _len1;
+      if (!this.state.isMy) {
+        return;
+      }
+      allChess = this.state.allChess;
+      key = rev.dispatchMarker.match(/[\w]*[\d]$/);
+      key = key[0];
+      isAlreadySelected = selectedI = void 0;
+      console.log([allChess[0].isSelected, allChess[1].isSelected, allChess[2].isSelected, allChess[3].isSelected, allChess[4].isSelected, allChess[5].isSelected]);
+      for (i = _i = 0, _len = allChess.length; _i < _len; i = ++_i) {
+        chessObj = allChess[i];
+        if (chessObj.isSelected) {
+          isAlreadySelected = true;
+          selectedI = i;
+          break;
+        }
+      }
+      for (i = _j = 0, _len1 = allChess.length; _j < _len1; i = ++_j) {
+        chessObj = allChess[i];
+        if (chessObj.key === key && i !== selectedI) {
+          if (isAlreadySelected) {
+            allChess[selectedI].isSelected = false;
+            allChess[i].isSelected = true;
+            if (((0 <= selectedI && selectedI < 5) && (0 <= i && i < 5)) || (selectedI >= 5 && i >= 5)) {
+
+            } else {
+              t = chessObj;
+              allChess[i] = allChess[selectedI];
+              allChess[selectedI] = t;
+            }
+          } else {
+
+          }
+        }
+      }
+      return battleFieldPanel.setState({
+        myChess: allChess
+      });
+    },
     render: function() {
-      var chessList, chessOne, i, styleObj, _i, _len, _ref;
+      var chessList, chessOne, i, propertyObj, startLength, _i, _len, _ref;
+      startLength = this.state.startLength;
       chessList = [];
-      _ref = this.state.chessObjArr;
+      _ref = this.state.allChess.slice(startLength[0], startLength[0] + startLength[1]);
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         chessOne = _ref[i];
-        styleObj = {
+        propertyObj = {
           className: 'chess-one',
-          key: 'chessLi' + i,
+          key: chessOne.key,
+          onClick: this.clickOnChess,
           style: {}
         };
         if (chessOne.img) {
-          styleObj.style.backgroundImage = 'url(' + chessFactory.chessAvatarPre + chessOne.img + ')';
+          propertyObj.style.backgroundImage = 'url(' + chessFactory.chessAvatarPre + chessOne.img + ')';
         }
-        chessList.push(ce('li', styleObj));
+        if (chessOne.isSelected) {
+          propertyObj.className += ' selected';
+        }
+        chessList.push(ce('li', propertyObj));
       }
       return ce('ul', {
         className: 'enemy'
@@ -132,27 +180,69 @@
           arr[i] = chessI ? chessFactory.getChessByCid(chessI) : {};
         }
       }
+      rivalChess.forEach(function(chessObj, i) {
+        return chessObj.key = 'chessLi' + i;
+      });
+      myChess.forEach(function(chessObj, i) {
+        if (i === 0) {
+          chessObj.isSelected = true;
+        }
+        return chessObj.key = 'chessLi' + i;
+      });
       return {
         rivalChess: rivalChess,
-        myChess: myChess
+        myChess: myChess,
+        endBtnState: {
+          state: false,
+          bgClass: ''
+        }
       };
     },
+    turnEnd: function() {
+      return this.setState({
+        endBtnState: {
+          bgClass: 'endBtn-disabled'
+        }
+      });
+    },
+    turnEndOn: function() {
+      return this.setState({
+        endBtnState: {
+          bgClass: 'endBtn-on'
+        }
+      });
+    },
+    turnEndOut: function() {
+      return this.setState({
+        endBtnState: {
+          bgClass: ''
+        }
+      });
+    },
     render: function() {
-      var myChess;
+      var myChess, rivalChess;
       myChess = this.state.myChess;
+      rivalChess = this.state.rivalChess;
       return ce('div', {}, ce(EnemyListClass, {
-        chessObjArr: this.state.rivalChess
+        allChess: rivalChess,
+        startLength: [0, 5]
       }), ce('div', {
         className: 'battle-river'
       }, ce('button', {
-        className: 'endBtn',
-        'end': 'end'
-      })), ce(EnemyListClass, {
+        className: 'endBtn ' + this.state.endBtnState.bgClass,
+        onClick: this.turnEnd,
+        onTouchStart: this.turnEndOn,
+        onMouseOver: this.turnEndOn,
+        onTouchEnd: this.turnEndOut,
+        onMouseOut: this.turnEndOut
+      }, 'end')), ce(EnemyListClass, {
+        isMy: true,
         allChess: myChess,
-        chessObjArr: myChess.slice(0, 5)
+        startLength: [0, 5]
       }), ce(EnemyListClass, {
+        isMy: true,
         allChess: myChess,
-        chessObjArr: myChess.slice(5)
+        startLength: [5, 5]
       }));
     }
   });

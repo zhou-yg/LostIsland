@@ -55,10 +55,16 @@
 #battle .battle-river .endBtn{
     margin: 5px;
     width: 6em;
-    background-color: #999;
+    background-color: #33be3e;
     height: 30px;
     outline: none;
     float: right;
+}
+#battle .battle-river .endBtn-on{
+    background-color: #1fe72f;
+}
+#battle .battle-river .endBtn-disabled{
+    background-color: #999999;
 }
 #battle .enemy,#battle .back-enemy{
     margin: 5px 0;
@@ -66,6 +72,7 @@
     overflow: hidden;
 }
 #battle .chess-one{
+    box-sizing: border-box;
     background-color: #939393;
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
@@ -74,6 +81,9 @@
     width: 18%;
     padding-top: 25%;
     float: left;
+}
+#battle .enemy .selected{
+    border: 2px solid #000000;
 }
 #battle #game-bottom{
     margin-top: 10px;

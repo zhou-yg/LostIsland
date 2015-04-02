@@ -66,7 +66,7 @@ ChessListClass = cc {
     chessList.forEach (chessOne,i)->
       if typeof chessOne isnt 'object'
         chessOne = {}
-      chessOne.key = 'chessLi'+chessListIn+i
+        chessOne.key = 'chessLi'+chessListIn+i
       return chessOne
     {
       name:@props.chessMap.name
@@ -128,14 +128,14 @@ ChessListClass = cc {
           bgImg = chess.img
           if bgImg
             bgImg = chessFactory.chessAvatarPre + bgImg
-            return ce 'li',{
-              onTouchStart:that.touchOnChess
-              onTouchMove:that.moveOnChess
-              onTouchEnd:that.leaveChess
-              style:{
-                backgroundImage:'url('+bgImg+')'
-                top:top
-                left:perLeft*i + 'px'
+            ce 'li',{
+                onTouchStart:that.touchOnChess
+                onTouchMove:that.moveOnChess
+                onTouchEnd:that.leaveChess
+                style:{
+                  backgroundImage:'url('+bgImg+')'
+                  top:top
+                  left:perLeft*i + 'px'
               }
               key:chess.key
             },(ce 'div',{
@@ -145,13 +145,13 @@ ChessListClass = cc {
               }
             })
           else
-            return ce 'li',{
-              onTouchStart:that.touchOnChess
-              onTouchMove:that.moveOnChess
-              onTouchEnd:that.leaveChess
-              style:{
-                top:top
-                left:perLeft*i + 'px'
+            ce 'li',{
+                onTouchStart:that.touchOnChess
+                onTouchMove:that.moveOnChess
+                onTouchEnd:that.leaveChess
+                style:{
+                  top:top
+                  left:perLeft*i + 'px'
               }
               key:chess.key
             },(ce 'div',{

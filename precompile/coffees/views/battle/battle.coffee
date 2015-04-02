@@ -3,8 +3,8 @@ socketConnected = (url)->
 
   #添加在线
   io.socket.get(url+'/addPlayer',{
-    uid:userMsg.uid
-  },(data)->
+      uid:userMsg.uid
+    },(data)->
     console.log data
   )
 
@@ -71,24 +71,76 @@ PlayerBoxClass = cc {
 
 EnemyListClass = cc {
   getInitialState:->
-    #[5]个chessObj 或 [5]个{}
-    chessObjArr = @props.chessObjArr
+    #从start开始，length个数
+    startLength = @props.startLength
+    allChess = @props.allChess
+
     {
-      chessObjArr:chessObjArr
+      startLength:startLength
+      allChess:allChess
+      isMy:true
     }
+
+  clickOnChess:(rev)->
+    if !@state.isMy
+      return
+
+    allChess = @state.allChess
+
+    key = rev.dispatchMarker.match /[\w]*[\d]$/
+    key = key[0]
+
+    isAlreadySelected = selectedI = undefined
+    console.log [
+      allChess[0].isSelected
+      allChess[1].isSelected
+      allChess[2].isSelected
+      allChess[3].isSelected
+      allChess[4].isSelected
+      allChess[5].isSelected
+    ]
+    for chessObj,i in allChess
+      if chessObj.isSelected
+        isAlreadySelected = true
+        selectedI = i
+        break
+
+    for chessObj,i in allChess
+      if chessObj.key is key and i isnt selectedI
+        if isAlreadySelected
+          #同层切换 else 不同层调换
+          allChess[selectedI].isSelected = false
+          allChess[i].isSelected = true
+          if (0<=selectedI < 5 and 0<=i<5) or (selectedI>=5 and i>=5)
+          else
+            t = chessObj
+            allChess[i] = allChess[selectedI]
+            allChess[selectedI] = t
+
+        else
+          #error
+
+    battleFieldPanel.setState {
+      myChess:allChess
+    }
+
   render:->
-    chessList =  []
-    for chessOne,i in @state.chessObjArr
-      styleObj = {
+    startLength = @state.startLength
+    chessList = []
+    for chessOne,i in @state.allChess.slice(startLength[0],startLength[0]+startLength[1])
+      propertyObj = {
         className:'chess-one'
-        key:'chessLi'+i
+        key:chessOne.key
+        onClick:@clickOnChess
         style:{}
       }
       if chessOne.img
-        styleObj.style.backgroundImage = 'url('+chessFactory.chessAvatarPre+chessOne.img+')'
+        propertyObj.style.backgroundImage = 'url('+chessFactory.chessAvatarPre+chessOne.img+')'
+      if chessOne.isSelected
+        propertyObj.className += ' selected'
 
       chessList.push(
-        ce 'li',styleObj
+        ce 'li',propertyObj
       )
 
     ce 'ul',{ className:'enemy' },
@@ -104,21 +156,66 @@ BattleFieldClass = cc {
 
     for arr in [rivalChess,myChess]
       for chessI,i in arr
-          arr[i] = if chessI then chessFactory.getChessByCid(chessI) else {}
+        arr[i] = if chessI then chessFactory.getChessByCid(chessI) else {}
+
+    rivalChess.forEach (chessObj,i)->
+      chessObj.key = 'chessLi'+i
+
+    myChess.forEach (chessObj,i)->
+      if i is 0
+        chessObj.isSelected = true
+      chessObj.key = 'chessLi'+i
 
     {
       rivalChess:rivalChess
       myChess:myChess
+      endBtnState:{
+        state:false
+        getBgClass:->
+          if @state is 'hover'
+            return 'endBtn-on'
+          if @state is 'disabled'
+            return 'endBtn-disabled'
+          return ''
+      }
     }
+  turnEnd:->
+    @setState {
+      endBtnState:{
+        state:'disabled'
+      }
+    }
+  turnEndOn:->
+    @setState {
+      endBtnState:{
+        state:'hover'
+      }
+    }
+  turnEndOut:->
+    @setState {
+      endBtnState:{
+        state:false
+      }
+    }
+
   render:->
     myChess = @state.myChess
+    rivalChess = @state.rivalChess
+
     ce 'div', {},
-      (ce EnemyListClass,{ chessObjArr:@state.rivalChess })
+      (ce EnemyListClass,{ allChess:rivalChess,startLength:[0,5] })
       (ce 'div',{ className:'battle-river' },
-        ce 'button',{ className:'endBtn','end' }
+        ce 'button',{
+          className:'endBtn '+@state.endBtnState.getBgClass()
+          onClick:@turnEnd
+          onTouchStart:@turnEndOn
+          onMouseOver:@turnEndOn
+          onTouchEnd:@turnEndOut
+          onMouseOut:@turnEndOut
+        },'end'
       )
-      (ce EnemyListClass,{ allChess:myChess, chessObjArr:myChess.slice(0,5) })
-      (ce EnemyListClass,{ allChess:myChess, chessObjArr:myChess.slice(5) } )
+      (ce EnemyListClass,{ isMy:true,allChess:myChess,startLength:[0,5]})
+      (ce EnemyListClass,{ isMy:true,allChess:myChess,startLength:[5,5]} )
 }
 BattleBottomOpBarClass = cc {
   getInitialState:->

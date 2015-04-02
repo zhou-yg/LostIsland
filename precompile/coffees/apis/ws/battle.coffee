@@ -13,6 +13,15 @@ do (parent = LLApi,Child = do (className = 'Battle')->
       @send param,_cb
       return this
 
+    @fight = (_param,cb)->
+      param = {}
+      param.uid = _param.uid
+      param.chessI = _param.chessI
+
+      @setAddress('battle/fight')
+      @send param,cb
+      return this
+
     @display = (_param,_cb)->
       param = {
       }
