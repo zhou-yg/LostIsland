@@ -1,5 +1,6 @@
 (function() {
-  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, battleFieldPanel, cc, ce, myPanel, rivalPlayerPanel, socketConnected;
+  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, battleFieldPanel, cc, ce, myPanel, rivalPlayerPanel, socketConnected,
+    __hasProp = {}.hasOwnProperty;
 
   socketConnected = function(url) {
     console.log('socketConnected()');
@@ -8,10 +9,7 @@
     }, function(data) {
       return console.log(data);
     });
-    return io.socket.on('match', function(msg) {
-      console.log({
-        '对手id': msg.uid
-      });
+    io.socket.on('match', function(msg) {
       return LLApi.Client().User.getBasic({
         uid: msg.uid
       }, function(err, data) {
@@ -30,6 +28,10 @@
         renderInitialObj.hide();
         return renderBattleObj.does();
       });
+    });
+    return io.socket.on('fight', function(fightRecordObj) {
+      console.log(fightRecordObj);
+      return battleFieldPanel.fight(fightRecordObj.record);
     });
   };
 
@@ -106,7 +108,6 @@
       key = rev.dispatchMarker.match(/[\w]*[\d]$/);
       key = key[0];
       isAlreadySelected = selectedI = void 0;
-      console.log([allChess[0].isSelected, allChess[1].isSelected, allChess[2].isSelected, allChess[3].isSelected, allChess[4].isSelected, allChess[5].isSelected]);
       for (i = _i = 0, _len = allChess.length; _i < _len; i = ++_i) {
         chessObj = allChess[i];
         if (chessObj.isSelected) {
@@ -117,7 +118,7 @@
       }
       for (i = _j = 0, _len1 = allChess.length; _j < _len1; i = ++_j) {
         chessObj = allChess[i];
-        if (chessObj.key === key && i !== selectedI) {
+        if (chessObj.key === key && i !== selectedI && !chessObj.battleResult) {
           if (isAlreadySelected) {
             allChess[selectedI].isSelected = false;
             allChess[i].isSelected = true;
@@ -138,7 +139,7 @@
       });
     },
     render: function() {
-      var chessList, chessOne, i, propertyObj, startLength, _i, _len, _ref;
+      var chessList, chessOne, i, propertyObj, startLength, tagClass, _i, _len, _ref;
       startLength = this.state.startLength;
       chessList = [];
       _ref = this.state.allChess.slice(startLength[0], startLength[0] + startLength[1]);
@@ -156,7 +157,14 @@
         if (chessOne.isSelected) {
           propertyObj.className += ' selected';
         }
-        chessList.push(ce('li', propertyObj));
+        if (chessOne.battleResult) {
+          tagClass = chessOne.battleResult;
+        } else {
+          tagClass = '';
+        }
+        chessList.push(ce('li', propertyObj, ce('div', {
+          className: tagClass
+        })));
       }
       return ce('ul', {
         className: 'enemy'
@@ -194,29 +202,92 @@
         myChess: myChess,
         endBtnState: {
           state: false,
-          bgClass: ''
+          getBgClass: function() {
+            if (this.state === 'hover') {
+              return 'endBtn-on';
+            }
+            if (this.state === 'disabled') {
+              return 'endBtn-disabled';
+            }
+            return '';
+          }
         }
       };
     },
-    turnEnd: function() {
-      return this.setState({
-        endBtnState: {
-          bgClass: 'endBtn-disabled'
+    fight: function(recordObj) {
+      var chessI, chessObj, fightResult, i, myChess, myChessObj, myUuid, rivalChess, rivalChessObj, uuid, _i, _len;
+      myChess = this.state.myChess;
+      rivalChess = this.state.rivalChess;
+      myUuid = 'u' + userMsg.uid;
+      myChessObj = rivalChessObj = null;
+      for (uuid in recordObj) {
+        if (!__hasProp.call(recordObj, uuid)) continue;
+        chessI = recordObj[uuid];
+        if (uuid === myUuid) {
+          myChessObj = chessFactory.getChessByCid(chessI);
+        } else {
+          rivalChessObj = chessFactory.getChessByCid(chessI);
         }
-      });
+      }
+      fightResult = myChessObj.fight(rivalChessObj);
+      for (i = _i = 0, _len = myChess.length; _i < _len; i = ++_i) {
+        chessObj = myChess[i];
+        if (chessObj.cid === myChessObj.cid) {
+          if (fightResult === 0) {
+            chessObj.battleResult = 'equal';
+          } else if (fightResult === 1) {
+            chessObj.battleResult = 'win';
+            userMsg.dots++;
+          } else if (fightResult === -1) {
+            chessObj.battleResult = 'lose';
+            userMsg.rivalMsg.dots++;
+          }
+          rivalChess[i] = rivalChessObj;
+        }
+      }
+      rivalPlayerPanel.forceUpdate();
+      myPanel.forceUpdate();
+      return this.forceUpdate();
+    },
+    turnEnd: function() {
+      var chessObj, endBtnState, sendChessI, _i, _len, _ref;
+      _ref = this.state.myChess;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        chessObj = _ref[_i];
+        if (chessObj.isSelected && !chessObj.battleResult) {
+          sendChessI = chessObj.cid;
+        }
+      }
+      if (sendChessI !== void 0) {
+        LLApi.WS().Battle.fight({
+          uid: userMsg.uid,
+          chessI: sendChessI
+        }, function(err, data) {
+          return console.log(data);
+        });
+        endBtnState = this.state.endBtnState;
+        endBtnState.state = 'disabled';
+        return this.setState({
+          endBtnState: endBtnState
+        });
+      } else {
+        return console.log('NO!!!');
+      }
     },
     turnEndOn: function() {
+      var endBtnState;
+      endBtnState = this.state.endBtnState;
+      endBtnState.state = 'hover';
       return this.setState({
-        endBtnState: {
-          bgClass: 'endBtn-on'
-        }
+        endBtnState: endBtnState
       });
     },
     turnEndOut: function() {
+      var endBtnState;
+      endBtnState = this.state.endBtnState;
+      endBtnState.state = false;
       return this.setState({
-        endBtnState: {
-          bgClass: ''
-        }
+        endBtnState: endBtnState
       });
     },
     render: function() {
@@ -229,7 +300,7 @@
       }), ce('div', {
         className: 'battle-river'
       }, ce('button', {
-        className: 'endBtn ' + this.state.endBtnState.bgClass,
+        className: 'endBtn ' + this.state.endBtnState.getBgClass(),
         onClick: this.turnEnd,
         onTouchStart: this.turnEndOn,
         onMouseOver: this.turnEndOn,

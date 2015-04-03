@@ -37,13 +37,13 @@
     server = serverConfig.ip21;
 
     initUrlArr = [
-        'apis/route?fn=2001&param={"type":"saber"}',
-        'apis/route?fn=2001&param={"type":"hero"}',
-        'apis/route?fn=3001&param={"type":"js"}'];
+        'apis/route?parameter={"fn":1001,"param":{"type":"saber"}}',
+        'apis/route?parameter={"fn":2001,"param":{"type":"hero"}}',
+        'apis/route?parameter={"fn":3001,"param":{"type":"js"}}'];
 
     LLApiConfigFilePath = 'Public/js/apis/serverConfig.js';
 
-    LLApiConfigData = 'LLApi.setServerPre("' + server.baseUrl + '");';
+    LLApiConfigData = 'LLApi.setServerPre("' + server.serverAd + '");';
 
     phpConfigFilePath = 'application/config/config.php';
 

@@ -11,7 +11,6 @@ socketConnected = (url)->
   #匹配成功
   io.socket.on 'match',(msg)->
     #{ uid:/[\d]*/ }
-    console.log '对手id':msg.uid
     LLApi.Client().User.getBasic {
       uid:msg.uid
     },(err,data)->
@@ -24,6 +23,11 @@ socketConnected = (url)->
 
       renderInitialObj.hide()
       renderBattleObj.does()
+
+  #fight
+  io.socket.on 'fight',(fightRecordObj)->
+    console.log fightRecordObj
+    battleFieldPanel.fight fightRecordObj.record
 
 io.socket.on 'connect',->
   socketConnected(io.sails.url)
@@ -91,14 +95,7 @@ EnemyListClass = cc {
     key = key[0]
 
     isAlreadySelected = selectedI = undefined
-    console.log [
-      allChess[0].isSelected
-      allChess[1].isSelected
-      allChess[2].isSelected
-      allChess[3].isSelected
-      allChess[4].isSelected
-      allChess[5].isSelected
-    ]
+
     for chessObj,i in allChess
       if chessObj.isSelected
         isAlreadySelected = true
@@ -106,7 +103,7 @@ EnemyListClass = cc {
         break
 
     for chessObj,i in allChess
-      if chessObj.key is key and i isnt selectedI
+      if chessObj.key is key and i isnt selectedI and !chessObj.battleResult
         if isAlreadySelected
           #同层切换 else 不同层调换
           allChess[selectedI].isSelected = false
@@ -138,9 +135,16 @@ EnemyListClass = cc {
         propertyObj.style.backgroundImage = 'url('+chessFactory.chessAvatarPre+chessOne.img+')'
       if chessOne.isSelected
         propertyObj.className += ' selected'
+      if chessOne.battleResult
+        tagClass = chessOne.battleResult
+      else
+        tagClass = ''
+
 
       chessList.push(
-        ce 'li',propertyObj
+        ce 'li',propertyObj,(
+          ce 'div',{ className:tagClass }
+        )
       )
 
     ce 'ul',{ className:'enemy' },
@@ -179,25 +183,72 @@ BattleFieldClass = cc {
           return ''
       }
     }
+  fight:(recordObj)->
+    myChess = @state.myChess
+    rivalChess = @state.rivalChess
+
+    myUuid = 'u'+userMsg.uid
+    myChessObj = rivalChessObj = null
+    for own uuid,chessI of recordObj
+      if uuid is myUuid
+        myChessObj =  chessFactory.getChessByCid(chessI)
+      else
+        rivalChessObj = chessFactory.getChessByCid(chessI)
+
+    fightResult = myChessObj.fight(rivalChessObj)
+
+    for chessObj,i in myChess
+      if chessObj.cid is myChessObj.cid
+        if fightResult is 0
+          chessObj.battleResult = 'equal'
+
+        else if fightResult is 1
+          chessObj.battleResult = 'win'
+          userMsg.dots++
+
+        else if fightResult is -1
+          chessObj.battleResult = 'lose'
+          userMsg.rivalMsg.dots++
+
+        rivalChess[i] = rivalChessObj
+
+    rivalPlayerPanel.forceUpdate()
+    myPanel.forceUpdate()
+    @forceUpdate()
+
   turnEnd:->
-    @setState {
-      endBtnState:{
-        state:'disabled'
+    for chessObj in @state.myChess
+      if chessObj.isSelected and !chessObj.battleResult
+        sendChessI = chessObj.cid
+
+    if sendChessI isnt undefined
+      LLApi.WS().Battle.fight {
+          uid:userMsg.uid
+          chessI:sendChessI
+      },(err,data)->
+        console.log data
+
+      endBtnState = @state.endBtnState
+      endBtnState.state = 'disabled'
+      @setState {
+        endBtnState:endBtnState
       }
-    }
+    else
+      console.log 'NO!!!'
   turnEndOn:->
+
+    endBtnState = @state.endBtnState
+    endBtnState.state = 'hover'
     @setState {
-      endBtnState:{
-        state:'hover'
-      }
+      endBtnState:endBtnState
     }
   turnEndOut:->
-    @setState {
-      endBtnState:{
-        state:false
-      }
-    }
 
+    endBtnState = @state.endBtnState
+    endBtnState.state = false
+    @setState {
+      endBtnState:endBtnState
+    }
   render:->
     myChess = @state.myChess
     rivalChess = @state.rivalChess

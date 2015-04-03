@@ -25,14 +25,14 @@
       <root url="file://$PROJECT_DIR$/Public/js/battleSystem/battleMsgCenter.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/user/playerFactory.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/user/playerFactory.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardFactory.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/cards/cardObject.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/views/user/player.js" />
+      <root url="file://$PROJECT_DIR$/precompile/coffees/cards/cardFactory.js" />
+      <root url="file://$PROJECT_DIR$/precompile/coffees/cards/cardObject.js" />
+      <root url="file://$PROJECT_DIR$/precompile/coffees/views/user/player.js" />
       <root url="file://$PROJECT_DIR$/Gruntfile.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/jslib/utils.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/apis/list/cardList.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/apis/LLApi.js" />
-      <root url="file://$PROJECT_DIR$/Public/coffees/views/cards/cardList.js" />
+      <root url="file://$PROJECT_DIR$/precompile/coffees/views/cards/cardList.js" />
       <root url="file://$PROJECT_DIR$/Public/coffees/apis/serverConfig.js" />
     </CLASSES>
     <SOURCES />

@@ -1,3 +1,31 @@
+###
+cid:chess[\d]
+name
+img
+level
+###
+class ChessObject
+  constructor:(_config)->
+    if _config
+      @setConfig _config
+    else
+      throw 'no config argument'
+
+  setConfig:(_config)->
+    for k,v of _config
+      @[k] = v;
+
+  fight:(chessObj)->
+    if @level is chessObj.level
+      return 0
+
+    specialArr = [0,100]
+    result = @level < chessObj.level
+    if @level in specialArr and chessObj.level in specialArr
+      return result?-1:1
+    else
+      return result?1:-1
+
 class ChessFactory
   constructor:->
     @chessAvatarPre = chessImgPre
@@ -10,6 +38,12 @@ class ChessFactory
       c.cid = k
       @chessMap[k] = c
       @chessNum++
+
+  check:(obj)->
+    if !_.isArray(obj)
+      obj = [obj]
+    return obj.every (o)->
+      return o instanceof ChessObject
 
   getChessByName:(_cname)->
     chessOne = null

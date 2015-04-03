@@ -81,6 +81,32 @@
     width: 18%;
     padding-top: 25%;
     float: left;
+
+    position: relative;
+}
+#battle .chess-one > .equal{
+    background-color: #ffff00;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#battle .chess-one > .win{
+    background-color: green;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#battle .chess-one > .lose{
+    background-color: red;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 #battle .enemy .selected{
     border: 2px solid #000000;

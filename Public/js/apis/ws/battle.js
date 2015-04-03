@@ -20,6 +20,15 @@
         this.send(param, _cb);
         return this;
       };
+      this.fight = function(_param, cb) {
+        var param;
+        param = {};
+        param.uid = _param.uid;
+        param.chessI = _param.chessI;
+        this.setAddress('battle/fight');
+        this.send(param, cb);
+        return this;
+      };
       this.display = function(_param, _cb) {
         var param;
         param = {};

@@ -26,6 +26,7 @@ class Route extends CI_Controller {
 		//没有参数
 		if($parameter){
 			$parameter = json_decode($parameter,TRUE);
+			
 			$fn = $parameter['fn'];
 			$param = $parameter['param'];
 
@@ -43,6 +44,7 @@ class Route extends CI_Controller {
 			if($result){
 				$normal_name = $this->normal_name;
 				$model_path = $this->api_models[$fn];
+
 				if($model_path){
 					$this->load->model($model_path,$normal_name);
 					$data = $this->$normal_name->set_param($param);
@@ -77,9 +79,7 @@ class Route extends CI_Controller {
 		if(isset($param['uid']) && isset($param['token'])){
 			$token = $param['token'];
 			session_start();
-			print_r($_SESSION);		
 			$sessionToken = isset($_SESSION['sessionToken'])?$_SESSION['sessionToken']:null;
-			
 			
 			if($token == $sessionToken){
 				return TRUE;

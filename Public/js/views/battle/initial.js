@@ -89,8 +89,8 @@
       chessList.forEach(function(chessOne, i) {
         if (typeof chessOne !== 'object') {
           chessOne = {};
-          chessOne.key = 'chessLi' + chessListIn + i;
         }
+        chessOne.key = 'chessLi' + chessListIn + i;
         return chessOne;
       });
       return {

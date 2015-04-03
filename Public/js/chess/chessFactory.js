@@ -1,5 +1,55 @@
+
+/*
+cid:chess[\d]
+name
+img
+level
+ */
+
 (function() {
-  var ChessFactory;
+  var ChessFactory, ChessObject,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  ChessObject = (function() {
+    function ChessObject(_config) {
+      if (_config) {
+        this.setConfig(_config);
+      } else {
+        throw 'no config argument';
+      }
+    }
+
+    ChessObject.prototype.setConfig = function(_config) {
+      var k, v, _results;
+      _results = [];
+      for (k in _config) {
+        v = _config[k];
+        _results.push(this[k] = v);
+      }
+      return _results;
+    };
+
+    ChessObject.prototype.fight = function(chessObj) {
+      var result, specialArr, _ref, _ref1;
+      if (this.level === chessObj.level) {
+        return 0;
+      }
+      specialArr = [0, 100];
+      result = this.level < chessObj.level;
+      if ((_ref = this.level, __indexOf.call(specialArr, _ref) >= 0) && (_ref1 = chessObj.level, __indexOf.call(specialArr, _ref1) >= 0)) {
+        return typeof result === "function" ? result(-{
+          1: 1
+        }) : void 0;
+      } else {
+        return typeof result === "function" ? result({
+          1: -1
+        }) : void 0;
+      }
+    };
+
+    return ChessObject;
+
+  })();
 
   ChessFactory = (function() {
     function ChessFactory() {
@@ -16,6 +66,15 @@
         this.chessNum++;
       }
     }
+
+    ChessFactory.prototype.check = function(obj) {
+      if (!_.isArray(obj)) {
+        obj = [obj];
+      }
+      return obj.every(function(o) {
+        return o instanceof ChessObject;
+      });
+    };
 
     ChessFactory.prototype.getChessByName = function(_cname) {
       var chessOne, k, v, _ref;

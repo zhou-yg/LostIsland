@@ -66,7 +66,7 @@ ChessListClass = cc {
     chessList.forEach (chessOne,i)->
       if typeof chessOne isnt 'object'
         chessOne = {}
-        chessOne.key = 'chessLi'+chessListIn+i
+      chessOne.key = 'chessLi'+chessListIn+i
       return chessOne
     {
       name:@props.chessMap.name
