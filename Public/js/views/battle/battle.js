@@ -29,9 +29,12 @@
         return renderBattleObj.does();
       });
     });
-    return io.socket.on('fight', function(fightRecordObj) {
+    io.socket.on('fight', function(fightRecordObj) {
       console.log(fightRecordObj);
       return battleFieldPanel.fight(fightRecordObj.record);
+    });
+    return io.socket.on('fightResult', function(fightResult) {
+      return battleFieldPanel.fightResult(fightResult);
     });
   };
 
@@ -62,8 +65,10 @@
           dots.push(true);
         }
       }
-      for (i = _j = _ref1 = playerObj.dots; _ref1 <= 2 ? _j <= 2 : _j >= 2; i = _ref1 <= 2 ? ++_j : --_j) {
-        dots.push(false);
+      if (playerObj.dots < 3) {
+        for (i = _j = _ref1 = playerObj.dots; _ref1 <= 2 ? _j <= 2 : _j >= 2; i = _ref1 <= 2 ? ++_j : --_j) {
+          dots.push(false);
+        }
       }
       for (i = _k = 0, _len = dots.length; _k < _len; i = ++_k) {
         isSelected = dots[i];
@@ -198,6 +203,9 @@
         return chessObj.key = 'chessLi' + i;
       });
       return {
+        fightResult: {
+          text: ''
+        },
         rivalChess: rivalChess,
         myChess: myChess,
         endBtnState: {
@@ -242,12 +250,25 @@
             chessObj.battleResult = 'lose';
             userMsg.rivalMsg.dots++;
           }
+          console.log(fightResult, chessObj);
           rivalChess[i] = rivalChessObj;
         }
       }
       rivalPlayerPanel.forceUpdate();
       myPanel.forceUpdate();
       return this.forceUpdate();
+    },
+    fightResult: function(fightResult) {
+      var result;
+      result = {};
+      if (fightResult) {
+        result.text = 'you win';
+      } else {
+        result.text = 'you lose';
+      }
+      return this.setState({
+        fightResult: result
+      });
     },
     turnEnd: function() {
       var chessObj, endBtnState, sendChessI, _i, _len, _ref;
@@ -291,10 +312,15 @@
       });
     },
     render: function() {
-      var myChess, rivalChess;
+      var fightResult, myChess, rivalChess;
       myChess = this.state.myChess;
       rivalChess = this.state.rivalChess;
-      return ce('div', {}, ce(EnemyListClass, {
+      fightResult = this.state.fightResult;
+      return ce('div', {
+        style: {
+          position: 'relative'
+        }
+      }, ce(EnemyListClass, {
         allChess: rivalChess,
         startLength: [0, 5]
       }), ce('div', {
@@ -314,7 +340,17 @@
         isMy: true,
         allChess: myChess,
         startLength: [5, 5]
-      }));
+      }), ce('div', {
+        className: 'battle-end-bg',
+        style: {
+          display: fightResult.text ? 'block' : 'none'
+        }
+      }), ce('div', {
+        className: 'battle-alert',
+        style: {
+          display: fightResult.text ? 'block' : 'none'
+        }
+      }, fightResult.text));
     }
   });
 

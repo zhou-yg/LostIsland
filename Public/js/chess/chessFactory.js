@@ -34,16 +34,20 @@ level
       if (this.level === chessObj.level) {
         return 0;
       }
-      specialArr = [0, 100];
+      specialArr = [1, 100];
       result = this.level < chessObj.level;
       if ((_ref = this.level, __indexOf.call(specialArr, _ref) >= 0) && (_ref1 = chessObj.level, __indexOf.call(specialArr, _ref1) >= 0)) {
-        return typeof result === "function" ? result(-{
-          1: 1
-        }) : void 0;
+        if (result) {
+          return -1;
+        } else {
+          return 1;
+        }
       } else {
-        return typeof result === "function" ? result({
-          1: -1
-        }) : void 0;
+        if (result) {
+          return 1;
+        } else {
+          return -1;
+        }
       }
     };
 

@@ -19,12 +19,12 @@ class ChessObject
     if @level is chessObj.level
       return 0
 
-    specialArr = [0,100]
+    specialArr = [1,100]
     result = @level < chessObj.level
     if @level in specialArr and chessObj.level in specialArr
-      return result?-1:1
+      return if result then -1 else 1
     else
-      return result?1:-1
+      return if result then 1 else -1
 
 class ChessFactory
   constructor:->

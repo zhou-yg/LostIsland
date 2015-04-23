@@ -27,7 +27,10 @@ socketConnected = (url)->
   #fight
   io.socket.on 'fight',(fightRecordObj)->
     console.log fightRecordObj
-    battleFieldPanel.fight fightRecordObj.record
+    battleFieldPanel.fight(fightRecordObj.record)
+  #结果
+  io.socket.on 'fightResult',(fightResult)->
+    battleFieldPanel.fightResult(fightResult)
 
 io.socket.on 'connect',->
   socketConnected(io.sails.url)
@@ -52,8 +55,9 @@ PlayerBoxClass = cc {
     if playerObj.dots > 0
       for i in [1..playerObj.dots]
         dots.push(true)
-    for i in [playerObj.dots..2]
-      dots.push(false)
+    if playerObj.dots < 3
+      for i in [playerObj.dots..2]
+        dots.push(false)
 
     for isSelected,i in dots
       className = if isSelected then 'dot-one dot-selected' else 'dot-one'
@@ -171,6 +175,9 @@ BattleFieldClass = cc {
       chessObj.key = 'chessLi'+i
 
     {
+      fightResult:{
+        text:''
+      }
       rivalChess:rivalChess
       myChess:myChess
       endBtnState:{
@@ -210,11 +217,24 @@ BattleFieldClass = cc {
           chessObj.battleResult = 'lose'
           userMsg.rivalMsg.dots++
 
+        console.log(fightResult,chessObj)
+
         rivalChess[i] = rivalChessObj
 
     rivalPlayerPanel.forceUpdate()
     myPanel.forceUpdate()
     @forceUpdate()
+
+  fightResult:(fightResult)->
+    result = {}
+    if fightResult
+      result.text = 'you win'
+    else
+      result.text = 'you lose'
+
+    @setState {
+      fightResult:result
+    }
 
   turnEnd:->
     for chessObj in @state.myChess
@@ -253,7 +273,11 @@ BattleFieldClass = cc {
     myChess = @state.myChess
     rivalChess = @state.rivalChess
 
-    ce 'div', {},
+    fightResult = @state.fightResult
+
+    ce 'div', { style:{
+        position:'relative'
+      }},
       (ce EnemyListClass,{ allChess:rivalChess,startLength:[0,5] })
       (ce 'div',{ className:'battle-river' },
         ce 'button',{
@@ -267,6 +291,18 @@ BattleFieldClass = cc {
       )
       (ce EnemyListClass,{ isMy:true,allChess:myChess,startLength:[0,5]})
       (ce EnemyListClass,{ isMy:true,allChess:myChess,startLength:[5,5]} )
+      (ce 'div',{
+        className:'battle-end-bg'
+        style:{
+          display:if fightResult.text then 'block' else 'none'
+        }
+      })
+      (ce 'div',{
+        className:'battle-alert'
+        style:{
+          display:if fightResult.text then 'block' else 'none'
+        }
+      },fightResult.text)
 }
 BattleBottomOpBarClass = cc {
   getInitialState:->
