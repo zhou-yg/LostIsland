@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']='http://lostisland/';
+$config['base_url']='http://192.168.2.1/';
 
 /*
 |--------------------------------------------------------------------------

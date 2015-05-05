@@ -30,11 +30,12 @@
       });
     });
     io.socket.on('fight', function(fightRecordObj) {
-      console.log(fightRecordObj);
+      console.log('fightRecordObj', fightRecordObj);
       return battleFieldPanel.fight(fightRecordObj.record);
     });
     return io.socket.on('fightResult', function(fightResult) {
-      return battleFieldPanel.fightResult(fightResult);
+      console.log('fightResult', fightResult);
+      return battleFieldPanel.fightResult(fightResult.record);
     });
   };
 
@@ -70,6 +71,7 @@
           dots.push(false);
         }
       }
+      console.log(dots);
       for (i = _k = 0, _len = dots.length; _k < _len; i = ++_k) {
         isSelected = dots[i];
         className = isSelected ? 'dot-one dot-selected' : 'dot-one';
@@ -223,17 +225,18 @@
       };
     },
     fight: function(recordObj) {
-      var chessI, chessObj, fightResult, i, myChess, myChessObj, myUuid, rivalChess, rivalChessObj, uuid, _i, _len;
+      var chessI, chessObj, fightResult, i, myChess, myChessObj, myUuid, rivalChess, rivalChessObj, rivalUuid, uuid, _i, _len;
       myChess = this.state.myChess;
       rivalChess = this.state.rivalChess;
       myUuid = 'u' + userMsg.uid;
+      rivalUuid = 'u' + userMsg.rivalMsg.id;
       myChessObj = rivalChessObj = null;
       for (uuid in recordObj) {
         if (!__hasProp.call(recordObj, uuid)) continue;
         chessI = recordObj[uuid];
         if (uuid === myUuid) {
           myChessObj = chessFactory.getChessByCid(chessI);
-        } else {
+        } else if (uuid === rivalUuid) {
           rivalChessObj = chessFactory.getChessByCid(chessI);
         }
       }
@@ -260,10 +263,13 @@
     },
     fightResult: function(fightResult) {
       var result;
+      this.fight(fightResult);
       result = {};
-      if (fightResult) {
+      if (fightResult.win === false) {
+        result.text = 'you doesnt win';
+      } else if (fightResult.win === userMsg.uid) {
         result.text = 'you win';
-      } else {
+      } else if (fightResult.lose === userMsg.uid) {
         result.text = 'you lose';
       }
       return this.setState({

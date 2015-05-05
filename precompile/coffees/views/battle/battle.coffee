@@ -26,11 +26,12 @@ socketConnected = (url)->
 
   #fight
   io.socket.on 'fight',(fightRecordObj)->
-    console.log fightRecordObj
+    console.log 'fightRecordObj',fightRecordObj
     battleFieldPanel.fight(fightRecordObj.record)
   #结果
   io.socket.on 'fightResult',(fightResult)->
-    battleFieldPanel.fightResult(fightResult)
+    console.log 'fightResult',fightResult
+    battleFieldPanel.fightResult(fightResult.record)
 
 io.socket.on 'connect',->
   socketConnected(io.sails.url)
@@ -58,6 +59,8 @@ PlayerBoxClass = cc {
     if playerObj.dots < 3
       for i in [playerObj.dots..2]
         dots.push(false)
+
+    console.log(dots)
 
     for isSelected,i in dots
       className = if isSelected then 'dot-one dot-selected' else 'dot-one'
@@ -195,11 +198,13 @@ BattleFieldClass = cc {
     rivalChess = @state.rivalChess
 
     myUuid = 'u'+userMsg.uid
+    rivalUuid = 'u'+userMsg.rivalMsg.id
+
     myChessObj = rivalChessObj = null
     for own uuid,chessI of recordObj
       if uuid is myUuid
         myChessObj =  chessFactory.getChessByCid(chessI)
-      else
+      else if uuid is rivalUuid
         rivalChessObj = chessFactory.getChessByCid(chessI)
 
     fightResult = myChessObj.fight(rivalChessObj)
@@ -226,10 +231,15 @@ BattleFieldClass = cc {
     @forceUpdate()
 
   fightResult:(fightResult)->
+    @fight(fightResult)
+
     result = {}
-    if fightResult
+
+    if fightResult.win is false
+      result.text = 'you doesnt win'
+    else if fightResult.win is userMsg.uid
       result.text = 'you win'
-    else
+    else if fightResult.lose is userMsg.uid
       result.text = 'you lose'
 
     @setState {
@@ -250,6 +260,7 @@ BattleFieldClass = cc {
 
       endBtnState = @state.endBtnState
       endBtnState.state = 'disabled'
+
       @setState {
         endBtnState:endBtnState
       }
