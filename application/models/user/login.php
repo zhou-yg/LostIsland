@@ -54,7 +54,7 @@ class login extends CI_Model {
 			$userMsgArr = array(
 				'uid'          => $uid,
 				'nickname'     => $userOne['username'],
-				'character'    => $userOne['character'],
+				'character'    => $userOne['avatar'],
 				'sessionToken' => $sessionToken
 			);
 			return $userMsgArr;

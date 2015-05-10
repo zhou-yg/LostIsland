@@ -21,7 +21,7 @@ class Message extends CI_Model {
 			$data = array(
 					'uid'     => $this->user_one['id'],
 					'nickname' => $this->user_one['nickname'],
-					'character' => $this->user_one['character']
+					'character' => $this->user_one['avatar']
 				);
 		}else{
 			$this->load->database();
@@ -39,7 +39,7 @@ class Message extends CI_Model {
 				//删除不必要de信息
 				unset($data['client_token']);
 				unset($data['user_token']);
-				$data['character'] = base_url().$data['character'];
+				$data['character'] = base_url().$data['avatar'];
 			}else{
 				$result = FALSE;
 				$data = 'data is null according the uid';

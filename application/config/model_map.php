@@ -10,6 +10,8 @@ $model_map = array(
 	2002 => 'cards/get_cards',
 	3001 => 'chess/chess_lib',
 	3002 => 'chess/chess_user',
+	4001 => 'battle/battle_result',
+	5001 => 'ranking/ranking_list',
 	//---------------别名---------------
 	'sec_key'      => 'encry/sec_key', 
 	'user_init'    => 'user/init', 
