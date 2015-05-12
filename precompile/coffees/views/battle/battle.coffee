@@ -178,9 +178,7 @@ BattleFieldClass = cc {
       chessObj.key = 'chessLi'+i
 
     {
-      fightResult:{
-        text:''
-      }
+      fightResult:@props.battleStateData.fightResult
       rivalChess:rivalChess
       myChess:myChess
       endBtnState:{
@@ -207,28 +205,32 @@ BattleFieldClass = cc {
       else if uuid is rivalUuid
         rivalChessObj = chessFactory.getChessByCid(chessI)
 
-    fightResult = myChessObj.fight(rivalChessObj)
+    if myChessObj and rivalChessObj
 
-    for chessObj,i in myChess
-      if chessObj.cid is myChessObj.cid
-        if fightResult is 0
-          chessObj.battleResult = 'equal'
+      fightResult = myChessObj.fight(rivalChessObj)
+      for chessObj,i in myChess
+        if chessObj.cid is myChessObj.cid
+          if fightResult is 0
+            chessObj.battleResult = 'equal'
 
-        else if fightResult is 1
-          chessObj.battleResult = 'win'
-          userMsg.dots++
+          else if fightResult is 1
+            chessObj.battleResult = 'win'
+            userMsg.dots++
 
-        else if fightResult is -1
-          chessObj.battleResult = 'lose'
-          userMsg.rivalMsg.dots++
+          else if fightResult is -1
+            chessObj.battleResult = 'lose'
+            userMsg.rivalMsg.dots++
 
-        console.log(fightResult,chessObj)
+          console.log(fightResult,chessObj)
 
-        rivalChess[i] = rivalChessObj
+          rivalChess[i] = rivalChessObj
 
-    rivalPlayerPanel.forceUpdate()
-    myPanel.forceUpdate()
-    @forceUpdate()
+      rivalPlayerPanel.forceUpdate()
+      myPanel.forceUpdate()
+      @forceUpdate()
+
+    else
+      console.log 'no chessObj or rivalChessObj'
 
   fightResult:(fightResult)->
     @fight(fightResult)
@@ -242,9 +244,13 @@ BattleFieldClass = cc {
     else if fightResult.lose is userMsg.uid
       result.text = 'you lose'
 
-    @setState {
-      fightResult:result
-    }
+    battleStateData.fightResult.text = result.text
+
+    @forceUpdate()
+
+    bottomOpBar.exit({
+      notClicked:true
+    })
 
   turnEnd:->
     for chessObj in @state.myChess
@@ -319,20 +325,42 @@ BattleBottomOpBarClass = cc {
   getInitialState:->
     {
       bottomList:[]
-      normalList:[{
-        name:'exit'
-        label:'退出'
-      }]
+      btnList:@props.battleBottomBtnList
       isEdit:false
     }
-  exit:->
-    console.log 'battle exit'
+  #ev = {},notClicked自定义
+  exit:(ev)->
+    console.log 'battle exit : ',ev
+    name = 'exit'
+    btnList = @state.btnList
+    for btn in btnList
+      if btn.name is name
+        exitBtn = btn
+        states = btn.allStates
+
+    if exitBtn.label is states[0]
+      if !ev.notClicked
+        LLApi.WS().Battle.giveUp {
+          uid:userMsg.uid
+        },(err,data)=>
+          console.log data
+      else
+        exitBtn.label = states[1]
+        @setState {
+          btnList:btnList
+        }
+    else if exitBtn.label is states[1]
+      exitBtn.label = states[0]
+      renderInitialObj.does()
+      renderBattleObj.hide()
+
+
   render:->
-    currentList = if !@state.isEdit then @state.normalList else @state.onEditingList
+    btnList = if !@state.isEdit then @state.btnList else @state.onEditingList
     that = this
 
     ce 'ul',{ className:'bottom-ops' },
-      currentList.map (liOne,i)->
+      btnList.map (liOne,i)->
         className = liOne.className
         className = if !className then 'right'
         (ce 'li',{
@@ -342,7 +370,7 @@ BattleBottomOpBarClass = cc {
         },liOne.label)
 }
 
-rivalPlayerPanel = battleFieldPanel = myPanel = null
+rivalPlayerPanel = battleFieldPanel = myPanel = bottomOpBar = null
 
 window.renderBattleObj = do ->
   battleUiDom    = document.getElementById('battle')
@@ -363,6 +391,7 @@ window.renderBattleObj = do ->
         (ce BattleFieldClass,{
           rivalChess:userMsg.rivalMsg.chess
           myChess:userMsg.chess
+          battleStateData:battleStateData
         })
         battleFieldDom
       )
@@ -370,12 +399,15 @@ window.renderBattleObj = do ->
         (ce PlayerBoxClass,{ playerObj:userMsg } )
         myDom
       )
-      React.render(
-        ce BattleBottomOpBarClass,{}
+      bottomOpBar = React.render(
+        ce BattleBottomOpBarClass,{
+          battleBottomBtnList:battleStateData.battleBottomBtnList
+        }
         footerDom
       )
       battleUiDom.style.display = 'block'
     hide:->
+      battleStateData.fightResult.text = ''
       battleUiDom.style.display = 'none'
 
   }

@@ -1,16 +1,16 @@
 do (parent = LLApi,Child = do (className = 'Battle')->
   myClass = ->
-    @send = (_param,_cb)->
+    @send = (_param,cb)->
       @setPort(1337)
       @request 'get',_param,(_error,_data)->
-        _cb _error,_data
+        cb _error,_data
       return @
-    @match = (_param,_cb)->
+    @match = (_param,cb)->
       param = {}
       param.uid = _param.uid
 
       @setAddress('player/match')
-      @send param,_cb
+      @send param,cb
       return this
 
     @fight = (_param,cb)->
@@ -22,11 +22,18 @@ do (parent = LLApi,Child = do (className = 'Battle')->
       @send param,cb
       return this
 
-    @display = (_param,_cb)->
+    @giveUp = (_param,cb)->
+      param = {}
+      param.uid = _param.uid
+      @setAddress('battle/giveUp')
+      @send param,cb
+      return this
+      
+    @display = (_param,cb)->
       param = {
       }
       @setAddress('test/display')
-      @send param,_cb
+      @send param,cb
       return this
 
     return this

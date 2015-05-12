@@ -5,19 +5,19 @@
   })(LLApi, (function(className) {
     var myClass;
     myClass = function() {
-      this.send = function(_param, _cb) {
+      this.send = function(_param, cb) {
         this.setPort(1337);
         this.request('get', _param, function(_error, _data) {
-          return _cb(_error, _data);
+          return cb(_error, _data);
         });
         return this;
       };
-      this.match = function(_param, _cb) {
+      this.match = function(_param, cb) {
         var param;
         param = {};
         param.uid = _param.uid;
         this.setAddress('player/match');
-        this.send(param, _cb);
+        this.send(param, cb);
         return this;
       };
       this.fight = function(_param, cb) {
@@ -29,11 +29,19 @@
         this.send(param, cb);
         return this;
       };
-      this.display = function(_param, _cb) {
+      this.giveUp = function(_param, cb) {
+        var param;
+        param = {};
+        param.uid = _param.uid;
+        this.setAddress('battle/giveUp');
+        this.send(param, cb);
+        return this;
+      };
+      this.display = function(_param, cb) {
         var param;
         param = {};
         this.setAddress('test/display');
-        this.send(param, _cb);
+        this.send(param, cb);
         return this;
       };
       return this;

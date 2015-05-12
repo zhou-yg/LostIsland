@@ -281,4 +281,4 @@ window.renderInitialObj = do ->
       initUiDom.style.display = 'none'
   }
 
-renderInitialObj.does()
+#renderInitialObj.does()

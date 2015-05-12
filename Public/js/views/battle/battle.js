@@ -1,5 +1,5 @@
 (function() {
-  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, battleFieldPanel, cc, ce, myPanel, rivalPlayerPanel, socketConnected,
+  var BattleBottomOpBarClass, BattleFieldClass, EnemyListClass, PlayerBoxClass, battleFieldPanel, bottomOpBar, cc, ce, myPanel, rivalPlayerPanel, socketConnected,
     __hasProp = {}.hasOwnProperty;
 
   socketConnected = function(url) {
@@ -205,9 +205,7 @@
         return chessObj.key = 'chessLi' + i;
       });
       return {
-        fightResult: {
-          text: ''
-        },
+        fightResult: this.props.battleStateData.fightResult,
         rivalChess: rivalChess,
         myChess: myChess,
         endBtnState: {
@@ -240,26 +238,30 @@
           rivalChessObj = chessFactory.getChessByCid(chessI);
         }
       }
-      fightResult = myChessObj.fight(rivalChessObj);
-      for (i = _i = 0, _len = myChess.length; _i < _len; i = ++_i) {
-        chessObj = myChess[i];
-        if (chessObj.cid === myChessObj.cid) {
-          if (fightResult === 0) {
-            chessObj.battleResult = 'equal';
-          } else if (fightResult === 1) {
-            chessObj.battleResult = 'win';
-            userMsg.dots++;
-          } else if (fightResult === -1) {
-            chessObj.battleResult = 'lose';
-            userMsg.rivalMsg.dots++;
+      if (myChessObj && rivalChessObj) {
+        fightResult = myChessObj.fight(rivalChessObj);
+        for (i = _i = 0, _len = myChess.length; _i < _len; i = ++_i) {
+          chessObj = myChess[i];
+          if (chessObj.cid === myChessObj.cid) {
+            if (fightResult === 0) {
+              chessObj.battleResult = 'equal';
+            } else if (fightResult === 1) {
+              chessObj.battleResult = 'win';
+              userMsg.dots++;
+            } else if (fightResult === -1) {
+              chessObj.battleResult = 'lose';
+              userMsg.rivalMsg.dots++;
+            }
+            console.log(fightResult, chessObj);
+            rivalChess[i] = rivalChessObj;
           }
-          console.log(fightResult, chessObj);
-          rivalChess[i] = rivalChessObj;
         }
+        rivalPlayerPanel.forceUpdate();
+        myPanel.forceUpdate();
+        return this.forceUpdate();
+      } else {
+        return console.log('no chessObj or rivalChessObj');
       }
-      rivalPlayerPanel.forceUpdate();
-      myPanel.forceUpdate();
-      return this.forceUpdate();
     },
     fightResult: function(fightResult) {
       var result;
@@ -272,8 +274,10 @@
       } else if (fightResult.lose === userMsg.uid) {
         result.text = 'you lose';
       }
-      return this.setState({
-        fightResult: result
+      battleStateData.fightResult.text = result.text;
+      this.forceUpdate();
+      return bottomOpBar.exit({
+        notClicked: true
       });
     },
     turnEnd: function() {
@@ -364,25 +368,50 @@
     getInitialState: function() {
       return {
         bottomList: [],
-        normalList: [
-          {
-            name: 'exit',
-            label: '退出'
-          }
-        ],
+        btnList: this.props.battleBottomBtnList,
         isEdit: false
       };
     },
-    exit: function() {
-      return console.log('battle exit');
+    exit: function(ev) {
+      var btn, btnList, exitBtn, name, states, _i, _len;
+      console.log('battle exit : ', ev);
+      name = 'exit';
+      btnList = this.state.btnList;
+      for (_i = 0, _len = btnList.length; _i < _len; _i++) {
+        btn = btnList[_i];
+        if (btn.name === name) {
+          exitBtn = btn;
+          states = btn.allStates;
+        }
+      }
+      if (exitBtn.label === states[0]) {
+        if (!ev.notClicked) {
+          return LLApi.WS().Battle.giveUp({
+            uid: userMsg.uid
+          }, (function(_this) {
+            return function(err, data) {
+              return console.log(data);
+            };
+          })(this));
+        } else {
+          exitBtn.label = states[1];
+          return this.setState({
+            btnList: btnList
+          });
+        }
+      } else if (exitBtn.label === states[1]) {
+        exitBtn.label = states[0];
+        renderInitialObj.does();
+        return renderBattleObj.hide();
+      }
     },
     render: function() {
-      var currentList, that;
-      currentList = !this.state.isEdit ? this.state.normalList : this.state.onEditingList;
+      var btnList, that;
+      btnList = !this.state.isEdit ? this.state.btnList : this.state.onEditingList;
       that = this;
       return ce('ul', {
         className: 'bottom-ops'
-      }, currentList.map(function(liOne, i) {
+      }, btnList.map(function(liOne, i) {
         var className;
         className = liOne.className;
         className = !className ? 'right' : void 0;
@@ -395,7 +424,7 @@
     }
   });
 
-  rivalPlayerPanel = battleFieldPanel = myPanel = null;
+  rivalPlayerPanel = battleFieldPanel = myPanel = bottomOpBar = null;
 
   window.renderBattleObj = (function() {
     var battleFieldDom, battleUiDom, footerDom, myDom, rivalPlayerDom;
@@ -412,15 +441,19 @@
         }), rivalPlayerDom);
         battleFieldPanel = React.render(ce(BattleFieldClass, {
           rivalChess: userMsg.rivalMsg.chess,
-          myChess: userMsg.chess
+          myChess: userMsg.chess,
+          battleStateData: battleStateData
         }), battleFieldDom);
         myPanel = React.render(ce(PlayerBoxClass, {
           playerObj: userMsg
         }), myDom);
-        React.render(ce(BattleBottomOpBarClass, {}), footerDom);
+        bottomOpBar = React.render(ce(BattleBottomOpBarClass, {
+          battleBottomBtnList: battleStateData.battleBottomBtnList
+        }), footerDom);
         return battleUiDom.style.display = 'block';
       },
       hide: function() {
+        battleStateData.fightResult.text = '';
         return battleUiDom.style.display = 'none';
       }
     };

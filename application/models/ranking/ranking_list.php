@@ -43,8 +43,12 @@ class Ranking_list extends CI_Model {
 		$rankingListSql = "SELECT username,avatar,win FROM $tName ORDER BY win DESC limit 0,5";
 		
 		$queryResult = $this->db->query($rankingListSql);
-		$result = $queryResult->result();
-		var_dump($result);
+		if($queryResult->num_rows()>0){
+			$result = $queryResult->result();
+		}else{
+			$result = array();
+		}
+		return $result;
 	}
 }
 ?>

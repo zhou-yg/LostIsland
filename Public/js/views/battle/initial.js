@@ -332,6 +332,4 @@
     };
   })();
 
-  renderInitialObj.does();
-
 }).call(this);

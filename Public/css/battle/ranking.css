@@ -1,0 +1,89 @@
+#ranking-list{
+    box-sizing: border-box;
+    padding: 2%;
+    position: relative;
+}
+#ranking-list>header{
+    background-color: #9EBAF5;
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+}
+#ranking-list header .my-avatar{
+    background-color: #E4E4E4;
+    width: 60px;
+    height: 60px;
+    float: left;
+}
+#ranking-list header .ranking-msg{
+    background-color: #00EA7F;
+    margin: 0 60px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#ranking-list .ranking-msg > .my-name{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+#ranking-list .ranking-msg > .my-scores{
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+#ranking-list header .ranking-index{
+    box-sizing: border-box;
+    background-color: #D6DA45;
+    padding: 20px 0;
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    text-align: center;
+    float: right;
+}
+/*-- --*/
+#ranking-list .all-list{
+    margin-top: 15px;
+}
+#ranking-list .all-list > .logo{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 154px 25px 154px;
+    border-color: transparent transparent #000000 transparent;
+}
+#ranking-list .all-list > ol{
+    background-color: #000000;
+    padding: 0 5px 5px;
+    overflow: hidden;
+}
+#ranking-list .all-list > ol > li.ranking-one{
+    background-color: #aaa;
+    margin-top: 5px;
+    height: 45px;
+    overflow: hidden;
+}
+#ranking-list .ranking-one .avatar{
+    background-color: #e1b1b4;
+    width: 45px;
+    height: 45px;
+    float: left;
+}
+#ranking-list .ranking-one .name{
+    line-height: 45px;
+    text-indent: 15px;
+    float: left;
+}
+#ranking-list .ranking-one .index{
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 15px 0;
+    width: 45px;
+    height: 45px;
+    font-size: 15px;
+    text-align: center;
+    float: right;
+}

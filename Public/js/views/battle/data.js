@@ -17,4 +17,17 @@
     dots: 0
   };
 
+  window.battleStateData = {
+    fightResult: {
+      text: ''
+    },
+    battleBottomBtnList: [
+      {
+        name: 'exit',
+        label: '快跑',
+        allStates: ['快跑', '退出']
+      }
+    ]
+  };
+
 }).call(this);
