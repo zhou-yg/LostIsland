@@ -168,7 +168,7 @@ InitBottomOpBarClass = cc {
       bottomList:[]
       normalList:[{
         className:'left'
-        name:'list'
+        name:'ranking'
         label:'排行'
       },{
         className:'left'
@@ -181,7 +181,7 @@ InitBottomOpBarClass = cc {
       },{
         className:'right'
         name:'setting'
-        label:'设置'
+        label:'无'
       },{
         className:'right'
         name:'edit'
@@ -194,11 +194,9 @@ InitBottomOpBarClass = cc {
       }]
       isEdit:false
     }
-  list:->
-    LLApi.WS().Battle.display {
-
-    },(err,data)->
-      console.log(err,data);
+  ranking:->
+    renderInitialObj.hide()
+    renderRankingListObj.does()
 
   match:->
     LLApi.WS().Battle.match {
@@ -281,4 +279,4 @@ window.renderInitialObj = do ->
       initUiDom.style.display = 'none'
   }
 
-#renderInitialObj.does()
+renderInitialObj.does()

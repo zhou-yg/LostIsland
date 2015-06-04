@@ -19,12 +19,19 @@ class Init extends CI_Model {
 	 * 	'clientToken'
 	 * );
 	 */
-	public function set_param($_param){
-		$client_token = $this->input->post('clientToken');
-		$username = $this->input->post('username');
+	public function set_param($param){
 		
-		if($username && $this->sec_key->check_token($client_token)){
-			return $this->init($client_token, $username);
+		$clientToken = null;
+		$username = null;
+		
+		if(isset($param['username']) && isset($param['clientToken'])){
+			$username = $param['username'];
+			$clientToken = $param['clientToken'];
+		}
+		
+		if($username && $this->sec_key->check_token($clientToken)){
+			
+			return $this->init($clientToken,$username);
 		}else{
 			return array(
 				'result' => FALSE,

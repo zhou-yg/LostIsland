@@ -11,24 +11,12 @@
         });
         return this;
       };
-      this.getBasic = function(_param, _cb) {
+      this.getToken = function(_param, _cb) {
         var param;
         param = {
-          fn: 1003,
+          fn: 1000,
           param: {
-            uid: _param.uid
-          }
-        };
-        param.uid = _param.uid;
-        this.send(param, _cb);
-        return this;
-      };
-      this.newUser = function(param, _cb) {
-        param = {
-          fn: 1001,
-          param: {
-            username: param.username,
-            clientToken: param.clientToken
+            type: 'create'
           }
         };
         this.send(param, _cb);
@@ -38,6 +26,6 @@
     };
     myClass.cn = className;
     return myClass;
-  })('User'));
+  })('Encry'));
 
 }).call(this);

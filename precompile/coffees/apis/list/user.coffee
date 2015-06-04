@@ -14,6 +14,16 @@ do (parent = LLApi, Child = do (className = 'User' )->
       @send param,_cb
       return this
 
+    @newUser = (param,_cb)->
+      param = {
+        fn:1001
+        param:
+         username:param.username
+         clientToken:param.clientToken
+      }
+      @send param,_cb
+      return this
+
     return this
 
   myClass.cn = className

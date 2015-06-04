@@ -21,12 +21,13 @@ class login extends CI_Model {
 					'token' => $token
 				));
 	}
+	
 	public function check_login($uid,$_client_token=NULL,$_user_token=null){
 		
 		$this->load->database();
 		
 		$user_tname = $this->user_tname;
-		$check_sql = "select * from $user_tname where id=$uid ";
+		$check_sql = "select * from $user_tname where id='$uid' or username='$uid' ";
 		$check_sql_result = $this->db->query($check_sql);
 
 		if($check_sql_result->num_rows()>0){

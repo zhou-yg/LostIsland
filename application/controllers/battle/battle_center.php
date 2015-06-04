@@ -77,7 +77,9 @@ class Battle_center extends CI_Controller {
 			//$this->load->view('sys/console.html');
 
 		}else{
-			show_error('no token no uid', 404, 'forbidden');
+			$this->load->helper('url');
+			$this->load->helper('cookie');
+			$this->load->view('login/index.html');
 		}
 	}
 }

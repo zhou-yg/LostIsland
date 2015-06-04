@@ -34,7 +34,7 @@
         }
     };
 
-    server = serverConfig.lostisland;
+    server = serverConfig.ip21;
 
     initUrlArr = [
         'apis/route?parameter={"fn":1001,"param":{"type":"saber"}}',

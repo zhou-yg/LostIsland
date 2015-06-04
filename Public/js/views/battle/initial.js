@@ -207,7 +207,7 @@
         normalList: [
           {
             className: 'left',
-            name: 'list',
+            name: 'ranking',
             label: '排行'
           }, {
             className: 'left',
@@ -220,7 +220,7 @@
           }, {
             className: 'right',
             name: 'setting',
-            label: '设置'
+            label: '无'
           }, {
             className: 'right',
             name: 'edit',
@@ -237,10 +237,9 @@
         isEdit: false
       };
     },
-    list: function() {
-      return LLApi.WS().Battle.display({}, function(err, data) {
-        return console.log(err, data);
-      });
+    ranking: function() {
+      renderInitialObj.hide();
+      return renderRankingListObj.does();
     },
     match: function() {
       return LLApi.WS().Battle.match({
@@ -331,5 +330,7 @@
       }
     };
   })();
+
+  renderInitialObj.does();
 
 }).call(this);

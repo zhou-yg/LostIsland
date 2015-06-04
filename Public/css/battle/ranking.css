@@ -1,9 +1,11 @@
-#ranking-list{
+#ranking{
     box-sizing: border-box;
     padding: 2%;
     position: relative;
+
+    display: none;
 }
-#ranking-list>header{
+#ranking-list > header,#ranking-list >div> header{
     background-color: #9EBAF5;
     height: 60px;
     position: relative;
@@ -11,6 +13,8 @@
 }
 #ranking-list header .my-avatar{
     background-color: #E4E4E4;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
     width: 60px;
     height: 60px;
     float: left;
@@ -68,6 +72,8 @@
 }
 #ranking-list .ranking-one .avatar{
     background-color: #e1b1b4;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
     width: 45px;
     height: 45px;
     float: left;

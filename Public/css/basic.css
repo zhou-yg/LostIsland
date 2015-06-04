@@ -1,0 +1,75 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+body {
+  padding-bottom: 40px;
+  color: #5a5a5a;
+}
+a {
+  text-decoration: none;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.cf {
+  clear: both;
+  overflow: hidden;
+  height: 0;
+}
+.hide {
+  display: none;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+input {
+  outline: none;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial;
+  background-color: #eeeeee;
+}
+body.mac {
+  font-family: "Helvetica Neue", "Hiragino Sans GB", "冬青黑体", Helvetica, Arial, sans-serif;
+}
+body.win {
+  font-family: "Microsoft Yahei", "微软雅黑", "宋体";
+}
+.list-group-item {
+  padding: 10px 15px;
+}
+.navbar-nav {
+  margin: 0 -15px;
+}

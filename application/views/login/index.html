@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <!-- css库 -->
+    <link href="<?= base_url() ?>Public/css/bootstrap.css" rel="stylesheet">
+    <link href="<?= base_url() ?>Public/css/basic.css" rel="stylesheet">
+    <link href="<?= base_url() ?>Public/css/login/login.css" rel="stylesheet">
+
+    <title>Lostisland 注册</title>
+</head>
+<style>
+</style>
+<body>
+<section class="content">
+    <div class="black-bg">
+
+    </div>
+    <div class="form-unit">
+        <!--
+        <form method="post" action="">
+            <div class="form-field">
+                <div class="validation warning"></div>
+                <input type="text" placeholder="邮箱/手机号"
+                       name="email" value="" class="form-control" required/>
+            </div>
+            <div class="form-field">
+                <div class="validation"></div>
+                <input type="password" placeholder="密码" name="password" class="form-control" value=""
+                       required/>
+            </div>
+            <button type="button" class="btn btn-primary anim-blue-all" >
+                <a href="#login">登 录</a>
+            </button>
+            <div class="horizontal-line"></div>
+            <div>
+                <button type="button" class="btn anim-blue">
+                    <a href="#signup?">还没有账号？免费注册</a>
+                </button>
+                <button type="button" class="btn anim-grey">
+                    <a href="#forgot" class="forget">忘记密码？重置</a>
+                </button>
+            </div>
+        </form>
+        -->
+    </div>
+</section>
+</body>
+<!-- api -->
+<script src="<?=base_url()?>/Public/js/apis/LLApi.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/serverConfig.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/chessList.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/user.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/ranking.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/encry.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/ws/battle.js"></script>
+<!-- core JavaScript
+================================================== -->
+<script src="<?= base_url() ?>Public/js/jslib/underscore-min.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/backbone.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/jquery2x.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/bootstrap.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/ie10-viewport-bug-workaround.js"></script>
+<script src="<?= base_url() ?>Public/js/jslib/react.js"></script>
+<!-- my JavaScript
+================================================== -->
+<script src="<?= base_url() ?>Public/js/views/login/login.js"></script>
+</html>

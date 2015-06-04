@@ -135,36 +135,42 @@
         -->
     </footer>
 </section>
-<section id="ranking-list">
-    <header class="my-record">
-        <div class="my-avatar">
-        </div>
-        <div class="ranking-msg">
-            <header class="my-name">
-                XXX
-            </header>
-            <div class="my-scores">
-                <span class="socres-pre">分:</span>
-                <span class="socres-value">110</span>
+<section id="ranking">
+    <div id="ranking-list">
+        <!--
+        <header class="my-record">
+            <div class="my-avatar">
             </div>
+            <div class="ranking-msg">
+                <header class="my-name">
+                    XXX
+                </header>
+                <div class="my-scores">
+                    <span class="socres-pre">分:</span>
+                    <span class="socres-value">110</span>
+                </div>
+            </div>
+            <div class="ranking-index">
+                100
+            </div>
+        </header>
+        <div class="all-list">
+            <ol>
+                <li class="ranking-one">
+                    <dl>
+                        <dd class="avatar"></dd>
+                        <dd class="name">diyi</dd>
+                        <dd class="index">1</dd>
+                    </dl>
+                </li>
+                <li class="ranking-one"></li>
+            </ol>
         </div>
-        <div class="ranking-index">
-            100
-        </div>
-    </header>
-    <div class="all-list">
-        <header class="logo"></header>
-        <ol>
-            <li class="ranking-one">
-                <dl>
-                    <dd class="avatar"></dd>
-                    <dd class="name">diyi</dd>
-                    <dd class="index">1</dd>
-                </dl>
-            </li>
-            <li class="ranking-one"></li>
-        </ol>
+        -->
     </div>
+    <footer id="ranking-bottom">
+
+    </footer>
 </section>
 </body>
 <script>
@@ -186,6 +192,7 @@
 <script src="<?=base_url()?>/Public/js/apis/serverConfig.js"></script>
 <script src="<?=base_url()?>/Public/js/apis/list/chessList.js"></script>
 <script src="<?=base_url()?>/Public/js/apis/list/user.js"></script>
+<script src="<?=base_url()?>/Public/js/apis/list/ranking.js"></script>
 <script src="<?=base_url()?>/Public/js/apis/ws/battle.js"></script>
 <!-- config -->
 <script src="<?= base_url() ?>Public/js/battle/battleServerConfig.js"></script>
@@ -200,4 +207,5 @@
 <script src="<?= base_url() ?>Public/js/views/battle/data.js"></script>
 <script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
 <script src="<?= base_url() ?>Public/js/views/battle/battle.js"></script>
+<script src="<?= base_url() ?>Public/js/views/battle/ranking.js"></script>
 </html>
