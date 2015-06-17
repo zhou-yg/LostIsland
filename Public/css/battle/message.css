@@ -1,0 +1,14 @@
+#message{
+    box-sizing: border-box;
+    padding: 2%;
+    position: relative;
+
+    display: none;
+}
+#message input{
+    margin: 10px;
+    border: 1px solid #000000;
+}
+#message Button{
+    margin: 10px;
+}

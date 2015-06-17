@@ -180,8 +180,8 @@ InitBottomOpBarClass = cc {
         label:'匹配'
       },{
         className:'right'
-        name:'setting'
-        label:'无'
+        name:'exit'
+        label:'退出'
       },{
         className:'right'
         name:'edit'
@@ -225,6 +225,8 @@ InitBottomOpBarClass = cc {
     @setState {
       isEdit:!@state.isEdit
     }
+  exit:->
+    location.href = location.href.replace(/\?[\W\w]*$/,'')
   cancel:->
     @edit()
   submit:->
@@ -278,5 +280,3 @@ window.renderInitialObj = do ->
     hide:->
       initUiDom.style.display = 'none'
   }
-
-renderInitialObj.does()

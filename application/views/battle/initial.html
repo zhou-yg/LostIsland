@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/initial.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/ranking.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/battle.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>Public/css/battle/message.css"/>
 </head>
+<script>
+    var baseUrl = '<?= base_url() ?>';
+</script>
 <body>
 <section id="prepare-ui">
     <header id="header">
@@ -169,7 +173,13 @@
         -->
     </div>
     <footer id="ranking-bottom">
+    </footer>
+</section>
+<section id="message">
+    <div id="message-box">
 
+    </div>
+    <footer id="message-bottom">
     </footer>
 </section>
 </body>
@@ -208,4 +218,5 @@
 <script src="<?= base_url() ?>Public/js/views/battle/initial.js"></script>
 <script src="<?= base_url() ?>Public/js/views/battle/battle.js"></script>
 <script src="<?= base_url() ?>Public/js/views/battle/ranking.js"></script>
+<script src="<?= base_url() ?>Public/js/views/battle/message.js"></script>
 </html>

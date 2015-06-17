@@ -55,7 +55,7 @@
       }, ce('dl', {}, ce('dd', {
         className: 'avatar',
         style: {
-          backgroundImage: 'url(' + state.rankingObj.avatar + ')'
+          backgroundImage: 'url(' + baseUrl + state.rankingObj.avatar + ')'
         }
       }), ce('dd', {
         className: 'name'

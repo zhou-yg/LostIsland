@@ -173,7 +173,7 @@
     }
 }
 /*-----------------------*/
-#footer,#game-bottom,#ranking-bottom{
+#footer,#game-bottom,#ranking-bottom,#message-bottom{
     position: absolute;
     bottom: 0;
     width: 96%;

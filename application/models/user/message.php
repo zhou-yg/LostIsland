@@ -11,6 +11,11 @@ class Message extends CI_Model {
     }
 	public function set_param($_param){
 		$uid = $_param['uid'];
+		
+		if(isset($_param['type'])){
+			$username = $_param['username'];
+			return $this->save_basic($uid,$username);			
+		}
 		return $this->get_basic($uid);
 	}
 	public function get_basic($_uid){
@@ -49,6 +54,14 @@ class Message extends CI_Model {
 			'result' => $result,
 			'data' => $data
 		);
+	}
+	
+	public function save_basic($uid,$name){
+		$config['upload_path'] = '/Public/images/character/';
+		$this->load->library('upload');
+		$this->upload->do_upload();
+		$data = array('upload_data' => $this->upload->data(),'username'=>$name);
+		return $data;
 	}
 }
 ?>

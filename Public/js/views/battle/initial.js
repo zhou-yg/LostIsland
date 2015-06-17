@@ -219,8 +219,8 @@
             label: '匹配'
           }, {
             className: 'right',
-            name: 'setting',
-            label: '无'
+            name: 'exit',
+            label: '退出'
           }, {
             className: 'right',
             name: 'edit',
@@ -272,6 +272,9 @@
       return this.setState({
         isEdit: !this.state.isEdit
       });
+    },
+    exit: function() {
+      return location.href = location.href.replace(/\?[\W\w]*$/, '');
     },
     cancel: function() {
       return this.edit();
@@ -330,7 +333,5 @@
       }
     };
   })();
-
-  renderInitialObj.does();
 
 }).call(this);

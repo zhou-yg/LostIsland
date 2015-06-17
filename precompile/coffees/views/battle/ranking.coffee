@@ -38,7 +38,7 @@ AllRankingListLiClass = cc {
     ce 'li',{ className:'ranking-one' },
       (ce 'dl',{},
         (ce 'dd',{ className:'avatar',style:{
-          backgroundImage:'url('+state.rankingObj.avatar+')'
+          backgroundImage:'url('+baseUrl+state.rankingObj.avatar+')'
         }})
         (ce 'dd',{ className:'name' },state.rankingObj.username)
         (ce 'dd',{ className:'index' },state.rankingObj.win)

@@ -13,6 +13,7 @@
       }
     });
     _grunt.loadNpmTasks('grunt-contrib-coffee');
+
     return _grunt.registerTask('default', ['coffee']);
   };
 
